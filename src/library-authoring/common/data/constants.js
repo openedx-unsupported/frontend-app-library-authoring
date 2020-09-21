@@ -83,7 +83,6 @@ export const BLOCK_TYPE_DENYLIST = [
 export const BLOCK_TYPE_EDIT_DENYLIST = [
   'html',
   'problem',
-  'video',
   'videoalpha',
   'word_cloud',
 ];
