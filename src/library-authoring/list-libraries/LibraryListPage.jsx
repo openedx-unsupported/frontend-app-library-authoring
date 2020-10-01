@@ -24,10 +24,12 @@ class LibraryListPage extends React.Component {
   constructor(props) {
     super(props);
 
-    this.pageSize = 2;
     this.state = {
-      currentPage: 1,
       showForm: false,
+      paginationParams: {
+        page: 1,
+        page_size: 2,
+      },
       filterParams: {
         type: 'complex',
         text_search: '',
@@ -37,7 +39,12 @@ class LibraryListPage extends React.Component {
   }
 
   componentDidMount() {
-    this.props.fetchLibraryList({ params: this.state.filterParams });
+    this.props.fetchLibraryList({
+      params: {
+        ...this.state.filterParams,
+        ...this.state.paginationParams,
+      },
+    });
   }
 
   showForm = () => {
@@ -52,18 +59,20 @@ class LibraryListPage extends React.Component {
     });
   }
 
-  handlePageChange = (selectedPage) => {
-    console.log('page selected', selectedPage);
-    
+  handlePageChange = (selectedPage) => {    
     this.setState(_ => ({
-      currentPage: selectedPage
+      paginationParams: {
+        ...this.state.paginationParams,
+        page: selectedPage,
+      }
     }));
 
     this.props.fetchLibraryList({
       params: {
         ...this.state.filterParams,
-        page: selectedPage
-      }
+        ...this.state.paginationParams,
+        page: selectedPage,
+      },
     });
   }
 
@@ -73,6 +82,7 @@ class LibraryListPage extends React.Component {
       filterParams: {
         ...state.filterParams,
         [name]: value,
+        page_size: this.state.paginationParams.page_size,
       },
     }));
   }
@@ -83,6 +93,7 @@ class LibraryListPage extends React.Component {
       params: {
         ...this.state.filterParams,
         org: event.target.value,
+        page_size: this.state.paginationParams.page_size,
       },
     });
   }
@@ -93,6 +104,7 @@ class LibraryListPage extends React.Component {
       params: {
         ...this.state.filterParams,
         type: event.target.value,
+        page_size: this.state.paginationParams.page_size,
       },
     });
   }
@@ -125,8 +137,8 @@ class LibraryListPage extends React.Component {
     const { showForm, filterParams } = this.state;
 
     const paginationOptions = {
-      currentPage: this.state.currentPage,
-      pageCount: Math.ceil(libraries.count / this.pageSize),
+      currentPage: this.state.paginationParams.page,
+      pageCount: Math.ceil(libraries.count / this.state.paginationParams.page_size),
       buttonLabels: {
         previous: intl.formatMessage(messages['library.list.pagination.labels.previous']),
         next: intl.formatMessage(messages['library.list.pagination.labels.next']),
