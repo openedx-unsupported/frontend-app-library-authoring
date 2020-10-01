@@ -19,31 +19,31 @@ export async function getLibraryList(params) {
   const isLegacyLibraryType = params.type === LIBRARY_TYPES.LEGACY;
 
   const apiUrl = isLegacyLibraryType ? `${baseUrl}/library/` : `${baseUrl}/api/libraries/v2/`;
-  let request = await client.get(apiUrl, { 
+  const request = await client.get(apiUrl, {
     params: {
       ...params,
       pagination: true,
-    }
+    },
   });
 
   // Should return immediately since promise was already fulfilled.
-  let response = (await request).data;
-  let libraries = isLegacyLibraryType
+  const response = (await request).data;
+  const libraries = isLegacyLibraryType
     ? response.results.map(library => {
-        const { org, slug } = unpackLibraryKey(library.library_key);
-        return {
-          id: library.library_key,
-          org,
-          slug,
-          bundle_uuid: null,
-          title: library.display_name,
-          description: null,
-          version: null,
-          has_unpublished_changes: false,
-          has_unpublished_deletes: false,
-          type: LIBRARY_TYPES.LEGACY,
-        };
-      })
+      const { org, slug } = unpackLibraryKey(library.library_key);
+      return {
+        id: library.library_key,
+        org,
+        slug,
+        bundle_uuid: null,
+        title: library.display_name,
+        description: null,
+        version: null,
+        has_unpublished_changes: false,
+        has_unpublished_deletes: false,
+        type: LIBRARY_TYPES.LEGACY,
+      };
+    })
     : response.results;
 
   return {

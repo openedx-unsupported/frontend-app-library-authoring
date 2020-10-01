@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Button, Form, Input, Pagination } from '@edx/paragon';
+import {
+  Button, Form, Input, Pagination,
+} from '@edx/paragon';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import { AppContext } from '@edx/frontend-platform/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -28,7 +30,7 @@ class LibraryListPage extends React.Component {
       showForm: false,
       paginationParams: {
         page: 1,
-        page_size: 2,
+        page_size: 1,
       },
       filterParams: {
         type: 'complex',
@@ -59,12 +61,12 @@ class LibraryListPage extends React.Component {
     });
   }
 
-  handlePageChange = (selectedPage) => {    
-    this.setState(_ => ({
+  handlePageChange = (selectedPage) => {
+    this.setState(state => ({
       paginationParams: {
-        ...this.state.paginationParams,
+        ...state.paginationParams,
         page: selectedPage,
-      }
+      },
     }));
 
     this.props.fetchLibraryList({
@@ -79,10 +81,13 @@ class LibraryListPage extends React.Component {
   handleFilterChange = (event) => {
     const { name, value } = event.target;
     this.setState(state => ({
+      paginationParams: {
+        ...state.paginationParams,
+        page: 1,
+      },
       filterParams: {
         ...state.filterParams,
         [name]: value,
-        page_size: this.state.paginationParams.page_size,
       },
     }));
   }
@@ -203,7 +208,8 @@ class LibraryListPage extends React.Component {
                 ))}
               </ul>
               {libraries.data.length > 0
-                ? <Pagination
+                ? (
+                  <Pagination
                     className="library-list-pagination"
                     paginationLabel="pagination navigation"
                     currentPage={paginationOptions.currentPage}
@@ -211,8 +217,8 @@ class LibraryListPage extends React.Component {
                     buttonLabels={paginationOptions.buttonLabels}
                     onPageSelect={this.handlePageChange}
                   />
-                : null
-              }
+                )
+                : null}
             </article>
             <aside className="content-supplementary">
               <div className="bit">
