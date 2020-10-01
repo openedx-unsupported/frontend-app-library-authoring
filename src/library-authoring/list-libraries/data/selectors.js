@@ -8,7 +8,10 @@ const selectLibraryList = createSelector(
   stateSelector,
   (state) => ({
     ...state,
-    libraries: state.libraries.map(initLibraryUrl),
+    libraries: {
+      ...state.libraries,
+      data: state.libraries.data.map(initLibraryUrl),
+    },
   }),
 );
 

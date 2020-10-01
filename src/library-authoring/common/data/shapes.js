@@ -26,3 +26,8 @@ export const libraryShape = PropTypes.shape({
   blocks: PropTypes.arrayOf(libraryBlockShape),
   blockTypes: PropTypes.arrayOf(libraryBlockTypeShape),
 });
+
+export const paginatedLibrariesShape = PropTypes.shape({
+  data: PropTypes.arrayOf(libraryShape),
+  count: PropTypes.number.isRequired,
+});
