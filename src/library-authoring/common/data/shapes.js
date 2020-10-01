@@ -33,3 +33,8 @@ export const commonsOptionsShape = PropTypes.shape({
   noDerivatives: PropTypes.bool.isRequired,
   shareAlike: PropTypes.bool.isRequired,
 });
+
+export const paginatedLibrariesShape = PropTypes.shape({
+  data: PropTypes.arrayOf(libraryShape),
+  count: PropTypes.number.isRequired,
+});
