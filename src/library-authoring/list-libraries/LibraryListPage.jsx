@@ -30,7 +30,7 @@ class LibraryListPage extends React.Component {
       showForm: false,
       paginationParams: {
         page: 1,
-        page_size: 1,
+        page_size: 20,
       },
       filterParams: {
         type: 'complex',
