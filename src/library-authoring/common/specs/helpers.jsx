@@ -1,5 +1,6 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import jest from 'jest-mock';
+import { mount } from 'enzyme';
 import { render } from '@testing-library/react';
 import AppContext from '@edx/frontend-platform/react/AppContext';
 import { IntlProvider } from '@edx/frontend-platform/i18n';
@@ -91,6 +92,14 @@ export function makeN(generator, count) {
 }
 
 export const ctxRender = (ui, context) => render(
+  <AppContext.Provider value={context}>
+    <IntlProvider locale="en">
+      {ui}
+    </IntlProvider>
+  </AppContext.Provider>,
+);
+
+export const ctxMount = (ui, context) => mount(
   <AppContext.Provider value={context}>
     <IntlProvider locale="en">
       {ui}
