@@ -22,7 +22,7 @@ import {
 import LibraryListItem from './LibraryListItem';
 import messages from './messages';
 
-class LibraryListPage extends React.Component {
+export class LibraryListPage extends React.Component {
   constructor(props) {
     super(props);
 
@@ -207,7 +207,7 @@ class LibraryListPage extends React.Component {
                   </li>
                 ))}
               </ul>
-              {libraries.data.length > 0
+              {libraries.count > 0
                 ? (
                   <Pagination
                     className="library-list-pagination"
