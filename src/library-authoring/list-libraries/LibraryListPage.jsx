@@ -198,7 +198,6 @@ export class LibraryListPage extends React.Component {
         <div className="wrapper-content wrapper">
           <section className="content">
             <article className="content-primary" role="main">
-              <LibraryIndexTabs />
               {showForm
               && <LibraryCreateForm hideForm={this.hideForm} />}
               <ul className="library-list">
