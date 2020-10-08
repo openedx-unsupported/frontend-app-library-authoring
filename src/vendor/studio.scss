@@ -267,7 +267,7 @@ $m-green-l2: tint($m-green, 40%) !default;
 
 // Imported from:
 // edx-platform/cms/static/sass/partials/cms/theme/_variables-v1.scss
-$baseline: 20px;
+$baseline: 16px;
 $gw-column: ($baseline*3);
 $gw-gutter: $baseline;
 $fg-max-width: 1280px;
@@ -361,7 +361,7 @@ $yellow-u3: desaturate($yellow, 45%) !default;
 %ui-window {
   @include clearfix();
 
-  border-radius: ($baseline/10);
+  border-radius: ($baseline/16);
   box-shadow: 0 1px 1px $shadow-l2;
   margin-bottom: $baseline;
   border: 1px solid $gray-l2;
@@ -435,12 +435,12 @@ $yellow-u3: desaturate($yellow, 45%) !default;
 
 @mixin line-height($fontSize: auto) {
   line-height: ($fontSize*1.48) + px;
-  line-height: (($fontSize/10)*1.48) + rem;
+  line-height: (($fontSize/16)*1.48) + rem;
 }
 
 @mixin font-size($sizeValue: 16) {
   font-size: $sizeValue + px;
-  font-size: ($sizeValue/10) + rem;
+  font-size: ($sizeValue/16) + rem;
 }
 
 %cont-text-sr {
@@ -649,7 +649,7 @@ $yellow-u3: desaturate($yellow, 45%) !default;
 }
 
 %btn-edged {
-  border-radius: ($baseline/10);
+  border-radius: ($baseline/16);
 }
 
 %btn-primary-blue {
@@ -992,8 +992,8 @@ $yellow-u3: desaturate($yellow, 45%) !default;
       display: inline-block;
       padding: ($baseline/5) $baseline;
       text-transform: uppercase;
-      font-size: 1.2rem;
-      margin-right: 0.5rem;
+      font-size: 0.75rem;
+      margin-right: 0.313rem;
     }
   }
 }
@@ -1081,7 +1081,8 @@ $bi-app-right           : right;
 // Imported from:
 // edx-platform/cms/static/sass/_base.scss
 html {
-  font-size: 62.5%;
+  // font-size: 62.5%;
+  font-size: initial;
   height: 102%; // force scrollbar to prevent jump when scroll appears, cannot use overflow because it breaks drag
 }
 
@@ -1150,8 +1151,8 @@ button {
     .page-header {
       font-family: $f-sans-serif;
       width: flex-grid(12);
-      font-size: 3.6rem;
-      line-height: 5.328rem;
+      font-size: 2.25rem;
+      line-height: 3.33rem;
       font-weight: 600;
       color: $gray-d3;
     }
@@ -1187,14 +1188,14 @@ button {
         .nav-item {
           display: inline-block;
           vertical-align: top;
-          line-height: 1.776rem;
+          line-height: 1.11rem;
 
           button {
-            font-size: 1.2rem;
+            font-size: 0.75rem;
             font-weight: 600;
 
             svg {
-              width: 2rem;
+              width: 1.25rem;
             }
           }
 
@@ -1766,7 +1767,7 @@ button {
       padding: ($baseline/2) ($baseline*0.75) ($baseline/4) ($baseline*0.75);
 
       .title {
-        margin-bottom: ($baseline/10);
+        margin-bottom: ($baseline/16);
       }
     }
 
@@ -1795,7 +1796,7 @@ button {
       .copy {
         @extend %status-value-base;
 
-        margin-bottom: ($baseline/10);
+        margin-bottom: ($baseline/16);
       }
 
       .icon {
