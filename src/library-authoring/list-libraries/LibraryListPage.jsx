@@ -140,7 +140,7 @@ class LibraryListPage extends React.Component {
                     variant="success"
                     onClick={this.showForm}
                   >
-                    <FontAwesomeIcon icon={faPlus} className="pr-3" />
+                    <FontAwesomeIcon icon={faPlus} className="pr-2" />
                     {intl.formatMessage(messages['library.list.new.library'])}
                   </Button>
                 </li>

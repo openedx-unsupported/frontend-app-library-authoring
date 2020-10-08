@@ -144,7 +144,7 @@ class LibraryPage extends React.Component {
                     variant="success"
                     onClick={this.scrollToAddComponent}
                   >
-                    <FontAwesomeIcon icon={faPlus} className="pr-3 icon-inline" />
+                    <FontAwesomeIcon icon={faPlus} className="pr-2 icon-inline" />
                     {intl.formatMessage(messages['library.detail.new.component'])}
                   </Button>
                 </li>
@@ -175,50 +175,54 @@ class LibraryPage extends React.Component {
                   <h5>{intl.formatMessage(messages['library.detail.add.new.component'])}</h5>
                   <Form onSubmit={this.handleAddNewBlock}>
                     <fieldset>
-                      <div className="new-component-type row justify-content-center">
-                        <div className="form-group add-xblock-component-button w-auto p-4">
-                          <ValidationFormGroup
-                            for="block_type"
-                            invalid={this.hasFieldError('block_type')}
-                            invalidMessage={this.getFieldError('block_type')}
-                          >
-                            <label htmlFor="block_type" className="mt-1 mb-4">
-                              {intl.formatMessage(messages['library.detail.add.new.component.type'])}
-                            </label>
-                            <Input
-                              name="block_type"
-                              type="select"
-                              defaultValue={this.state.data.block_type}
-                              onChange={this.onValueChange}
-                              options={library.blockTypes && library.blockTypes.map(blockType => (
-                                { value: blockType.block_type, label: blockType.display_name }
-                              ))}
-                            />
-                          </ValidationFormGroup>
+                      <div className="new-component-type row justify-content-center mb-2">
+                        <div className="add-xblock-component-button col-xs-3 col-md-3 p-4">
+                          <div className="form-group">
+                            <ValidationFormGroup
+                              for="block_type"
+                              invalid={this.hasFieldError('block_type')}
+                              invalidMessage={this.getFieldError('block_type')}
+                            >
+                              <label htmlFor="block_type" className="mt-1 mb-4">
+                                {intl.formatMessage(messages['library.detail.add.new.component.type'])}
+                              </label>
+                              <Input
+                                name="block_type"
+                                type="select"
+                                defaultValue={this.state.data.block_type}
+                                onChange={this.onValueChange}
+                                options={library.blockTypes && library.blockTypes.map(blockType => (
+                                  { value: blockType.block_type, label: blockType.display_name }
+                                ))}
+                              />
+                            </ValidationFormGroup>
+                          </div>
                         </div>
-                        <div className="form-group add-xblock-component-button w-auto p-4">
-                          <ValidationFormGroup
-                            for="definition_id"
-                            invalid={this.hasFieldError('definition_id')}
-                            invalidMessage={this.getFieldError('definition_id')}
-                          >
-                            <label htmlFor="newBlockSlug" className="mt-1 mb-4">
-                              {intl.formatMessage(messages['library.detail.add.new.component.slug'])}
-                            </label>
-                          </ValidationFormGroup>
-                          <Input
-                            type="text"
-                            name="definition_id"
-                            placeholder={`${this.state.data.block_type}1`}
-                            value={this.state.data.definition_id}
-                            onChange={this.onValueChange}
-                          />
+                        <div className="add-xblock-component-button col-xs-3 col-md-3 p-4">
+                          <div className="form-group">
+                            <ValidationFormGroup
+                              for="definition_id"
+                              invalid={this.hasFieldError('definition_id')}
+                              invalidMessage={this.getFieldError('definition_id')}
+                            >
+                              <label htmlFor="newBlockSlug" className="mt-1 mb-4">
+                                {intl.formatMessage(messages['library.detail.add.new.component.slug'])}
+                              </label>
+                              <Input
+                                type="text"
+                                name="definition_id"
+                                placeholder={`${this.state.data.block_type}1`}
+                                value={this.state.data.definition_id}
+                                onChange={this.onValueChange}
+                              />
+                            </ValidationFormGroup>
+                          </div>
                         </div>
                       </div>
                       <button
                         type="submit"
                         disabled={!this.state.data.block_type || !this.state.data.definition_id}
-                        className="btn btn-primary"
+                        className="btn btn-sm btn-primary"
                         onClick={this.handleAddNewBlock}
                       >
                         {intl.formatMessage(messages['library.detail.add.new.component.button'])}
@@ -255,7 +259,7 @@ class LibraryPage extends React.Component {
                       <li className="action-item">
                         <Button
                           variant="primary"
-                          className="w-100 p-2 btn-lg"
+                          className="w-100 btn-md"
                           onClick={this.handleCommitChanges}
                           disabled={!hasChanges}
                           aria-disabled={!hasChanges}
@@ -266,7 +270,7 @@ class LibraryPage extends React.Component {
                       <li className="action-item text-right">
                         <Button
                           variant="link"
-                          className="d-inline-block"
+                          className="btn-sm d-inline-block"
                           onClick={this.handleRevertChanges}
                           disabled={!hasChanges}
                           aria-disabled={!hasChanges}
