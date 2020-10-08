@@ -330,7 +330,7 @@ class LibraryBlockPage extends React.Component {
                       <li className="action-item">
                         <Button
                           variant="primary"
-                          className="w-100 p-2 btn-lg"
+                          className="w-100 btn-md"
                           onClick={this.handleCommitLibrary}
                           disabled={!hasChanges}
                           aria-disabled={!hasChanges}
@@ -341,7 +341,7 @@ class LibraryBlockPage extends React.Component {
                       <li className="action-item text-right">
                         <Button
                           variant="link"
-                          className="d-inline-block"
+                          className="btn-sm d-inline-block"
                           onClick={this.handleRevertLibrary}
                           disabled={!hasChanges}
                           aria-disabled={!hasChanges}
@@ -352,7 +352,7 @@ class LibraryBlockPage extends React.Component {
                       <li className="action-item">
                         <Button
                           variant="danger"
-                          className="w-100 p-2 btn-lg"
+                          className="w-100 btn-md"
                           onClick={this.handleDeleteBlock}
                         >
                           <strong>{intl.formatMessage(messages['library.block.aside.delete'])}</strong>

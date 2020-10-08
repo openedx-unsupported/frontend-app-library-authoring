@@ -20,11 +20,11 @@ const LibraryBlockCard = ({ block, intl, libraryId }) => (
           : null}
       </div>
       <div className="card-footer">
-        <Link to={ROUTES.Block.HOME_SLUG(libraryId, block.id)} className="btn btn-sm btn-outline-primary mr-2">
+        <Link to={ROUTES.Block.HOME_SLUG(libraryId, block.id)} className="btn btn-xs btn-outline-primary mr-2">
           {intl.formatMessage(messages['library.detail.block.view_link'])}
         </Link>
         {BLOCK_TYPE_EDIT_DENYLIST.includes(block.block_type) || (
-          <Link to={ROUTES.Block.EDIT_SLUG(libraryId, block.id)} className="btn btn-sm btn-outline-secondary mr-2">
+          <Link to={ROUTES.Block.EDIT_SLUG(libraryId, block.id)} className="btn btn-xs btn-outline-secondary mr-2">
             {intl.formatMessage(messages['library.detail.block.edit_link'])}
           </Link>
         )}
