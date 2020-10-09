@@ -2,7 +2,7 @@
 Form for adding a new Library user.
  */
 import {
-  Button, Card, Icon, Input, Row, StatefulButton, ValidationFormGroup,
+  Button, Icon, Input, StatefulButton, ValidationFormGroup,
 } from '@edx/paragon';
 import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
@@ -68,7 +68,7 @@ const LibraryAccessForm = (
           className="action btn-primary"
           type="submit"
         />
-        <Button className="action btn-light" onClick={() => setShowAdd(false)} >
+        <Button className="action btn-light" onClick={() => setShowAdd(false)}>
           {intl.formatMessage(commonMessages['library.common.forms.button.cancel'])}
         </Button>
       </div>

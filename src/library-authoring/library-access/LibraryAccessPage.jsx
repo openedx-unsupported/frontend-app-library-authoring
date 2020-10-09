@@ -110,7 +110,7 @@ const LibraryAccessPage = ({
                   <p>{intl.formatMessage(messages['library.access.well.text'])}</p>
                 </Col>
                 <Col xs={12} md={4} lg={3} className="my-auto offset-lg-1 text-center text-md-right">
-                  <Button variant="success" onClick={() => setShowAdd(true)} >
+                  <Button variant="success" onClick={() => setShowAdd(true)}>
                     <FontAwesomeIcon icon={faPlus} className="pr-1 icon-inline" />
                     {intl.formatMessage(messages['library.access.well.button'])}
                   </Button>
