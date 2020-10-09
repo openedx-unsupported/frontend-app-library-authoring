@@ -283,7 +283,7 @@ class LibraryEditPage extends React.Component {
                     </li>
                   </ol>
                 </fieldset>
-                <div className="actions form-group">
+                <div className="actions form-group mb-0">
                   <StatefulButton
                     variant="primary"
                     type="submit"
