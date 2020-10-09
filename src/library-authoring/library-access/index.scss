@@ -31,13 +31,13 @@
   }
 }
 
-.card-title {
-  font-size: 150%;
-}
-
-.library-access-wrapper .form-create {
-  border: none;
-  &:hover {
-    box-shadow: none;
+.user-access {
+  .card-body {
+    .actions {
+      text-align: right;
+      .btn {
+        margin-left: 0.5rem;
+      }
+    }
   }
 }

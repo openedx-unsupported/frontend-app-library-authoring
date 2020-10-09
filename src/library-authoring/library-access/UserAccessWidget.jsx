@@ -24,7 +24,7 @@ export const UserAccessWidget = ({
   showDeprivModal, setShowDeprivModal, isAdmin, adminLocked,
 }) => (
   <Col xs={12} className="py-3">
-    <Card>
+    <Card className="user-access">
       <Card.Body>
         <Badge className={`position-absolute ml-1 permy ${user.access_level}`}>
           <strong>{intl.formatMessage(messages[`library.access.info.${user.access_level}`])}</strong>&nbsp;
@@ -40,97 +40,93 @@ export const UserAccessWidget = ({
             </span>
           </Col>
           {isAdmin && (
-          <Col xs={12} md={6}>
+          <Col xs={12} md={6} className="text-align-right">
             <Row>
               {(user.access_level === LIBRARY_ACCESS.ADMIN) && adminLocked && (
               <Col xs={12} className="text-center text-md-right">
                 <small>{intl.formatMessage(messages['library.access.info.admin_unlock'])}</small>
               </Col>
               )}
-              {user.access_level === LIBRARY_ACCESS.ADMIN && multipleAdmins && (
-              <Col xs={10} className="text-left text-md-right">
-                <Button size="lg" variant="secondary" onClick={() => setShowDeprivModal(true)}>
-                  {intl.formatMessage(messages['library.access.remove_admin'])}
-                </Button>
-                <Modal
-                  open={showDeprivModal}
-                  title={intl.formatMessage(messages['library.access.modal.remove_admin.title'])}
-                  onClose={() => setShowDeprivModal(false)}
-                  body={(
-                    <div>
-                      <p>
-                        {intl.formatMessage(
-                          messages['library.access.modal.remove_admin.body'],
-                          { library: library.title, email: user.email },
-                        )}
-                      </p>
-                    </div>
-                  )}
-                  buttons={[
-                    <Button
-                      onClick={() => setAccessLevel(LIBRARY_ACCESS.AUTHOR).then(setShowDeprivModal(false))}
-                    >
-                      {intl.formatMessage(commonMessages['library.common.forms.button.yes'])}
-                    </Button>,
-                  ]}
-                />
-              </Col>
-              )}
-              {user.access_level === LIBRARY_ACCESS.READ && (
-              <Col xs={10} className="text-left text-md-right">
-                <Button size="lg" variant="primary" onClick={() => setAccessLevel(LIBRARY_ACCESS.AUTHOR)}>
+              <Col className="actions">
+                {user.access_level === LIBRARY_ACCESS.ADMIN && multipleAdmins && (
+                  <>
+                    <Button size="sm" variant="secondary" onClick={() => setShowDeprivModal(true)}>
+                      {intl.formatMessage(messages['library.access.remove_admin'])}
+                    </Button>
+                    <Modal
+                      open={showDeprivModal}
+                      title={intl.formatMessage(messages['library.access.modal.remove_admin.title'])}
+                      onClose={() => setShowDeprivModal(false)}
+                      body={(
+                        <div>
+                          <p>
+                            {intl.formatMessage(
+                              messages['library.access.modal.remove_admin.body'],
+                              { library: library.title, email: user.email },
+                            )}
+                          </p>
+                        </div>
+                      )}
+                      buttons={[
+                        <Button
+                          onClick={() => setAccessLevel(LIBRARY_ACCESS.AUTHOR).then(setShowDeprivModal(false))}
+                        >
+                          {intl.formatMessage(commonMessages['library.common.forms.button.yes'])}
+                        </Button>,
+                      ]}
+                    />
+                  </>
+                )}
+                {user.access_level === LIBRARY_ACCESS.READ && (
+                <Button size="sm" variant="primary" onClick={() => setAccessLevel(LIBRARY_ACCESS.AUTHOR)}>
                   {intl.formatMessage(messages['library.access.add_author'])}
                 </Button>
-              </Col>
-              )}
-              {user.access_level === LIBRARY_ACCESS.AUTHOR && (
-                <>
-                  <Col xs={5} className="text-left text-md-right pl-md-1">
-                    <Button size="lg" variant="secondary" onClick={() => setAccessLevel(LIBRARY_ACCESS.READ)}>
+                )}
+                {user.access_level === LIBRARY_ACCESS.AUTHOR && (
+                  <>
+                    <Button size="sm" variant="secondary" onClick={() => setAccessLevel(LIBRARY_ACCESS.READ)}>
                       {intl.formatMessage(messages['library.access.remove_author'])}
                     </Button>
-                  </Col>
-                  <Col xs={5} className="text-left text-md-right pl-md-1">
-                    <Button size="lg" variant="primary" onClick={() => setAccessLevel(LIBRARY_ACCESS.ADMIN)}>
+                    <Button size="sm" variant="primary" onClick={() => setAccessLevel(LIBRARY_ACCESS.ADMIN)}>
                       {intl.formatMessage(messages['library.access.add_admin'])}
                     </Button>
-                  </Col>
-                </>
-              )}
-              {(!((user.access_level === LIBRARY_ACCESS.ADMIN) && adminLocked)) && (
-              <Col xs={2} className="text-right text-md-center">
-                <Button
-                  size="lg"
-                  variant="danger"
-                  onClick={() => setShowRemoveModal(true)}
-                  aria-label={
-                    intl.formatMessage(messages['library.access.remove_user'])
-                  }
-                >
-                  <FontAwesomeIcon icon={faTrash} />
-                </Button>
-                <Modal
-                  open={showRemoveModal}
-                  title={intl.formatMessage(messages['library.access.modal.remove.title'])}
-                  onClose={() => setShowRemoveModal(false)}
-                  body={(
-                    <div>
-                      <p>
-                        {intl.formatMessage(
-                          messages['library.access.modal.remove.body'],
-                          { library: library.title, email: user.email },
+                  </>
+                )}
+                {(!((user.access_level === LIBRARY_ACCESS.ADMIN) && adminLocked)) && (
+                  <>
+                    <Button
+                      size="sm"
+                      variant="danger"
+                      onClick={() => setShowRemoveModal(true)}
+                      aria-label={
+                        intl.formatMessage(messages['library.access.remove_user'])
+                      }
+                    >
+                      <FontAwesomeIcon icon={faTrash} />
+                    </Button>
+                    <Modal
+                      open={showRemoveModal}
+                      title={intl.formatMessage(messages['library.access.modal.remove.title'])}
+                      onClose={() => setShowRemoveModal(false)}
+                      body={(
+                        <div>
+                          <p>
+                            {intl.formatMessage(
+                              messages['library.access.modal.remove.body'],
+                              { library: library.title, email: user.email },
+                            )}
+                          </p>
+                        </div>
                         )}
-                      </p>
-                    </div>
-                    )}
-                  buttons={[
-                    <Button onClick={() => removeAccess()}>
-                      {intl.formatMessage(commonMessages['library.common.forms.button.yes'])}
-                    </Button>,
-                  ]}
-                />
+                      buttons={[
+                        <Button onClick={() => removeAccess()}>
+                          {intl.formatMessage(commonMessages['library.common.forms.button.yes'])}
+                        </Button>,
+                      ]}
+                    />
+                  </>
+                )}
               </Col>
-              )}
             </Row>
           </Col>
           )}
