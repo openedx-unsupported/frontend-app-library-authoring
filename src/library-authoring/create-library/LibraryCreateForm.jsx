@@ -245,7 +245,7 @@ class LibraryCreateForm extends React.Component {
             </li>
           </ol>
         </fieldset>
-        <div className="actions form-group">
+        <div className="actions form-group mb-0">
           <StatefulButton
             state={this.getSubmitButtonState()}
             labels={{
