@@ -53,7 +53,7 @@ const LibraryAccessPage = ({
                   variant="success"
                   onClick={() => setShowAdd(true)}
                 >
-                  <FontAwesomeIcon icon={faPlus} className="pr-3 icon-inline" />
+                  <FontAwesomeIcon icon={faPlus} className="pr-2 icon-inline" />
                   {intl.formatMessage(messages['library.access.new.user'])}
                 </Button>
               </li>
@@ -105,13 +105,13 @@ const LibraryAccessPage = ({
             <div className="well mt-3">
               <Row className="h-100">
                 <Col xs={12} md={8} className="my-auto">
-                  <h2 className="h2 font-weight-bold">{intl.formatMessage(messages['library.access.well.title'])}</h2>
+                  <h2 className="h4 font-weight-bold">{intl.formatMessage(messages['library.access.well.title'])}</h2>
                   <p>{intl.formatMessage(messages['library.access.well.text'])}</p>
                 </Col>
                 <Col xs={12} md={4} lg={3} className="my-auto offset-lg-1 text-center text-md-right">
-                  <Button variant="success" size="lg" onClick={() => setShowAdd(true)}>
+                  <Button variant="success" onClick={() => setShowAdd(true)} >
                     <FontAwesomeIcon icon={faPlus} className="pr-1 icon-inline" />
-                    <strong>{intl.formatMessage(messages['library.access.well.button'])}</strong>
+                    {intl.formatMessage(messages['library.access.well.button'])}
                   </Button>
                 </Col>
               </Row>
