@@ -8,12 +8,8 @@ import {
 } from '@edx/frontend-platform';
 import { AppProvider, ErrorPage } from '@edx/frontend-platform/react';
 import Footer, { messages as footerMessages } from '@edx/frontend-component-footer';
-import { StudioHeader } from '@edx/frontend-component-header-edx';
-
-import appMessages from './i18n';
-import store from './store';
-import { NotFoundPage } from './generic';
 import {
+  Header,
   ROUTES,
   CourseImportPage,
   LibraryBlockPage,
@@ -22,6 +18,11 @@ import {
   LibraryAccessPage,
   LibraryAuthoringPage,
 } from './library-authoring';
+
+import appMessages from './i18n';
+import store from './store';
+import { NotFoundPage } from './generic';
+
 import './index.scss';
 import './assets/favicon.ico';
 
@@ -35,7 +36,7 @@ mergeConfig({
 subscribe(APP_READY, () => {
   ReactDOM.render(
     <AppProvider store={store}>
-      <StudioHeader />
+      <Header />
       <div className="wrapper">
         <main>
           <Switch>

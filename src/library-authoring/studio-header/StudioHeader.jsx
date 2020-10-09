@@ -1,10 +1,10 @@
-import React, { useContext } from 'react';
-import { Route, Link } from 'react-router-dom';
+import React from 'react';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Dropdown, Icon } from '@edx/paragon';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import { AppContext } from '@edx/frontend-platform/react';
 import { ensureConfig } from '@edx/frontend-platform/config';
+import { StudioHeader, MenuContentItem } from '@edx/frontend-component-header-edx';
 
 import { ROUTES, libraryShape } from '../common';
 import StudioLogo from './assets/studio-logo.png';
@@ -16,97 +16,43 @@ ensureConfig([
   'LOGOUT_URL',
 ], 'Library header');
 
-const StudioHeader = ({ intl, library }) => {
-  const { authenticatedUser, config } = useContext(AppContext);
+const Header = ({ intl, library }) => {
+  const mainMenu = !library
+    ? null
+    : [
+      {
+        type: 'dropdown',
+        href: '#',
+        content: intl.formatMessage(messages['library.header.settings.menu']),
+        submenuContent: (
+          <div>
+            <MenuContentItem tag={Link} to={ROUTES.Detail.EDIT_SLUG(library.id)}>
+              {intl.formatMessage(messages['library.header.settings.details'])}
+            </MenuContentItem>
+            <MenuContentItem tag={Link} to={ROUTES.Detail.ACCESS_SLUG(library.id)}>
+              {intl.formatMessage(messages['library.header.settings.access'])}
+            </MenuContentItem>
+          </div>
+        ),
+      },
+    ];
 
   return (
-    <div className="wrapper-header wrapper">
-      <header className="primary" role="banner">
-        <div className="wrapper-l">
-          <h1 className="branding">
-            <Link to="/">
-              <img
-                src={StudioLogo}
-                alt={intl.formatMessage(messages['library.header.logo.alt'])}
-              />
-            </Link>
-          </h1>
-          <Route path="/library">
-            {library
-            && (
-              <>
-                <h2 className="info-library">
-                  <Link to={library.url} className="library-link">
-                    <span className="library-org">{library.org}</span>
-                    <span className="library-id">{library.id}</span>
-                    <span className="library-title" title={library.title}>{library.title}</span>
-                  </Link>
-                </h2>
-                <nav className="p-4 mt-2">
-                  <Dropdown>
-                    <Dropdown.Toggle variant="outline-light" id="library-header-menu-dropdown">
-                      {intl.formatMessage(messages['library.header.settings.menu'])}
-                      <Icon className="fa fa-caret-down pl-3" alt="" />
-                    </Dropdown.Toggle>
-                    <Dropdown.Menu className="p-4 mt-1 fade">
-                      <Dropdown.Item className="p-0" as={Link} to={ROUTES.Detail.EDIT_SLUG(library.id)}>{intl.formatMessage(messages['library.header.settings.details'])}</Dropdown.Item>
-                      <Dropdown.Item className="p-0" as={Link} to={ROUTES.Detail.ACCESS_SLUG(library.id)}>{intl.formatMessage(messages['library.header.settings.access'])}</Dropdown.Item>
-                      <Dropdown.Item className="p-0" as={Link} to={ROUTES.Detail.IMPORT_SLUG(library.id)}>{intl.formatMessage(messages['library.header.settings.import'])}</Dropdown.Item>
-                    </Dropdown.Menu>
-                  </Dropdown>
-                </nav>
-              </>
-            )}
-          </Route>
-        </div>
-        <div className="wrapper-r">
-          {authenticatedUser !== null
-          && (
-          <nav className="p-4 mt-2" aria-label={intl.formatMessage(messages['library.header.account.label'])}>
-            <ol>
-              <li className="nav-item nav-account-help">
-                <h3 className="title">
-                  <a
-                    href="http://edx.readthedocs.io/projects/open-edx-building-and-running-a-course/en/latest/course_components/libraries.html"
-                    title={intl.formatMessage(messages['library.header.nav.help.title'])}
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    {intl.formatMessage(messages['library.header.nav.help'])}
-                  </a>
-                </h3>
-              </li>
-              <li className="nav-item nav-account-user">
-                <Dropdown>
-                  <Dropdown.Toggle variant="outline-light" id="library-header-account-dropdown">
-                    {authenticatedUser.username}
-                    <Icon className="fa fa-caret-down pl-3" alt="" />
-                  </Dropdown.Toggle>
-                  <Dropdown.Menu className="dropdown-menu-right p-4 mt-1 fade">
-                    <Dropdown.Item className="p-0 mb-3" href={config.STUDIO_BASE_URL}>{intl.formatMessage(messages['library.header.account.studiohome'])}</Dropdown.Item>
-                    <Dropdown.Item className="p-0 mb-3" href={`${config.STUDIO_BASE_URL}/maintenance`}>{intl.formatMessage(messages['library.header.account.maintenance'])}</Dropdown.Item>
-                    <Dropdown.Item className="p-0" href={config.LOGOUT_URL}>{intl.formatMessage(messages['library.header.account.signout'])}</Dropdown.Item>
-                  </Dropdown.Menu>
-                </Dropdown>
-              </li>
-            </ol>
-          </nav>
-          )}
-        </div>
-      </header>
-    </div>
+    <StudioHeader itemDetails={library} mainMenu={mainMenu} />
   );
 };
 
-StudioHeader.propTypes = {
+Header.contextType = AppContext;
+
+Header.propTypes = {
   intl: intlShape.isRequired,
   library: libraryShape,
 };
 
-StudioHeader.defaultProps = {
+Header.defaultProps = {
   library: null,
 };
 
 export default connect(
   selectLibraryDetail,
-)(injectIntl(StudioHeader));
+)(injectIntl(Header));

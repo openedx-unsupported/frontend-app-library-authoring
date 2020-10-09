@@ -1,1 +1,1 @@
-export { default as StudioHeader } from './StudioHeader'; // eslint-disable-line import/prefer-default-export
+export { default as Header } from './StudioHeader'; // eslint-disable-line import/prefer-default-export
