@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
-import { AppContext } from '@edx/frontend-platform/react';
 import { ensureConfig } from '@edx/frontend-platform/config';
 import { StudioHeader, MenuContentItem } from '@edx/frontend-component-header-edx';
 
@@ -41,8 +40,6 @@ const Header = ({ intl, library }) => {
     <StudioHeader itemDetails={library} mainMenu={mainMenu} />
   );
 };
-
-Header.contextType = AppContext;
 
 Header.propTypes = {
   intl: intlShape.isRequired,
