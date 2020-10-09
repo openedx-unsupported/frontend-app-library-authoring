@@ -26,65 +26,53 @@ const LibraryAccessForm = (
   },
 ) => (
   <>
-    <Row className="mb-2">
-      <form className="col-12" onSubmit={onSubmit}>
-        <Card>
-          <Card.Body>
-            <div className="form-create">
-              <Card.Title>{intl.formatMessage(messages['library.access.form.title'])}</Card.Title>
-              <fieldset>
-                <ol className="list-input">
-                  <li className="field">
-                    <ValidationFormGroup
-                      for="title"
-                      helpText={intl.formatMessage(messages['library.access.form.email.help'])}
-                      invalid={hasFieldError('email')}
-                      invalidMessage={getFieldError('email')}
-                      className="mb-0 mr-2"
-                    >
-                      <label className="h6 d-block" htmlFor="email">
-                        {intl.formatMessage(messages['library.access.form.email.label'])}
-                      </label>
-                      <Input
-                        name="email"
-                        id="email"
-                        type="text"
-                        placeholder={intl.formatMessage(messages['library.access.form.email.placeholder'])}
-                        value={data.email}
-                        onChange={onValueChange}
-                      />
-                    </ValidationFormGroup>
-                  </li>
-                </ol>
-              </fieldset>
-            </div>
-          </Card.Body>
-        </Card>
-        <Card className="mb-5">
-          <Card.Body>
-            <StatefulButton
-              variant="primary"
-              type="submit"
-              size="lg"
-              state={submitButtonState}
-              labels={{
-                disabled: intl.formatMessage(commonMessages['library.common.forms.button.submit']),
-                enabled: intl.formatMessage(commonMessages['library.common.forms.button.submit']),
-                pending: intl.formatMessage(commonMessages['library.common.forms.button.submitting']),
-              }}
-              icons={{
-                pending: <Icon className="fa fa-spinner fa-spin" />,
-              }}
-              disabledStates={['disabled', 'pending']}
-              className="font-weight-bold text-uppercase"
-            />
-            <Button size="lg" variant="secondary" className="mx-3 font-weight-bold text-uppercase" onClick={() => setShowAdd(false)}>
-              {intl.formatMessage(commonMessages['library.common.forms.button.cancel'])}
-            </Button>
-          </Card.Body>
-        </Card>
-      </form>
-    </Row>
+    <form onSubmit={onSubmit} className="form-create">
+      <h3 className="title">{intl.formatMessage(messages['library.access.form.title'])}</h3>
+      <fieldset>
+        <ol className="list-input">
+          <li className="field">
+            <ValidationFormGroup
+              for="title"
+              helpText={intl.formatMessage(messages['library.access.form.email.help'])}
+              invalid={hasFieldError('email')}
+              invalidMessage={getFieldError('email')}
+              className="mb-0 mr-2"
+            >
+              <label className="h6 d-block" htmlFor="email">
+                {intl.formatMessage(messages['library.access.form.email.label'])}
+              </label>
+              <Input
+                name="email"
+                id="email"
+                type="text"
+                placeholder={intl.formatMessage(messages['library.access.form.email.placeholder'])}
+                value={data.email}
+                onChange={onValueChange}
+              />
+            </ValidationFormGroup>
+          </li>
+        </ol>
+      </fieldset>
+      <div className="actions form-group mb-0">
+        <StatefulButton
+          state={submitButtonState}
+          labels={{
+            disabled: intl.formatMessage(commonMessages['library.common.forms.button.submit']),
+            enabled: intl.formatMessage(commonMessages['library.common.forms.button.submit']),
+            pending: intl.formatMessage(commonMessages['library.common.forms.button.submitting']),
+          }}
+          icons={{
+            pending: <Icon className="fa fa-spinner fa-spin" />,
+          }}
+          disabledStates={['disabled', 'pending']}
+          className="action btn-primary"
+          type="submit"
+        />
+        <Button className="action btn-light" onClick={() => setShowAdd(false)} >
+          {intl.formatMessage(commonMessages['library.common.forms.button.cancel'])}
+        </Button>
+      </div>
+    </form>
   </>
 );
 
