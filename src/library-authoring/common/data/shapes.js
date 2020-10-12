@@ -21,6 +21,7 @@ export const libraryShape = PropTypes.shape({
   title: PropTypes.string.isRequired,
   description: PropTypes.string,
   version: PropTypes.number,
+  license: PropTypes.string.isRequired,
   has_unpublished_changes: PropTypes.bool.isRequired,
   has_unpublished_deletes: PropTypes.bool.isRequired,
   blocks: PropTypes.arrayOf(libraryBlockShape),
@@ -30,4 +31,11 @@ export const libraryShape = PropTypes.shape({
 export const paginatedLibrariesShape = PropTypes.shape({
   data: PropTypes.arrayOf(libraryShape),
   count: PropTypes.number.isRequired,
+});
+
+export const commonsOptionsShape = PropTypes.shape({
+  attribution: PropTypes.bool.isRequired,
+  nonCommercial: PropTypes.bool.isRequired,
+  noDerivatives: PropTypes.bool.isRequired,
+  shareAlike: PropTypes.bool.isRequired,
 });
