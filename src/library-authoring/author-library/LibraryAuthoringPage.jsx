@@ -14,8 +14,9 @@ import {
 import { v4 as uuid4 } from 'uuid';
 import { faPlus, faSync } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faTrashAlt } from '@fortawesome/free-regular-svg-icons';
+import { faClipboard, faEdit, faTrashAlt } from '@fortawesome/free-regular-svg-icons';
 import { connect } from 'react-redux';
+import { ensureConfig, getConfig } from '@edx/frontend-platform';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import { Link } from 'react-router-dom';
 import { LibraryBlock } from '../edit-block/LibraryBlock';
@@ -24,6 +25,7 @@ import {
   clearLibraryError,
   commitLibraryChanges,
   createBlock,
+  fetchBlockLtiUrl,
   fetchBlocks,
   fetchLibraryDetail,
   revertLibraryChanges,
@@ -54,6 +56,7 @@ import selectLibraryDetail from '../common/data/selectors';
 import { ErrorAlert } from '../common/ErrorAlert';
 import { LoadGuard } from '../../generic/LoadingPage';
 
+ensureConfig(['STUDIO_BASE_URL'], 'library API service');
 const getHandlerUrl = async (blockId) => getXBlockHandlerUrl(blockId, XBLOCK_VIEW_SYSTEM.Studio, 'handler_name');
 
 /**
@@ -63,12 +66,17 @@ const getHandlerUrl = async (blockId) => getXBlockHandlerUrl(blockId, XBLOCK_VIE
  */
 export const BlockPreviewBase = ({
   intl, block, view, canEdit, showPreviews, showDeleteModal,
-  setShowDeleteModal, library, previewKey, editView, ...props
+  setShowDeleteModal, library, previewKey, editView, isLtiUrlGenerating,
+  ...props
 }) => (
   <>
     <Navbar className="border">
       <Navbar.Brand>{block.display_name}</Navbar.Brand>
       <Navbar.Collapse className="justify-content-end">
+        <Button disabled={isLtiUrlGenerating} size="lg" className="mr-1" onClick={ () => { props.fetchBlockLtiUrl({ blockId: block.id }); } }>
+          <FontAwesomeIcon icon={faClipboard} className="pr-1" />
+          {intl.formatMessage(messages['library.detail.block.copy_lti_url'])}
+        </Button>
         <Link to={editView}>
           <Button size="lg" className="mr-1">
             <FontAwesomeIcon icon={faEdit} className="pr-1" />
@@ -126,6 +134,8 @@ BlockPreviewBase.propTypes = {
   setShowDeleteModal: PropTypes.func.isRequired,
   deleteLibraryBlock: PropTypes.func.isRequired,
   previewKey: PropTypes.string.isRequired,
+  isLtiUrlGenerating: PropTypes.bool.isRequired,
+  fetchBlockLtiUrl: PropTypes.func.isRequired,
 };
 
 export const BlockPreview = injectIntl(BlockPreviewBase);
@@ -140,7 +150,7 @@ const needsMeta = ({ blockStates, id }) => inStandby({ blockStates, id, attr: 'm
  * Handles the fetching of the block view and metadata.
  */
 const BlockPreviewContainerBase = ({
-  intl, block, blockView, blockStates, showPreviews, library, ...props
+  intl, block, blockView, blockStates, showPreviews, library, ltiUrlClipboard, ...props
 }) => {
   // There are enough events that trigger the effects here that we need to keep track of what we're doing to avoid
   // doing it more than once, or running them when the state can no longer support these actions.
@@ -187,6 +197,18 @@ const BlockPreviewContainerBase = ({
     editView = ROUTES.Detail.HOME_SLUG(library.id, block.id);
   }
 
+  const isBlockOnClipboard = ltiUrlClipboard.value.blockId === block.id;
+  const isLtiUrlGenerating = isBlockOnClipboard && ltiUrlClipboard.status === LOADING_STATUS.LOADING;
+
+  if (isBlockOnClipboard && ltiUrlClipboard.status === LOADING_STATUS.LOADED) {
+    const clipboard = document.createElement('textarea');
+    clipboard.value = getConfig().STUDIO_BASE_URL + ltiUrlClipboard.value.lti_url;
+    document.body.appendChild(clipboard);
+    clipboard.select();
+    document.execCommand('copy');
+    document.body.removeChild(clipboard);
+  }
+
   return (
     <BlockPreview
       view={blockView(block)}
@@ -199,6 +221,8 @@ const BlockPreviewContainerBase = ({
       deleteLibraryBlock={props.deleteLibraryBlock}
       library={library}
       previewKey={previewKey}
+      isLtiUrlGenerating={isLtiUrlGenerating}
+      fetchBlockLtiUrl={props.fetchBlockLtiUrl}
     />
   );
 };
@@ -212,12 +236,14 @@ BlockPreviewContainerBase.propTypes = {
   block: libraryBlockShape.isRequired,
   blockStates: blockStatesShape.isRequired,
   blockView: PropTypes.func,
+  fetchBlockLtiUrl: PropTypes.func.isRequired,
   fetchLibraryBlockView: PropTypes.func.isRequired,
   fetchLibraryBlockMetadata: PropTypes.func.isRequired,
   initializeBlock: PropTypes.func.isRequired,
   showPreviews: PropTypes.bool.isRequired,
   deleteLibraryBlock: PropTypes.func.isRequired,
   library: libraryShape.isRequired,
+  ltiUrlClipboard: fetchable(PropTypes.Object).isRequired,
 };
 
 const ButtonTogglesBase = ({
@@ -250,6 +276,7 @@ const ButtonToggles = injectIntl(ButtonTogglesBase);
 const BlockPreviewContainer = connect(
   selectLibraryDetail,
   {
+    fetchBlockLtiUrl,
     fetchLibraryBlockView,
     fetchLibraryBlockMetadata,
     initializeBlock,

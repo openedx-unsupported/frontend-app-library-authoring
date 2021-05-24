@@ -29,6 +29,19 @@ export const fetchBlocks = annotateThunk(({ libraryId, query }) => async (dispat
   }
 });
 
+export const fetchBlockLtiUrl = annotateThunk(({ blockId }) => async (dispatch) => {
+  try {
+    dispatch(actions.libraryBlockLtiUrlFetchRequest({ blockId }));
+    const libraryBlockLtiUrl = await api.getBlockLtiUrl({ blockId }).catch(normalizeErrors);
+    dispatch(actions.libraryAuthoringSuccess({
+      value: { blockId, lti_url: libraryBlockLtiUrl.lti_url },
+      attr: 'ltiUrlClipboard',
+    }));
+  } catch (error) {
+    toError(dispatch, error, 'ltiUrlClipboard');
+  }
+});
+
 export const createBlock = annotateThunk(({ libraryId, data }) => async (dispatch) => {
   try {
     dispatch(actions.libraryAuthoringRequest({ attr: 'blocks' }));

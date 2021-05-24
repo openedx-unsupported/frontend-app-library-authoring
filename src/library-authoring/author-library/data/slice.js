@@ -8,6 +8,7 @@ export const libraryAuthoringInitialState = {
   errorFields: null,
   library: { status: LOADING_STATUS.STANDBY, value: null },
   blocks: { status: LOADING_STATUS.STANDBY, value: [] },
+  ltiUrlClipboard: { status: LOADING_STATUS.STANDBY, value: { blockId: null, lti_url: null } },
 };
 
 export const baseLibraryDetailReducers = {
@@ -50,6 +51,10 @@ export const baseLibraryDetailReducers = {
     state.blocks.status = LOADING_STATUS.FAILED;
     state.errorMessage = payload.errorMessage;
     state.errorFields = payload.errorFields;
+  },
+  libraryBlockLtiUrlFetchRequest: (state, { payload }) => {
+    state.ltiUrlClipboard.status = LOADING_STATUS.LOADING;
+    state.ltiUrlClipboard.value = { blockId: payload.blockId };
   },
 };
 
