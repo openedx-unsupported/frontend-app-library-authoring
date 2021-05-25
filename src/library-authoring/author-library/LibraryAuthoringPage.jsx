@@ -73,7 +73,7 @@ export const BlockPreviewBase = ({
     <Navbar className="border">
       <Navbar.Brand>{block.display_name}</Navbar.Brand>
       <Navbar.Collapse className="justify-content-end">
-        <Button disabled={isLtiUrlGenerating} size="lg" className="mr-1" onClick={ () => { props.fetchBlockLtiUrl({ blockId: block.id }); } }>
+        <Button disabled={isLtiUrlGenerating} size="lg" className="mr-1" onClick={() => { props.fetchBlockLtiUrl({ blockId: block.id }); }}>
           <FontAwesomeIcon icon={faClipboard} className="pr-1" />
           {intl.formatMessage(messages['library.detail.block.copy_lti_url'])}
         </Button>

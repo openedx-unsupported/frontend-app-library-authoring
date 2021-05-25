@@ -148,7 +148,7 @@ testSuite('<LibraryAuthoringPageContainer />', () => {
       libraryAuthoringActions.libraryAuthoringSuccess({
         value: { blockId: blocks[0], lti_url: 'a' },
         attr: 'ltiUrlClipboard',
-      })
+      }),
     ));
   });
 
