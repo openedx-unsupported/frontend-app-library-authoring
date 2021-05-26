@@ -23,6 +23,7 @@ import { LibraryBlock } from '../edit-block/LibraryBlock';
 import {
   clearLibrary,
   clearLibraryError,
+  clearLibrarySuccess,
   commitLibraryChanges,
   createBlock,
   fetchBlockLtiUrl,
@@ -54,6 +55,7 @@ import { blockStatesShape, blockViewShape, fetchable } from '../edit-block/data/
 import commonMessages from '../common/messages';
 import selectLibraryDetail from '../common/data/selectors';
 import { ErrorAlert } from '../common/ErrorAlert';
+import { SuccessAlert } from '../common/SuccessAlert';
 import { LoadGuard } from '../../generic/LoadingPage';
 
 ensureConfig(['STUDIO_BASE_URL'], 'library API service');
@@ -313,7 +315,7 @@ const deriveTypeOptions = (blockTypes, intl) => {
  */
 export const LibraryAuthoringPageBase = ({
   intl, library, blockView, showPreviews, setShowPreviews,
-  sending, addBlock, revertChanges, commitChanges, hasChanges, errorMessage,
+  sending, addBlock, revertChanges, commitChanges, hasChanges, errorMessage, successMessage,
   quickAddBehavior, otherTypes, blocks, updateSearch, typeOptions, query, type,
   ...props
 }) => (
@@ -323,7 +325,6 @@ export const LibraryAuthoringPageBase = ({
         <small className="card-subtitle">{intl.formatMessage(messages['library.detail.page.heading'])}</small>
         <h1 className="page-header-title">{library.title}</h1>
       </Col>
-      <ErrorAlert errorMessage={errorMessage} onClose={props.clearLibraryError} />
       <Col xs={12} md={4} xl={3} className="text-center d-none d-md-block">
         <ButtonToggles
           setShowPreviews={setShowPreviews}
@@ -333,6 +334,8 @@ export const LibraryAuthoringPageBase = ({
           quickAddBehavior={quickAddBehavior}
         />
       </Col>
+      <ErrorAlert errorMessage={errorMessage} onClose={props.clearLibraryError} />
+      <SuccessAlert successMessage={successMessage} onClose={props.clearLibrarySuccess} />
       <Col xs={12} className="pb-5">
         <hr />
       </Col>
@@ -481,6 +484,7 @@ export const LibraryAuthoringPageBase = ({
 
 LibraryAuthoringPageBase.defaultProps = {
   errorMessage: '',
+  successMessage: null,
   blocks: null,
 };
 
@@ -505,7 +509,9 @@ LibraryAuthoringPageBase.propTypes = {
   revertChanges: PropTypes.func.isRequired,
   commitChanges: PropTypes.func.isRequired,
   errorMessage: PropTypes.string,
+  successMessage: PropTypes.string,
   clearLibraryError: PropTypes.func.isRequired,
+  clearLibrarySuccess: PropTypes.func.isRequired,
   quickAddBehavior: PropTypes.func.isRequired,
   query: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
@@ -658,6 +664,7 @@ export const LibraryAuthoringPageContainerBase = ({
 LibraryAuthoringPageContainerBase.defaultProps = {
   library: null,
   errorMessage: null,
+  successMessage: null,
 };
 
 LibraryAuthoringPageContainerBase.propTypes = {
@@ -673,6 +680,7 @@ LibraryAuthoringPageContainerBase.propTypes = {
   commitLibraryChanges: PropTypes.func.isRequired,
   revertLibraryChanges: PropTypes.func.isRequired,
   errorMessage: PropTypes.string,
+  successMessage: PropTypes.string,
   match: PropTypes.shape({
     params: PropTypes.shape({
       libraryId: PropTypes.string.isRequired,
@@ -684,6 +692,7 @@ const LibraryAuthoringPageContainer = connect(
   selectLibraryDetail,
   {
     clearLibraryError,
+    clearLibrarySuccess,
     clearLibrary,
     createLibraryBlock: createBlock,
     commitLibraryChanges,

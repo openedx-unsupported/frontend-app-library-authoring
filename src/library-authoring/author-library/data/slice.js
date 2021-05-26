@@ -4,6 +4,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { LOADING_STATUS, STORE_NAMES } from '../../common';
 
 export const libraryAuthoringInitialState = {
+  successMessage: null,
   errorMessage: null,
   errorFields: null,
   library: { status: LOADING_STATUS.STANDBY, value: null },
@@ -17,9 +18,10 @@ export const baseLibraryDetailReducers = {
     state[attr].status = LOADING_STATUS.LOADING;
   },
   libraryAuthoringSuccess: (state, { payload }) => {
-    const { attr, value } = payload;
+    const { attr, value, message } = payload;
     state[attr].value = value;
     state[attr].status = LOADING_STATUS.LOADED;
+    state.successMessage = message !== undefined ? message : null;
   },
   libraryAuthoringFailed: (state, { payload }) => {
     const { attr, errorMessage, errorFields } = payload;
@@ -30,6 +32,9 @@ export const baseLibraryDetailReducers = {
   libraryAuthoringClearError: (state) => {
     state.errorMessage = null;
     state.errorFields = null;
+  },
+  libraryAuthoringClearSuccess: (state) => {
+    state.successMessage = null;
   },
   libraryAuthoringPatch: (state, { payload }) => {
     state.library.value = { ...state.library, ...payload.library };
