@@ -7,7 +7,13 @@ export const libraryAuthoringInitialState = {
   errorMessage: null,
   errorFields: null,
   library: { status: LOADING_STATUS.STANDBY, value: null },
-  blocks: { status: LOADING_STATUS.STANDBY, value: [] },
+  blocks: {
+    status: LOADING_STATUS.STANDBY,
+    value: {
+      data: [],
+      count: 0,
+    },
+  },
 };
 
 export const baseLibraryDetailReducers = {
@@ -37,14 +43,9 @@ export const baseLibraryDetailReducers = {
     Object.assign(state, libraryAuthoringInitialState);
   },
   libraryAuthoringBlockDeleted: (state, { payload }) => {
-    state.blocks.value = state.blocks.value.filter((block) => block.id !== payload.blockId);
+    state.blocks.value.data = state.blocks.value.data.filter((block) => block.id !== payload.blockId);
+    state.blocks.value.count -= 1;
     state.library.value.has_unpublished_deletes = true;
-  },
-  libraryCreateBlockSuccess: (state, { payload }) => {
-    state.errorMessage = null;
-    state.blocks.status = LOADING_STATUS.LOADED;
-    state.blocks.value.push(payload.libraryBlock);
-    state.library.value.has_unpublished_changes = true;
   },
   libraryCreateBlockFailed: (state, { payload }) => {
     state.blocks.status = LOADING_STATUS.FAILED;

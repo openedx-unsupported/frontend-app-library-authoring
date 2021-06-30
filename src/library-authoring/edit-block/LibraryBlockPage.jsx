@@ -45,8 +45,8 @@ import LibraryBlockAssets from './LibraryBlockAssets';
 import LibraryBlockOlx from './LibraryBlockOlx';
 
 import messages from './messages';
-import { getXBlockHandlerUrl } from '../common/data';
-import { blockViewShape, fetchable } from './data/shapes';
+import { getXBlockHandlerUrl, fetchable } from '../common';
+import { blockViewShape } from './data/shapes';
 
 class LibraryBlockPage extends React.Component {
   componentDidMount() {
