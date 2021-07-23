@@ -717,7 +717,6 @@ export const LibraryAuthoringPageContainerBase = ({
 LibraryAuthoringPageContainerBase.defaultProps = {
   library: null,
   errorMessage: null,
-  blocks: [],
 };
 
 LibraryAuthoringPageContainerBase.propTypes = {
@@ -727,7 +726,7 @@ LibraryAuthoringPageContainerBase.propTypes = {
   fetchBlocks: PropTypes.func.isRequired,
   searchLibrary: PropTypes.func.isRequired,
   blockStates: blockStatesShape.isRequired,
-  blocks: fetchable(paginated(libraryBlockShape)),
+  blocks: fetchable(paginated(libraryBlockShape)).isRequired,
   createBlock: PropTypes.func.isRequired,
   clearLibrary: PropTypes.func.isRequired,
   commitLibraryChanges: PropTypes.func.isRequired,
