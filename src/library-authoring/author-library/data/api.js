@@ -26,7 +26,9 @@ export const getLibraryDetail = annotateCall(async (libraryId) => {
   return library;
 });
 
-export const getBlocks = annotateCall(async ({ libraryId, paginationParams, query = '', types = [] }) => {
+export const getBlocks = annotateCall(async ({
+  libraryId, paginationParams, query = '', types = [],
+}) => {
   const client = getAuthenticatedHttpClient();
   const baseUrl = getConfig().STUDIO_BASE_URL;
   const params = {
@@ -54,7 +56,7 @@ export const getBlocks = annotateCall(async ({ libraryId, paginationParams, quer
   return {
     data: response.data.results,
     count: response.data.count,
-  }
+  };
 });
 
 export const createLibraryBlock = annotateCall(async ({ libraryId, data }) => {

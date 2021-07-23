@@ -376,8 +376,7 @@ export const LibraryAuthoringPageBase = ({
                     />
                   </Col>
                 )
-                : null
-              }
+                : null}
               <Col xs={12} className="text-center py-3 add-buttons-container">
                 {library.type !== LIBRARY_TYPES.COMPLEX && (
                 <Button
@@ -572,12 +571,14 @@ export const LibraryAuthoringPageContainerBase = ({
     }
 
     return types;
-  }
+  };
 
   // Refresh page on query, type, or page changes.
   useEffect(() => {
     if (!sending) {
-      props.searchLibrary({libraryId, paginationParams, query, types: normalizeTypes()});
+      props.searchLibrary({
+        libraryId, paginationParams, query, types: normalizeTypes(),
+      });
     }
   }, [query, type, page]);
 
@@ -716,6 +717,7 @@ export const LibraryAuthoringPageContainerBase = ({
 LibraryAuthoringPageContainerBase.defaultProps = {
   library: null,
   errorMessage: null,
+  blocks: [],
 };
 
 LibraryAuthoringPageContainerBase.propTypes = {

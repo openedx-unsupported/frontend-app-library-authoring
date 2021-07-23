@@ -29,11 +29,15 @@ export const fetchBlocks = annotateThunk(({ libraryId, paginationParams, query }
   }
 });
 
-export const createBlock = annotateThunk(({ libraryId, data, paginationParams, query, types }) => async (dispatch) => {
+export const createBlock = annotateThunk(({
+  libraryId, data, paginationParams, query, types,
+}) => async (dispatch) => {
   try {
     dispatch(actions.libraryAuthoringRequest({ attr: 'blocks' }));
-    const libraryBlock = await api.createLibraryBlock({ libraryId, data }).catch(normalizeErrors);
-    const blocks = await api.getBlocks({ libraryId, paginationParams, query, types }).catch(normalizeErrors);
+    await api.createLibraryBlock({ libraryId, data }).catch(normalizeErrors);
+    const blocks = await api.getBlocks({
+      libraryId, paginationParams, query, types,
+    }).catch(normalizeErrors);
     dispatch(actions.libraryAuthoringSuccess({ value: blocks, attr: 'blocks' }));
   } catch (error) {
     toError(dispatch, error, 'blocks');
@@ -57,7 +61,7 @@ export const revertLibraryChanges = annotateThunk(({ libraryId, paginationParams
     await api.revertLibraryChanges(libraryId).catch(normalizeErrors);
     const [library, blocks] = await Promise.all([
       api.getLibraryDetail(libraryId),
-      api.getBlocks({ libraryId, paginationParams })
+      api.getBlocks({ libraryId, paginationParams }),
     ]).catch(normalizeErrors);
     dispatch(actions.libraryAuthoringSuccess({ value: library, attr: 'library' }));
     dispatch(actions.libraryAuthoringSuccess({ value: blocks, attr: 'blocks' }));
@@ -79,7 +83,9 @@ const baseBlockSearch = ({
   dispatch, libraryId, paginationParams, query, types,
 }) => {
   dispatch(actions.libraryAuthoringRequest({ attr: 'blocks' }));
-  api.getBlocks({ libraryId, paginationParams, query, types }).then((blocks) => {
+  api.getBlocks({
+    libraryId, paginationParams, query, types,
+  }).then((blocks) => {
     dispatch(actions.libraryAuthoringSuccess({ value: blocks, attr: 'blocks' }));
   }).catch(normalizeErrors).catch((error) => {
     toError(dispatch, error, 'blocks');
@@ -88,7 +94,9 @@ const baseBlockSearch = ({
 
 export const debouncedBlockSearch = debounce(baseBlockSearch, 200);
 
-export const searchLibrary = annotateThunk(({ libraryId, paginationParams, query, types }) => async (dispatch) => {
+export const searchLibrary = annotateThunk(({
+  libraryId, paginationParams, query, types,
+}) => async (dispatch) => {
   debouncedBlockSearch({
     dispatch, libraryId, paginationParams, query, types,
   });

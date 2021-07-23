@@ -19,6 +19,7 @@ import {
   ROUTES,
   truncateErrorMessage,
   XBLOCK_VIEW_SYSTEM,
+  getXBlockHandlerUrl, fetchable,
 } from '../common';
 import {
   commitLibraryChanges,
@@ -45,7 +46,7 @@ import LibraryBlockAssets from './LibraryBlockAssets';
 import LibraryBlockOlx from './LibraryBlockOlx';
 
 import messages from './messages';
-import { getXBlockHandlerUrl, fetchable } from '../common';
+
 import { blockViewShape } from './data/shapes';
 
 class LibraryBlockPage extends React.Component {

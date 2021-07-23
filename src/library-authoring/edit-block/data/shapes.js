@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { LOADING_STATUS, fetchable } from '../../common';
+import { fetchable } from '../../common';
 
 export const blockMetadataShape = PropTypes.shape({
   block_type: PropTypes.string.isRequired,
