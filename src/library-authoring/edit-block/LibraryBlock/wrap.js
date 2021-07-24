@@ -304,7 +304,7 @@ export default function wrapBlockHtmlForIFrame(html, resources, lmsBaseUrl) {
           files (defined in webpack.common.config.js) to get that entry point and all
           of its dependencies.
       -->
-      <script type="text/javascript" src="${lmsBaseUrl}/static/xmodule_js/common_static/bundles/commons.js"></script>
+      <script type="text/javascript" src="${lmsBaseUrl}/static/bundles/commons.js"></script>
       <!-- The video XBlock (and perhaps others?) expect this global: -->
       <script>
       window.onTouchBasedDevice = function() { return navigator.userAgent.match(/iPhone|iPod|iPad|Android/i); };
