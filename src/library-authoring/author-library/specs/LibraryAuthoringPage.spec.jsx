@@ -126,7 +126,7 @@ testSuite('<LibraryAuthoringPageContainer />', () => {
   });
 
   it('Fetches block LTI URL to clipboard', async () => {
-    const library = libraryFactory();
+    const library = libraryFactory({ allow_lti: true });
     const blocks = makeN(blockFactoryLine([], { library }), 2);
 
     await render(library, genState(library, blocks));
@@ -150,6 +150,18 @@ testSuite('<LibraryAuthoringPageContainer />', () => {
         attr: 'ltiUrlClipboard',
       }),
     ));
+  });
+
+  it('Copy LTI URL not shown unless it is enabled', async () => {
+    const library = libraryFactory();
+    const blocks = makeN(blockFactoryLine([], { library }), 2);
+
+    await render(library, genState(library, blocks));
+    expect(screen.getByText(blocks[0].display_name)).toBeTruthy();
+    expect(screen.getByText(blocks[1].display_name)).toBeTruthy();
+
+    const copyToClipboardButtons = screen.queryAllByAltText('Copy LTI Url');
+    expect(copyToClipboardButtons.length).toBe(0);
   });
 
   it('Adds a predefined block type', async () => {
