@@ -2,7 +2,7 @@
 Form for adding a new Library user.
  */
 import {
-  Button, Icon, Input, StatefulButton, ValidationFormGroup,
+  Button, Icon, Input, StatefulButton, ValidationFormGroup, Row, Card,
 } from '@edx/paragon';
 import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';

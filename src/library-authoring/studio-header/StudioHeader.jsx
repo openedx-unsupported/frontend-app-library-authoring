@@ -3,10 +3,9 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import { ensureConfig } from '@edx/frontend-platform/config';
-import { StudioHeader, MenuContentItem } from '@edx/frontend-component-header-edx';
+import { Header as StudioHeader, MenuContentItem } from '@edx/frontend-component-header';
 
 import { ROUTES, libraryShape } from '../common';
-import StudioLogo from './assets/studio-logo.png';
 import messages from './messages';
 import selectLibraryDetail from '../common/data/selectors';
 
