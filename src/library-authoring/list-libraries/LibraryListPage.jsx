@@ -11,7 +11,7 @@ import { faPlus, faSearch } from '@fortawesome/free-solid-svg-icons';
 
 import { LoadingPage } from '../../generic';
 import {
-  LOADING_STATUS, LibraryIndexTabs, libraryShape, LIBRARY_TYPES, paginated,
+  LOADING_STATUS, libraryShape, LIBRARY_TYPES, paginated,
 } from '../common';
 import { LibraryCreateForm } from '../create-library';
 import {
