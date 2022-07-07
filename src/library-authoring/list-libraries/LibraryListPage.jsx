@@ -11,9 +11,8 @@ import { faPlus, faSearch } from '@fortawesome/free-solid-svg-icons';
 
 import { LoadingPage } from '../../generic';
 import {
-  LOADING_STATUS, LibraryIndexTabs, libraryShape, LIBRARY_TYPES, paginated,
+  LOADING_STATUS, LibraryIndexTabs, libraryShape, LIBRARY_TYPES, paginated, ROUTES,
 } from '../common';
-import { LibraryCreateForm } from '../create-library';
 import {
   fetchLibraryList,
   libraryListInitialState,
@@ -28,7 +27,6 @@ export class LibraryListPage extends React.Component {
     super(props);
 
     this.state = {
-      showForm: false,
       paginationParams: {
         page: 1,
         page_size: 20,
@@ -50,16 +48,8 @@ export class LibraryListPage extends React.Component {
     });
   }
 
-  showForm = () => {
-    this.setState({
-      showForm: true,
-    });
-  }
-
-  hideForm = () => {
-    this.setState({
-      showForm: false,
-    });
+  goToCreateLibraryPage = () => {
+    this.props.history.push(ROUTES.List.CREATE);
   }
 
   handlePageChange = (selectedPage) => {
@@ -140,7 +130,7 @@ export class LibraryListPage extends React.Component {
 
   renderContent() {
     const { intl, libraries, orgs } = this.props;
-    const { showForm, filterParams } = this.state;
+    const { filterParams } = this.state;
 
     const paginationOptions = {
       currentPage: this.state.paginationParams.page,
@@ -185,7 +175,7 @@ export class LibraryListPage extends React.Component {
                 <li className="nav-item">
                   <Button
                     variant="success"
-                    onClick={this.showForm}
+                    onClick={this.goToCreateLibraryPage}
                   >
                     <FontAwesomeIcon icon={faPlus} className="pr-3" />
                     {intl.formatMessage(messages['library.list.new.library'])}
@@ -199,8 +189,6 @@ export class LibraryListPage extends React.Component {
           <section className="content">
             <article className="content-primary" role="main">
               <LibraryIndexTabs />
-              {showForm
-              && <LibraryCreateForm hideForm={this.hideForm} />}
               <ul className="library-list">
                 {libraries.data.map((library) => (
                   <li key={library.id} className="library-item">
@@ -326,6 +314,9 @@ LibraryListPage.propTypes = {
   intl: intlShape.isRequired,
   libraries: paginated(libraryShape).isRequired,
   orgs: PropTypes.arrayOf(PropTypes.string),
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
   status: PropTypes.oneOf(Object.values(LOADING_STATUS)).isRequired,
 };
 

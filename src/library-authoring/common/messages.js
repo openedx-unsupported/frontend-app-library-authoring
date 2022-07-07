@@ -22,10 +22,20 @@ const messages = defineMessages({
     defaultMessage: 'Submit',
     description: 'Default label for "Submit" buttons.',
   },
+  'library.common.forms.button.create': {
+    id: 'library.common.forms.button.create',
+    defaultMessage: 'Create',
+    description: 'Default label for "Create" buttons.',
+  },
   'library.common.forms.button.submitting': {
     id: 'library.common.forms.button.submitting',
     defaultMessage: 'Submitting...',
     description: 'Default label for "Submit" buttons when currently submitting.',
+  },
+  'library.common.forms.button.creating': {
+    id: 'library.common.forms.button.creating',
+    defaultMessage: 'Creating...',
+    description: 'Default label for "Create" buttons when currently submitting.',
   },
   'library.common.forms.button.yes': {
     id: 'library.common.forms.button.yes',
