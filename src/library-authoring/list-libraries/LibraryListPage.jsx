@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 import {
   Button, Form, Input, Pagination,
 } from '@edx/paragon';
@@ -325,4 +326,4 @@ LibraryListPage.defaultProps = libraryListInitialState;
 export default connect(
   selectLibraryList,
   { fetchLibraryList },
-)(injectIntl(LibraryListPage));
+)(injectIntl(withRouter(LibraryListPage)));

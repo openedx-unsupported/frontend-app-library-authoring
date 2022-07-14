@@ -15,7 +15,7 @@ const FormGroup = (props) => {
   };
 
   return (
-    <Form.Group isInvalid={!!props.errorMessage} className={props.className} >
+    <Form.Group isInvalid={!!props.errorMessage} className={props.className}>
       <Form.Control
         as={props.as}
         readOnly={props.readOnly}
@@ -56,7 +56,6 @@ const FormGroup = (props) => {
 FormGroup.defaultProps = {
   as: 'input',
   errorMessage: '',
-  borderClass: '',
   autoComplete: null,
   readOnly: false,
   handleBlur: null,
@@ -64,17 +63,18 @@ FormGroup.defaultProps = {
   handleFocus: null,
   handleClick: null,
   helpText: '',
+  placeholder: '',
   options: null,
   trailingElement: null,
   type: 'text',
   children: null,
   className: '',
+  controlClassName: '',
 };
 
 FormGroup.propTypes = {
   as: PropTypes.string,
   errorMessage: PropTypes.string,
-  borderClass: PropTypes.string,
   autoComplete: PropTypes.string,
   readOnly: PropTypes.bool,
   floatingLabel: PropTypes.string.isRequired,
@@ -91,6 +91,7 @@ FormGroup.propTypes = {
   value: PropTypes.string.isRequired,
   children: PropTypes.element,
   className: PropTypes.string,
+  controlClassName: PropTypes.string,
 };
 
 export default FormGroup;

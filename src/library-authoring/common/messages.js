@@ -17,6 +17,11 @@ const messages = defineMessages({
     defaultMessage: 'Cancel',
     description: 'Default label for "Cancel" buttons.',
   },
+  'library.common.forms.button.ok': {
+    id: 'library.common.forms.button.ok',
+    defaultMessage: 'Ok',
+    description: 'Default label for "Ok" buttons.',
+  },
   'library.common.forms.button.submit': {
     id: 'library.common.forms.button.submit',
     defaultMessage: 'Submit',

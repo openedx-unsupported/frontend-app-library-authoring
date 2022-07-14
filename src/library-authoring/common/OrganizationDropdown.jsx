@@ -3,6 +3,7 @@ import React from 'react';
 import { Icon, IconButton } from '@edx/paragon';
 import { ExpandLess, ExpandMore } from '@edx/paragon/icons';
 import PropTypes from 'prop-types';
+// eslint-disable-next-line import/no-unresolved
 import onClickOutside from 'react-onclickoutside';
 import FormGroup from './FormGroup';
 
@@ -13,7 +14,6 @@ class OrganizationDropdown extends React.Component {
       displayValue: '',
       icon: this.expandMoreButton(),
       errorMessage: '',
-      showFieldError: true,
       dropDownItems: [],
     };
 
@@ -25,7 +25,7 @@ class OrganizationDropdown extends React.Component {
     if (this.props.value !== nextProps.value && nextProps.value !== null) {
       const opt = this.props.options.find((o) => o === nextProps.value);
       if (opt && opt !== this.state.displayValue) {
-        this.setState({ displayValue: opt, showFieldError: false });
+        this.setState({ displayValue: opt });
       }
       return false;
     }
@@ -70,7 +70,7 @@ class OrganizationDropdown extends React.Component {
 
     const opt = this.props.options.find((o) => o === value);
     if (opt && opt !== this.state.displayValue) {
-      this.setState({ displayValue: opt, showFieldError: false });
+      this.setState({ displayValue: opt });
     }
   }
 
@@ -79,10 +79,10 @@ class OrganizationDropdown extends React.Component {
     const opt = this.props.options.find((o) => o.toLowerCase() === normalized);
     if (opt) {
       this.setValue(opt);
-      this.setState({ displayValue: opt, showFieldError: false });
+      this.setState({ displayValue: opt });
     } else {
       this.setValue(null);
-      this.setState({ displayValue: value, showFieldError: true });
+      this.setState({ displayValue: value });
     }
   }
 
@@ -128,7 +128,7 @@ class OrganizationDropdown extends React.Component {
   handleExpandMore(e) {
     const dropDownItems = this.getItems(e.target.value);
     this.setState({
-      dropDownItems, icon: this.expandLessButton(), errorMessage: '', showFieldError: false,
+      dropDownItems, icon: this.expandLessButton(), errorMessage: '',
     });
   }
 
@@ -182,7 +182,7 @@ class OrganizationDropdown extends React.Component {
           value={this.state.displayValue}
           readOnly={this.props.readOnly}
           controlClassName={this.props.controlClassName}
-          errorMessage={this.props.errorMessage}
+          errorMessage={this.state.errorMessage}
           trailingElement={this.state.icon}
           floatingLabel={this.props.floatingLabel}
           placeholder={this.props.placeholder}
@@ -206,23 +206,27 @@ OrganizationDropdown.defaultProps = {
   handleFocus: null,
   handleChange: null,
   handleBlur: null,
+  helpMessage: '',
+  placeholder: '',
   value: null,
   errorMessage: null,
-  errorCode: null,
   readOnly: false,
+  controlClassName: '',
 };
 
 OrganizationDropdown.propTypes = {
-  options: PropTypes.array,
+  options: PropTypes.arrayOf(PropTypes.string),
   floatingLabel: PropTypes.string,
   handleFocus: PropTypes.func,
   handleChange: PropTypes.func,
   handleBlur: PropTypes.func,
+  helpMessage: PropTypes.string,
+  placeholder: PropTypes.string,
   value: PropTypes.string,
   errorMessage: PropTypes.string,
-  errorCode: PropTypes.string,
   name: PropTypes.string.isRequired,
   readOnly: PropTypes.bool,
+  controlClassName: PropTypes.string,
 };
 
 export default onClickOutside(OrganizationDropdown);

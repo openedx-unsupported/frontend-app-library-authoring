@@ -1,7 +1,7 @@
 import { logError } from '@edx/frontend-platform/logging';
 import * as api from './api';
 import { libraryCreateActions as actions } from './slice';
-import { getOrganizations } from "../../common";
+import { getOrganizations } from '../../common';
 
 export const createLibrary = ({ data }) => async (dispatch) => {
   try {

@@ -16,33 +16,28 @@ const initFireEvent = () => {
 
   return map;
 };
+const props = {
+  as: 'input',
+  name: 'OrganizationDropdown',
+  floatingLabel: 'floatingLabel text',
+  options: null,
+  handleFocus: null,
+  handleChange: null,
+  handleBlur: null,
+  value: null,
+  errorMessage: null,
+  errorCode: null,
+  readOnly: false,
+};
 
 describe('common/OrganizationDropdown.jsx', () => {
-  let props;
-
-  beforeEach(() => {
-    props = {
-      as: 'input',
-      name: 'OrganizationDropdown',
-      floatingLabel: 'floatingLabel text',
-      options: null,
-      handleFocus: null,
-      handleChange: null,
-      handleBlur: null,
-      value: null,
-      errorMessage: null,
-      errorCode: null,
-      readOnly: false
-    };
-  });
-
   it('renders component without error', () => {
     mount(<OrganizationDropdown {...props} />);
   });
 
   it('handles element focus', () => {
-    let mockHandleFocus = jest.fn();
-    const newProps = {...props, handleFocus: mockHandleFocus}
+    const mockHandleFocus = jest.fn();
+    const newProps = { ...props, handleFocus: mockHandleFocus };
     const container = mount(<OrganizationDropdown {...newProps} />);
     container.find('input').simulate('focus');
 
@@ -50,8 +45,8 @@ describe('common/OrganizationDropdown.jsx', () => {
   });
 
   it('handles element blur', () => {
-    let mockHandleBlur = jest.fn();
-    const newProps = {...props, handleBlur: mockHandleBlur}
+    const mockHandleBlur = jest.fn();
+    const newProps = { ...props, handleBlur: mockHandleBlur };
     const container = mount(<OrganizationDropdown {...newProps} />);
     container.find('input').simulate('blur');
 
@@ -59,8 +54,8 @@ describe('common/OrganizationDropdown.jsx', () => {
   });
 
   it('renders component with options', () => {
-    const newProps = {...props, options: ['opt1', 'opt2']}
-    const container =  mount(<OrganizationDropdown {...newProps} />);
+    const newProps = { ...props, options: ['opt1', 'opt2'] };
+    const container = mount(<OrganizationDropdown {...newProps} />);
 
     container.find('input').simulate('click');
     container.update();
@@ -69,8 +64,8 @@ describe('common/OrganizationDropdown.jsx', () => {
   });
 
   it('selects option', () => {
-    const newProps = {...props, options: ['opt1', 'opt2']}
-    const container =  mount(<OrganizationDropdown {...newProps} />);
+    const newProps = { ...props, options: ['opt1', 'opt2'] };
+    const container = mount(<OrganizationDropdown {...newProps} />);
 
     container.find('input').simulate('click');
     container.find('.dropdown-container').find('button').at(0).simulate('click');
@@ -78,8 +73,8 @@ describe('common/OrganizationDropdown.jsx', () => {
   });
 
   it('toggles options list', () => {
-    const newProps = {...props, options: ['opt1', 'opt2']}
-    const container =  mount(<OrganizationDropdown {...newProps} />);
+    const newProps = { ...props, options: ['opt1', 'opt2'] };
+    const container = mount(<OrganizationDropdown {...newProps} />);
 
     expect(container.find('.dropdown-container').find('button').length).toEqual(0);
     container.find('button.expand-more').simulate('click');
@@ -89,8 +84,8 @@ describe('common/OrganizationDropdown.jsx', () => {
   });
 
   it('shows options list depends on field value', () => {
-    const newProps = {...props, options: ['opt1', 'opt2']}
-    const container =  mount(<OrganizationDropdown {...newProps} />);
+    const newProps = { ...props, options: ['opt1', 'opt2'] };
+    const container = mount(<OrganizationDropdown {...newProps} />);
 
     container.find('input').simulate('change', { target: { value: '1' } });
     expect(container.find('.dropdown-container').find('button').length).toEqual(1);
@@ -98,8 +93,8 @@ describe('common/OrganizationDropdown.jsx', () => {
 
   it('closes options list on click outside', () => {
     const fireEvent = initFireEvent();
-    const newProps = {...props, options: ['opt1', 'opt2']}
-    const container =  mount(<OrganizationDropdown {...newProps} />);
+    const newProps = { ...props, options: ['opt1', 'opt2'] };
+    const container = mount(<OrganizationDropdown {...newProps} />);
 
     container.find('input').simulate('click');
     expect(container.find('.dropdown-container').find('button').length).toEqual(2);

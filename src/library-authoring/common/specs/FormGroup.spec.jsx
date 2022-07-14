@@ -2,7 +2,6 @@ import React from 'react';
 import { mount } from 'enzyme';
 import FormGroup from '../FormGroup';
 
-
 describe('common/FormGroup.jsx', () => {
   let props;
   let mockHandleChange;
@@ -33,7 +32,7 @@ describe('common/FormGroup.jsx', () => {
       className: '',
       floatingLabel: 'floatingLabel text',
       name: 'title',
-      value: ''
+      value: '',
     };
   });
 

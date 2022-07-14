@@ -89,10 +89,16 @@ const messages = defineMessages({
     defaultMessage: 'Library authoring',
     description: 'Label for the breadcrumbs current link.',
   },
+  'library.form.modal.title': {
+    id: 'library.form.modal.title',
+    defaultMessage: 'Unsaved changes',
+    description: 'Text to display as a title on alert modal.',
+  },
+  'library.form.modal.description': {
+    id: 'library.form.modal.description',
+    defaultMessage: 'Are you sure you want to leave this page? Changes you made will be lost if you proceed.',
+    description: 'Text to display as a message on alert modal.',
+  },
 });
-
-
-
-
 
 export default messageGuard(messages);

@@ -2,7 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import { Button, Breadcrumb, Icon, StatefulButton, Alert } from '@edx/paragon';
+import { Prompt } from 'react-router-dom';
+import {
+  Button,
+  Breadcrumb,
+  Icon,
+  StatefulButton,
+  Alert,
+  AlertModal,
+  ActionRow,
+} from '@edx/paragon';
 import { Info } from '@edx/paragon/icons';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import { AppContext } from '@edx/frontend-platform/react';
@@ -32,11 +41,14 @@ export class LibraryCreatePage extends React.Component {
     super(props);
 
     this.state = {
+      isOpenModal: false,
+      allowLeave: true,
+      lastLocation: null,
+      confirmedNavigation: false,
       data: {
         title: '',
         org: '',
         slug: '',
-        type: LIBRARY_TYPES.COMPLEX,
         license: '',
       },
     };
@@ -57,9 +69,13 @@ export class LibraryCreatePage extends React.Component {
       && createdLibrary !== null
     ) {
       if (createdLibrary.type === LIBRARY_TYPES.LEGACY) {
-        window.location.href = createdLibrary.url;
+        this.setState({ allowLeave: true }, () => { // eslint-disable-line react/no-did-update-set-state
+          window.location.href = createdLibrary.url;
+        });
       } else if (Object.values(LIBRARY_TYPES).includes(createdLibrary.type)) {
-        this.props.history.push(createdLibrary.url);
+        this.setState({ allowLeave: true }, () => { // eslint-disable-line react/no-did-update-set-state
+          this.props.history.push(createdLibrary.url);
+        });
       }
     }
 
@@ -75,7 +91,10 @@ export class LibraryCreatePage extends React.Component {
         ...state.data,
         [name]: value,
       },
-    }));
+    }), () => {
+      const isFormFilled = Object.keys(this.state.data).some(i => this.state.data[i]);
+      this.setState({ allowLeave: !isFormFilled });
+    });
   }
 
   onCancel = () => {
@@ -85,7 +104,7 @@ export class LibraryCreatePage extends React.Component {
 
   onSubmit = (event) => {
     event.preventDefault();
-    this.props.createLibrary({ data: this.state.data });
+    this.props.createLibrary({ data: { ...this.state.data, type: LIBRARY_TYPES.COMPLEX } });
   }
 
   hasFieldError = (fieldName) => {
@@ -123,9 +142,54 @@ export class LibraryCreatePage extends React.Component {
     return state;
   }
 
+  openModal = (location) => {
+    this.setState({ isOpenModal: true, lastLocation: location });
+  }
+
+  closeModal = () => {
+    this.setState({ isOpenModal: false });
+  }
+
+  handleClickBreadcrumbs = (event) => {
+    if (!this.state.allowLeave) {
+      event.preventDefault();
+      const pathname = event.target.getAttribute('href');
+      this.openModal({ pathname });
+    }
+  }
+
+  handleBlockedNavigation = (nextLocation) => {
+    const { confirmedNavigation, allowLeave } = this.state;
+    if (!confirmedNavigation && !allowLeave) {
+      this.openModal(nextLocation);
+      return false;
+    }
+
+    return true;
+  }
+
+  handleConfirmNavigationClick = () => {
+    const { lastLocation } = this.state;
+    const { config } = this.context;
+
+    this.closeModal();
+
+    if (lastLocation) {
+      this.setState({
+        confirmedNavigation: true,
+      }, () => {
+        if (lastLocation.pathname === config.STUDIO_BASE_URL) {
+          window.location.href = lastLocation.pathname;
+        } else {
+          this.props.history.push(lastLocation.pathname);
+        }
+      });
+    }
+  }
+
   render() {
     const { intl, errorMessage, orgs } = this.props;
-    const { data } = this.state;
+    const { data, isOpenModal, allowLeave } = this.state;
     const { config } = this.context;
     const error = errorMessage || this.props.errorFields
       ? intl.formatMessage(messages['library.form.generic.error.description']) : '';
@@ -145,14 +209,15 @@ export class LibraryCreatePage extends React.Component {
           )}
           <Breadcrumb
             activeLabel={intl.formatMessage(messages['library.form.breadcrumbs.current'])}
+            clickHandler={this.handleClickBreadcrumbs}
             links={[
               { label: intl.formatMessage(messages['library.form.breadcrumbs.home']), url: config.STUDIO_BASE_URL },
-              { label: intl.formatMessage(messages['library.form.breadcrumbs.list']), url: ROUTES.List.HOME }
+              { label: intl.formatMessage(messages['library.form.breadcrumbs.list']), url: ROUTES.List.HOME },
             ]}
           />
           <div className="wrapper-mast wrapper">
             <header className="has-actions">
-              <h1 className="page-header h2">{intl.formatMessage(messages['library.form.create.library'])}</h1>
+              <h2 className="page-header h2">{intl.formatMessage(messages['library.form.create.library'])}</h2>
             </header>
           </div>
           <div className="wrapper-content wrapper">
@@ -184,7 +249,7 @@ export class LibraryCreatePage extends React.Component {
                         options={orgs}
                         controlClassName="has-value"
                         handleChange={
-                          (value) => this.setState(prevState => ({ data: {...prevState.data, org: value} }))
+                          (value) => this.setState(prevState => ({ data: { ...prevState.data, org: value } }))
                         }
                         floatingLabel={intl.formatMessage(messages['library.form.org.label'])}
                         placeholder={intl.formatMessage(messages['library.form.org.placeholder'])}
@@ -211,7 +276,7 @@ export class LibraryCreatePage extends React.Component {
                 </fieldset>
                 <div className="actions form-group">
                   <Button
-                    size="lg"
+                    size="md"
                     variant="tertiary"
                     onClick={this.onCancel}
                     className="mb-2 mb-sm-0 action btn-light"
@@ -219,7 +284,7 @@ export class LibraryCreatePage extends React.Component {
                     {intl.formatMessage(commonMessages['library.common.forms.button.cancel'])}
                   </Button>
                   <StatefulButton
-                    size="lg"
+                    size="md"
                     type="submit"
                     variant="primary"
                     className="action btn-primary"
@@ -239,6 +304,23 @@ export class LibraryCreatePage extends React.Component {
             </section>
           </div>
         </div>
+        <Prompt when={!allowLeave} message={this.handleBlockedNavigation} />
+        <AlertModal
+          title={intl.formatMessage(messages['library.form.modal.title'])}
+          isOpen={isOpenModal}
+          footerNode={(
+            <ActionRow>
+              <Button variant="tertiary" size="md" onClick={this.closeModal}>
+                {intl.formatMessage(commonMessages['library.common.forms.button.cancel'])}
+              </Button>
+              <Button variant="primary" size="md" onClick={this.handleConfirmNavigationClick}>
+                {intl.formatMessage(commonMessages['library.common.forms.button.ok'])}
+              </Button>
+            </ActionRow>
+          )}
+        >
+          {intl.formatMessage(messages['library.form.modal.description'])}
+        </AlertModal>
       </div>
     );
   }
@@ -252,6 +334,7 @@ LibraryCreatePage.propTypes = {
   fetchOrganizations: PropTypes.func.isRequired,
   errorFields: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   errorMessage: PropTypes.string,
+  orgs: PropTypes.arrayOf(PropTypes.string),
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
