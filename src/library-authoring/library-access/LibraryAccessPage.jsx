@@ -43,13 +43,14 @@ const LibraryAccessPage = ({
       <header className="mast has-actions has-navigation has-subtitle">
         <div className="page-header">
           <small className="subtitle">{intl.formatMessage(messages['library.access.page.parent_heading'])}</small>
-          <h1 className="page-header-title">{intl.formatMessage(messages['library.access.page.heading'])}</h1>
+          <h2 className="page-header-title">{intl.formatMessage(messages['library.access.page.heading'])}</h2>
         </div>
         <nav className="nav-actions">
           <ul>
             {isAdmin && (
               <li className="nav-item">
                 <Button
+                  size="sm"
                   variant="success"
                   onClick={() => setShowAdd(true)}
                 >
@@ -105,11 +106,11 @@ const LibraryAccessPage = ({
             <div className="well mt-3">
               <Row className="h-100">
                 <Col xs={12} md={8} className="my-auto">
-                  <h2 className="h2 font-weight-bold">{intl.formatMessage(messages['library.access.well.title'])}</h2>
+                  <h4 className="h4 font-weight-bold">{intl.formatMessage(messages['library.access.well.title'])}</h4>
                   <p>{intl.formatMessage(messages['library.access.well.text'])}</p>
                 </Col>
                 <Col xs={12} md={4} lg={3} className="my-auto offset-lg-1 text-center text-md-right">
-                  <Button variant="success" size="lg" onClick={() => setShowAdd(true)}>
+                  <Button variant="success" size="sm" onClick={() => setShowAdd(true)}>
                     <FontAwesomeIcon icon={faPlus} className="pr-1 icon-inline" />
                     <strong>{intl.formatMessage(messages['library.access.well.button'])}</strong>
                   </Button>

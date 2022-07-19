@@ -44,7 +44,7 @@ const messages = defineMessages({
   },
   'library.common.forms.button.yes': {
     id: 'library.common.forms.button.yes',
-    defaultMessage: 'Yes.',
+    defaultMessage: 'Yes',
     description: 'Default label for "Yes" on a confirmation prompt.',
   },
   'library.server.error.generic': {

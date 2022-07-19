@@ -32,6 +32,7 @@ import {
 import messages from './messages';
 import { LicenseFieldContainer } from '../common/LicenseField';
 
+
 class LibraryConfigurePage extends React.Component {
   constructor(props) {
     super(props);
@@ -182,7 +183,7 @@ class LibraryConfigurePage extends React.Component {
           <header className="mast has-actions has-navigation has-subtitle">
             <div className="page-header">
               <small className="subtitle">{intl.formatMessage(messages['library.edit.page.heading'])}</small>
-              <h1 className="page-header-title">{library.title}</h1>
+              <h2 className="page-header-title">{library.title}</h2>
             </div>
           </header>
         </div>

@@ -35,9 +35,23 @@
   font-size: 150%;
 }
 
-.library-access-wrapper .form-create {
-  border: none;
-  &:hover {
-    box-shadow: none;
+.library-access-wrapper {
+  .form-create {
+    border: none;
+
+    &:hover {
+      box-shadow: none;
+    }
+
+    fieldset {
+      padding: 0 0.625rem;
+    }
+  }
+
+  .pgn__card-body {
+    .btn {
+      height: 100%;
+    }
   }
 }
+

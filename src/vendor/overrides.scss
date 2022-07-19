@@ -1,4 +1,4 @@
-// Vendor verrides
+// Vendor overrides
 
 // edx-pattern-library
 $pink: #e83e8c !default;
@@ -12,4 +12,39 @@ $font-family-sans-serif: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-s
   max-width: 1376px;
   padding-left: 0;
   padding-right: 0;
+}
+
+// Paragon breadcrumbs
+.pgn__breadcrumb {
+  font-size: 1.125rem;
+  line-height: 1.5rem;
+  margin: ($baseline*2.2) 0;
+
+  .list-inline-item:not(:last-child) {
+    margin-right: 0.3rem;
+  }
+}
+
+// Paragon alert modal
+.pgn__alert-modal {
+  max-width: 450px;
+
+  .pgn__modal-title {
+    font-size: 1.375rem;
+    line-height: 1.75rem;
+  }
+
+  .pgn__modal-body-content {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+  }
+
+  .btn {
+    min-width: 92px;
+  }
+}
+
+// Paragon pagination
+.pagination {
+  justify-content: center;
 }

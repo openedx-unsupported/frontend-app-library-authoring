@@ -110,15 +110,15 @@ export class LibraryListPage extends React.Component {
 
     return (
       <div className="library-list-wrapper">
+        <Breadcrumb
+          links={[
+            { label: intl.formatMessage(commonMessages['library.common.breadcrumbs.studio']), url: getConfig().STUDIO_BASE_URL },
+          ]}
+          activeLabel={intl.formatMessage(messages['library.list.breadcrumbs.libraries'])}
+        />
         <div className="wrapper-mast wrapper">
-          <Breadcrumb
-            links={[
-              { label: intl.formatMessage(commonMessages['library.common.breadcrumbs.studio']), url: getConfig().STUDIO_BASE_URL },
-            ]}
-            activeLabel={intl.formatMessage(messages['library.list.breadcrumbs.libraries'])}
-          />
           <header className="mast has-actions">
-            <h1 className="page-header">{intl.formatMessage(messages['library.list.page.heading'])}</h1>
+            <h2 className="page-header">{intl.formatMessage(messages['library.list.page.heading'])}</h2>
             <nav className="nav-actions">
               <ul className="nav-list">
                 <li className="nav-item">
@@ -137,7 +137,7 @@ export class LibraryListPage extends React.Component {
         </div>
         <div className="wrapper-content wrapper">
           <section className="content">
-            <article className="content-primary" role="main">
+            <article className="content-fullwidth" role="main">
               {libraries.count > 0
                 ? (
                   <ul className="library-list">

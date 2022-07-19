@@ -210,12 +210,12 @@ class LibraryBlockPage extends React.Component {
         <div className="wrapper-mast wrapper">
           <header className="mast has-actions has-navigation has-subtitle">
             <div className="page-header">
-              <Button href={ROUTES.Detail.HOME_SLUG(libraryId)} className="my-1">
+              <Button href={ROUTES.Detail.HOME_SLUG(libraryId)} className="my-1" size="sm">
                 <FontAwesomeIcon icon={faArrowLeft} className="pr-1" />
                 {intl.formatMessage(messages['library.block.page.back_to_library'])}
               </Button>
               <small className="subtitle">{intl.formatMessage(messages['library.block.page.heading'])}</small>
-              <h1 className="page-header-title">{metadata !== null && metadata.display_name}</h1>
+              <h2 className="page-header-title">{metadata !== null && metadata.display_name}</h2>
             </div>
           </header>
         </div>
@@ -322,15 +322,16 @@ class LibraryBlockPage extends React.Component {
               </div>
               <div id="publish-unit" className="window">
                 <div className={`bit-publishing ${hasChanges && 'has-warnings'}`}>
-                  <h3 className="bar-mod-title pub-status">
+                  <h4 className="bar-mod-title pub-status h4">
                     {intl.formatMessage(messages[`library.block.aside.${hasChanges ? 'draft' : 'published'}`])}
-                  </h3>
+                  </h4>
                   <div className="wrapper-pub-actions bar-mod-actions">
                     <ul className="action-list list-unstyled">
                       <li className="action-item">
                         <Button
+                          size="sm"
                           variant="primary"
-                          className="w-100 p-2 btn-lg"
+                          className="w-100 p-2"
                           onClick={this.handleCommitLibrary}
                           disabled={!hasChanges}
                           aria-disabled={!hasChanges}
@@ -340,6 +341,7 @@ class LibraryBlockPage extends React.Component {
                       </li>
                       <li className="action-item text-right">
                         <Button
+                          size="sm"
                           variant="link"
                           className="d-inline-block"
                           onClick={this.handleRevertLibrary}
@@ -351,8 +353,9 @@ class LibraryBlockPage extends React.Component {
                       </li>
                       <li className="action-item">
                         <Button
+                          size="sm"
                           variant="danger"
-                          className="w-100 p-2 btn-lg"
+                          className="w-100 p-2"
                           onClick={this.handleDeleteBlock}
                         >
                           <strong>{intl.formatMessage(messages['library.block.aside.delete'])}</strong>

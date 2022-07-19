@@ -1,4 +1,12 @@
 .library-block-wrapper {
   margin: 0;
   font-size: 1.4rem;
+
+  .nav-tabs {
+    border-bottom-color: transparent;
+  }
+
+  .card-header {
+    padding-bottom: 0;
+  }
 }

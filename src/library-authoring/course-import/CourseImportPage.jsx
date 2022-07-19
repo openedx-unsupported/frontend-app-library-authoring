@@ -41,12 +41,12 @@ export const CourseImportPageHeader = ({ intl, showCourses, ...props }) => {
       <header className="mast has-actions has-navigation has-subtitle">
         <div className="page-header">
           <small className="subtitle">{intl.formatMessage(messages['library.course_import.page.parent_heading'])}</small>
-          <h1 className="page-header-title">{intl.formatMessage(messages['library.course_import.page.heading'])}</h1>
+          <h2 className="page-header-title">{intl.formatMessage(messages['library.course_import.page.heading'])}</h2>
         </div>
         <nav className="nav-actions">
           <ul>
             <li className="nav-item">
-              <Button className="toggle-importable-courses" variant="primary" onClick={showCoursesHandler}>
+              <Button className="toggle-importable-courses" variant="primary" size="sm" onClick={showCoursesHandler}>
                 <FontAwesomeIcon icon={faSync} className="pr-3" />
                 {showCourses
                   ? intl.formatMessage(messages['library.course_import.importable_courses.hide'])

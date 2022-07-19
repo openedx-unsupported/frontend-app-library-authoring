@@ -18,25 +18,11 @@
 }
 
 .cta-button {
-  padding: 1rem 2rem;
-  font-size: 120%;
+  padding: 0.625rem 1.25rem;
+  font-size: 1.2rem;
 }
 
 .library-blocks-pagination {
   display: block;
-  margin-top: 1.5em;
-
-  * {
-    font-size: 1.4rem;
-  }
-
-  .pagination {
-    .page-item {
-      .btn {
-        min-width: 2.5em;
-        min-height: 2.5em;
-        border: 1px solid $gray-l2;
-      }
-    }
-  }
+  margin-top: 1rem;
 }
