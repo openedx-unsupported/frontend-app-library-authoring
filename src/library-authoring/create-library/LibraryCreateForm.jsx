@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import {
-  Button, Icon, Input, StatefulButton, Alert, ValidationFormGroup,
+  Button, Icon, StatefulButton, Alert, Form,
 } from '@edx/paragon';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 
@@ -149,92 +149,60 @@ class LibraryCreateForm extends React.Component {
           </Alert>
           )}
           <ol className="list-input">
+            {['title', 'org', 'slug'].map(name => (
+              <li className="field" key={name}>
+                <Form.Group
+                  controlId={name}
+                  isInvalid={this.hasFieldError(name)}
+                  className="mb-0 mr-2"
+                >
+                  <Form.Label className="h6 d-block" htmlFor={name}>
+                    {intl.formatMessage(messages[`library.form.${name}.label`])}
+                  </Form.Label>
+                  <Form.Control
+                    name={name}
+                    id={name}
+                    type="text"
+                    placeholder={intl.formatMessage(messages[`library.form.${name}.placeholder`])}
+                    defaultValue={data[name]}
+                    onChange={this.onValueChange}
+                  />
+                  <Form.Text>{intl.formatMessage(messages[`library.form.${name}.help`])}</Form.Text>
+                  {this.hasFieldError(name) && (
+                    <Form.Control.Feedback hasIcon={false} type="invalid">
+                      {this.getFieldError(name)}
+                    </Form.Control.Feedback>
+                  )}
+                </Form.Group>
+              </li>
+            ))}
             <li className="field">
-              <ValidationFormGroup
-                for="title"
-                helpText={intl.formatMessage(messages['library.form.title.help'])}
-                invalid={this.hasFieldError('title')}
-                invalidMessage={this.getFieldError('title')}
+              <Form.Group
+                controlId="type"
+                isInvalid={this.hasFieldError('type')}
                 className="mb-0 mr-2"
               >
-                <label className="h6 d-block" htmlFor="title">
-                  {intl.formatMessage(messages['library.form.title.label'])}
-                </label>
-                <Input
-                  name="title"
-                  id="title"
-                  type="text"
-                  placeholder={intl.formatMessage(messages['library.form.title.placeholder'])}
-                  defaultValue={data.title}
-                  onChange={this.onValueChange}
-                />
-              </ValidationFormGroup>
-            </li>
-            <li className="field">
-              <ValidationFormGroup
-                for="org"
-                helpText={intl.formatMessage(messages['library.form.org.help'])}
-                invalid={this.hasFieldError('org')}
-                invalidMessage={this.getFieldError('org')}
-                className="mb-0 mr-2"
-              >
-                <label className="h6 d-block" htmlFor="org">
-                  {intl.formatMessage(messages['library.form.org.label'])}
-                </label>
-                <Input
-                  name="org"
-                  id="org"
-                  type="text"
-                  placeholder={intl.formatMessage(messages['library.form.org.placeholder'])}
-                  value={data.org}
-                  onChange={this.onValueChange}
-                />
-              </ValidationFormGroup>
-            </li>
-            <li className="field">
-              <ValidationFormGroup
-                for="slug"
-                helpText={intl.formatMessage(messages['library.form.slug.help'])}
-                invalid={this.hasFieldError('slug')}
-                invalidMessage={this.getFieldError('slug')}
-                className="mb-0 mr-2"
-              >
-                <label className="h6 d-block" htmlFor="slug">
-                  {intl.formatMessage(messages['library.form.slug.label'])}
-                </label>
-                <Input
-                  name="slug"
-                  id="slug"
-                  type="text"
-                  placeholder={intl.formatMessage(messages['library.form.slug.placeholder'])}
-                  value={data.slug}
-                  onChange={this.onValueChange}
-                />
-              </ValidationFormGroup>
-            </li>
-            <li className="field">
-              <ValidationFormGroup
-                for="type"
-                helpText={intl.formatMessage(messages['library.form.type.help'])}
-                invalid={this.hasFieldError('type')}
-                invalidMessage={this.getFieldError('type')}
-                className="mb-0 mr-2"
-              >
-                <label className="h6 d-block" htmlFor="type">
+                <Form.Label className="h6 d-block" htmlFor="type">
                   {intl.formatMessage(messages['library.form.type.label'])}
-                </label>
-                <Input
+                </Form.Label>
+                <Form.Control
                   name="type"
                   id="type"
-                  type="select"
+                  as="select"
                   value={data.type}
-                  options={Object.values(LIBRARY_TYPES).map(value => ({
-                    value,
-                    label: intl.formatMessage(messages[`library.form.type.label.${value}`]),
-                  }))}
                   onChange={this.onValueChange}
-                />
-              </ValidationFormGroup>
+                >
+                  {Object.values(LIBRARY_TYPES).map(value => (
+                    <option value={value} key={`aoption-${value}`}>
+                      {intl.formatMessage(messages[`library.form.type.label.${value}`])}
+                    </option>
+                  ))}
+                </Form.Control>
+                <Form.Text>{intl.formatMessage(messages['library.form.type.help'])}</Form.Text>
+                <Form.Control.Feedback hasIcon={false} type="invalid">
+                  {this.getFieldError('type')}
+                </Form.Control.Feedback>
+              </Form.Group>
             </li>
             <li className={`field ${(data.type === 'legacy' && 'd-none') || ''}`}>
               { /* Retain caching capabilities by hiding rather than removing this field. */ }
