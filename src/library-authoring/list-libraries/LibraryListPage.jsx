@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
-  Button, Form, Input, Pagination,
+  Button, Form, Pagination,
 } from '@edx/paragon';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import { AppContext } from '@edx/frontend-platform/react';
@@ -138,6 +138,19 @@ export class LibraryListPage extends React.Component {
     );
   }
 
+  renderOption = option => {
+    if (option.group) {
+      return (
+        <optgroup label={option.label}>
+          {option.group.map(this.renderOption)}
+        </optgroup>
+      );
+    }
+    return (
+      <option value={option.value} key={option.value}>{option.label}</option>
+    );
+  };
+
   renderContent() {
     const { intl, libraries, orgs } = this.props;
     const { showForm, filterParams } = this.state;
@@ -266,13 +279,14 @@ export class LibraryListPage extends React.Component {
                       <Form.Label className="title title-3">
                         {intl.formatMessage(messages['library.list.filter.options.org.label'])}
                       </Form.Label>
-                      <Input
+                      <Form.Control
                         name="org"
-                        type="select"
-                        options={orgOptions}
+                        as="select"
                         defaultValue={filterParams ? filterParams.org : null}
                         onChange={this.handleFilterOrgChange}
-                      />
+                      >
+                        {orgOptions.map(this.renderOption)}
+                      </Form.Control>
                     </Form.Group>
                   </Form.Row>
                   <Form.Row>
@@ -280,13 +294,14 @@ export class LibraryListPage extends React.Component {
                       <Form.Label className="title title-3">
                         {intl.formatMessage(messages['library.list.filter.options.type.label'])}
                       </Form.Label>
-                      <Input
+                      <Form.Control
                         name="type"
-                        type="select"
-                        options={typeOptions}
+                        as="select"
                         defaultValue={filterParams ? filterParams.type : null}
                         onChange={this.handleFilterTypeChange}
-                      />
+                      >
+                        {typeOptions.map(this.renderOption)}
+                      </Form.Control>
                     </Form.Group>
                   </Form.Row>
                 </Form>
