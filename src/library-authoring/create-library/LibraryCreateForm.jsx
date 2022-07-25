@@ -199,9 +199,11 @@ class LibraryCreateForm extends React.Component {
                   ))}
                 </Form.Control>
                 <Form.Text>{intl.formatMessage(messages['library.form.type.help'])}</Form.Text>
-                <Form.Control.Feedback hasIcon={false} type="invalid">
-                  {this.getFieldError('type')}
-                </Form.Control.Feedback>
+                {this.hasFieldError('type') && (
+                  <Form.Control.Feedback hasIcon={false} type="invalid">
+                    {this.getFieldError('type')}
+                  </Form.Control.Feedback>
+                )}
               </Form.Group>
             </li>
             <li className={`field ${(data.type === 'legacy' && 'd-none') || ''}`}>
