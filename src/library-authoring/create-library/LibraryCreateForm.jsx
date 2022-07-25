@@ -193,7 +193,7 @@ class LibraryCreateForm extends React.Component {
                   onChange={this.onValueChange}
                 >
                   {Object.values(LIBRARY_TYPES).map(value => (
-                    <option value={value} key={`aoption-${value}`}>
+                    <option value={value} key={`option-${value}`}>
                       {intl.formatMessage(messages[`library.form.type.label.${value}`])}
                     </option>
                   ))}
