@@ -1,3 +1,5 @@
+$header-dopdown-border-color: #f8f9fa;
+
 /* Adapted from:
  * edx-platform/cms/static/sass/elements/_header.scss
  */
@@ -59,13 +61,13 @@
       .btn {
         font-size: 1rem;
         font-weight: 600;
-        background-color: white;
+        background-color: $white;
         color: $gray-d1;
         border-width: 1px;
         line-height: 1.475rem;
         padding: 0.234rem 0.469rem;
         border-radius: ($baseline*0.1);
-        border-color: #f8f9fa;
+        border-color: $header-dopdown-border-color;
 
         &:hover {
           color: $uxpl-blue-hover-active;
@@ -88,7 +90,7 @@
 
         &:active {
           color: $uxpl-blue-hover-active;
-          background-color: white;
+          background-color: $white;
         }
       }
     }

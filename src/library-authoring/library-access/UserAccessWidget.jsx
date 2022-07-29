@@ -29,7 +29,7 @@ export const UserAccessWidget = ({
           <strong>{intl.formatMessage(messages[`library.access.info.${user.access_level}`])}</strong>&nbsp;
           <span className="font-weight-normal">{isUser && intl.formatMessage(messages['library.access.info.self'])}</span>
         </Badge>
-        <Row className="py-3 px-3">
+        <Row className="p-3">
           <Col xs={12} md={6}>
             <span className="title title-2 h4">
               <span className="font-weight-bold">{user.username}</span>
