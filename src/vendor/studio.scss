@@ -785,23 +785,8 @@ $yellow-u3: desaturate($yellow, 45%) !default;
 }
 
 .form-create-alert {
-  margin-top: ($baseline*1.6);
-  padding: ($baseline*1.2);
-
   .alert-icon {
-    width: 2.4rem;
-    height: 2.4rem;
-  }
-
-  .alert-message-content {
-    @include font-size(14);
-
-    margin-bottom: ($baseline*0.4);
-  }
-
-  .alert-heading {
-    @include font-size(18);
-    @include line-height(24);
+    margin-right: 0.438rem;
   }
 }
 
@@ -810,10 +795,12 @@ $yellow-u3: desaturate($yellow, 45%) !default;
 .form-create {
   @extend %ui-window;
 
-  margin-top: ($baseline*2);
+  .library-create-wrapper & {
+    margin-bottom: ($baseline*2);
+  }
 
-  .content-primary & {
-    margin-top: 0;
+  .library-edit-wrapper & {
+    margin: 0;
   }
 
   .title {
