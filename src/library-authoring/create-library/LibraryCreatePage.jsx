@@ -191,20 +191,22 @@ export class LibraryCreatePage extends React.Component {
     const { intl, errorMessage, orgs } = this.props;
     const { data, isOpenModal, allowLeave } = this.state;
     const { config } = this.context;
-    const error = errorMessage || this.props.errorFields
+    const errorTitle = !errorMessage && this.props.errorFields
+      && intl.formatMessage(messages['library.form.generic.error.title']);
+    const errorDescription = errorMessage || this.props.errorFields
       ? intl.formatMessage(messages['library.form.generic.error.description']) : '';
 
     return (
       <div className="container-fluid">
         <div className="library-create-wrapper">
-          {error && (
+          {errorDescription && (
             <Alert
               icon={Info}
               variant="danger"
               className="form-create-alert"
             >
-              <Alert.Heading>{intl.formatMessage(messages['library.form.generic.error.title'])}</Alert.Heading>
-              <p>{truncateMessage(error)}</p>
+              {errorTitle && <Alert.Heading>{errorTitle}</Alert.Heading>}
+              <p>{truncateMessage(errorDescription)}</p>
             </Alert>
           )}
           <Breadcrumb
