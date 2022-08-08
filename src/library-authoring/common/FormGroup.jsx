@@ -17,21 +17,13 @@ const FormGroup = (props) => {
   return (
     <Form.Group isInvalid={!!props.errorMessage} className={props.className}>
       <Form.Control
-        as={props.as}
-        readOnly={props.readOnly}
-        name={props.name}
-        type={props.type}
-        value={props.value}
         aria-invalid={props.errorMessage}
         autoComplete={props.autoComplete ? 'on' : 'off'}
-        controlClassName={props.controlClassName}
-        trailingElement={props.trailingElement}
-        floatingLabel={props.floatingLabel}
-        placeholder={props.placeholder}
         onChange={props.handleChange}
         onFocus={handleFocus}
         onBlur={handleOnBlur}
         onClick={handleClick}
+        {...props}
       >
         {props.options ? props.options() : null}
       </Form.Control>
