@@ -13,7 +13,6 @@ class OrganizationDropdown extends React.Component {
     this.state = {
       displayValue: '',
       icon: this.expandMoreButton(),
-      errorMessage: '',
       dropDownItems: [],
     };
 
@@ -22,7 +21,7 @@ class OrganizationDropdown extends React.Component {
   }
 
   shouldComponentUpdate(nextProps) {
-    if (this.props.value !== nextProps.value && nextProps.value !== null) {
+    if (this.props.value !== nextProps.value && nextProps.value !== '') {
       const opt = this.props.options.find((o) => o === nextProps.value);
       if (opt && opt !== this.state.displayValue) {
         this.setState({ displayValue: opt });
@@ -81,7 +80,7 @@ class OrganizationDropdown extends React.Component {
       this.setValue(opt);
       this.setState({ displayValue: opt });
     } else {
-      this.setValue(null);
+      this.setValue('');
       this.setState({ displayValue: value });
     }
   }
@@ -89,11 +88,11 @@ class OrganizationDropdown extends React.Component {
   handleClick = (e) => {
     const dropDownItems = this.getItems(e.target.value);
     if (dropDownItems.length > 1) {
-      this.setState({ dropDownItems, icon: this.expandLessButton(), errorMessage: '' });
+      this.setState({ dropDownItems, icon: this.expandLessButton() });
     }
 
     if (this.state.dropDownItems.length > 0) {
-      this.setState({ dropDownItems: '', icon: this.expandMoreButton(), errorMessage: '' });
+      this.setState({ dropDownItems: '', icon: this.expandMoreButton() });
     }
   }
 
@@ -102,9 +101,9 @@ class OrganizationDropdown extends React.Component {
 
     if (findstr.length) {
       const filteredItems = this.getItems(findstr);
-      this.setState({ dropDownItems: filteredItems, icon: this.expandLessButton(), errorMessage: '' });
+      this.setState({ dropDownItems: filteredItems, icon: this.expandLessButton() });
     } else {
-      this.setState({ dropDownItems: '', icon: this.expandMoreButton(), errorMessage: this.props.errorMessage });
+      this.setState({ dropDownItems: '', icon: this.expandMoreButton() });
     }
 
     this.setDisplayValue(e.target.value);
@@ -112,11 +111,9 @@ class OrganizationDropdown extends React.Component {
 
   handleClickOutside = () => {
     if (this.state.dropDownItems.length > 0) {
-      const msg = this.state.displayValue === '' ? this.props.errorMessage : '';
       this.setState(() => ({
         icon: this.expandMoreButton(),
         dropDownItems: '',
-        errorMessage: msg,
       }));
     }
   }
@@ -127,9 +124,7 @@ class OrganizationDropdown extends React.Component {
 
   handleExpandMore(e) {
     const dropDownItems = this.getItems(e.target.value);
-    this.setState({
-      dropDownItems, icon: this.expandLessButton(), errorMessage: '',
-    });
+    this.setState({ dropDownItems, icon: this.expandLessButton() });
   }
 
   handleFocus(e) {
@@ -182,7 +177,7 @@ class OrganizationDropdown extends React.Component {
           value={this.state.displayValue}
           readOnly={this.props.readOnly}
           controlClassName={this.props.controlClassName}
-          errorMessage={this.state.errorMessage}
+          errorMessage={this.props.errorMessage}
           trailingElement={this.state.icon}
           floatingLabel={this.props.floatingLabel}
           placeholder={this.props.placeholder}
