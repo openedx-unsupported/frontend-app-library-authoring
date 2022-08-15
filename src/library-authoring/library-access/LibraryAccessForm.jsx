@@ -19,13 +19,11 @@ import {
  * LibraryAccessForm:
  * Template component for the form used to add a new user to a library.
  */
-const LibraryAccessForm = (
-  {
-    intl, onSubmit, setShowAdd, hasFieldError, getFieldError, data,
-    onValueChange, submitButtonState,
-  },
-) => (
-  <>
+function LibraryAccessForm({
+  intl, onSubmit, setShowAdd, hasFieldError, getFieldError, data,
+  onValueChange, submitButtonState,
+}) {
+  return (
     <Row className="mb-2">
       <form className="col-12" onSubmit={onSubmit}>
         <Card>
@@ -87,8 +85,8 @@ const LibraryAccessForm = (
         </Card>
       </form>
     </Row>
-  </>
-);
+  );
+}
 
 LibraryAccessForm.propTypes = {
   intl: intlShape.isRequired,
@@ -114,9 +112,7 @@ const initialFormState = () => ({
  * and handles state for it, and manages the API call for adding a
  * new user to a library team.
  */
-const LibraryAccessFormContainer = (
-  props,
-) => {
+function LibraryAccessFormContainer(props) {
   const [data, setData] = useState({
     email: '',
     access_level: LIBRARY_ACCESS.READ,
@@ -171,7 +167,7 @@ const LibraryAccessFormContainer = (
       setShowAdd={props.setShowAdd}
     />
   );
-};
+}
 
 LibraryAccessFormContainer.defaultProps = libraryAccessInitialState;
 

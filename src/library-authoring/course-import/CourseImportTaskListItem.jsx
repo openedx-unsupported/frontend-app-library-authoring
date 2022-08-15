@@ -5,7 +5,7 @@ import { Col, Row, Badge } from '@edx/paragon';
 import { importTaskShape } from './data';
 import messages from './messages';
 
-const CourseImportTaskListItem = ({ intl, task }) => {
+function CourseImportTaskListItem({ intl, task }) {
   let badgeVariant = '';
 
   switch (task.state.toLowerCase()) {
@@ -52,7 +52,7 @@ const CourseImportTaskListItem = ({ intl, task }) => {
       </div>
     </div>
   );
-};
+}
 
 CourseImportTaskListItem.propTypes = {
   intl: intlShape.isRequired,

@@ -19,41 +19,40 @@ import messages from './messages';
  * LicenseField
  * Template component for the license field used in library creation and editing. Managed by LicenseFieldContainer.
  */
-export const LicenceFieldBase = (
-  {
-    intl,
-    reservedVariant,
-    commonsVariant,
-    updateValue,
-    value,
-    spec,
-    updateFlags,
-    commonsOptions,
-    name,
-  },
-) => (
-  <div>
-    <label htmlFor={name}>
-      {intl.formatMessage(messages['library.common.fields.license.label'])}
-    </label>
-    <Row className="flex-row">
-      <Col>
-        <Button name={name} className="text-uppercase mx-1" variant={reservedVariant} size="lg" onClick={() => updateValue('')}>
-          {intl.formatMessage(messages['library.common.license.none'])}
-        </Button>
-      </Col>
-      <Col>
-        <Button name={name} className="text-uppercase mx-1" variant={commonsVariant} size="lg" onClick={() => updateValue(spec)}>
-          {intl.formatMessage(messages['library.common.license.cc'])}
-        </Button>
-        <p className="small">
-          <a target="_blank" rel="noopener noreferrer" href="https://creativecommons.org/about">
-            {intl.formatMessage(messages['library.common.fields.license.cc.learn_more'])}
-          </a>
-        </p>
-      </Col>
-    </Row>
-    {value && (
+export function LicenceFieldBase({
+  intl,
+  reservedVariant,
+  commonsVariant,
+  updateValue,
+  value,
+  spec,
+  updateFlags,
+  commonsOptions,
+  name,
+}) {
+  return (
+    <div>
+      <label htmlFor={name}>
+        {intl.formatMessage(messages['library.common.fields.license.label'])}
+      </label>
+      <Row className="flex-row">
+        <Col>
+          <Button name={name} className="text-uppercase mx-1" variant={reservedVariant} size="lg" onClick={() => updateValue('')}>
+            {intl.formatMessage(messages['library.common.license.none'])}
+          </Button>
+        </Col>
+        <Col>
+          <Button name={name} className="text-uppercase mx-1" variant={commonsVariant} size="lg" onClick={() => updateValue(spec)}>
+            {intl.formatMessage(messages['library.common.license.cc'])}
+          </Button>
+          <p className="small">
+            <a target="_blank" rel="noopener noreferrer" href="https://creativecommons.org/about">
+              {intl.formatMessage(messages['library.common.fields.license.cc.learn_more'])}
+            </a>
+          </p>
+        </Col>
+      </Row>
+      {value && (
       <>
         <div className="pt-5">
           <strong>{intl.formatMessage(messages['library.common.fields.license.cc.options'])}</strong>
@@ -139,18 +138,19 @@ export const LicenceFieldBase = (
           </Col>
         </Row>
       </>
-    )}
-    <Row className="mt-2">
-      <Col xs={12}>
-        <h3>License Preview</h3>
-        <p>The following message will be displayed where appropriate:</p>
-      </Col>
-      <Col xs={12}>
-        <LicenseContainer spec={value} />
-      </Col>
-    </Row>
-  </div>
-);
+      )}
+      <Row className="mt-2">
+        <Col xs={12}>
+          <h3>License Preview</h3>
+          <p>The following message will be displayed where appropriate:</p>
+        </Col>
+        <Col xs={12}>
+          <LicenseContainer spec={value} />
+        </Col>
+      </Row>
+    </div>
+  );
+}
 
 LicenceFieldBase.propTypes = {
   intl: intlShape.isRequired,
@@ -177,7 +177,7 @@ export const LicenseField = injectIntl(LicenceFieldBase);
  * Container for the LicenseField-- dynamically displays the license options and allows a user to toggle features
  * for supported licenses.
  */
-export const LicenseFieldContainerBase = ({ value, updateValue, name }) => {
+export function LicenseFieldContainerBase({ value, updateValue, name }) {
   // We need to remember these values. If the user switches away from Creative Commons, we should remember what
   // checkboxes were checked.
   const [cachedSpec, updateCache] = useState(value);
@@ -200,7 +200,7 @@ export const LicenseFieldContainerBase = ({ value, updateValue, name }) => {
     const newSpec = specFromCommonsOptions(result);
     updateValue(newSpec);
     updateCache(newSpec);
-  }, [commonsOptions]);
+  }, [commonsOptions, updateValue]);
 
   return (
     <LicenseField
@@ -214,7 +214,7 @@ export const LicenseFieldContainerBase = ({ value, updateValue, name }) => {
       name={name}
     />
   );
-};
+}
 
 LicenseFieldContainerBase.propTypes = {
   value: PropTypes.string.isRequired,

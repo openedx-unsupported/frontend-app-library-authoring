@@ -117,6 +117,7 @@ export const cleanUp = () => {
   window.localStorage.reset();
   resetThunks();
   resetApis();
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   useRealThunks(false);
   logError.mockReset();
   delete global.XMLHttpRequest;

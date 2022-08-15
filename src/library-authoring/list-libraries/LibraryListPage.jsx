@@ -54,13 +54,13 @@ export class LibraryListPage extends React.Component {
     this.setState({
       showForm: true,
     });
-  }
+  };
 
   hideForm = () => {
     this.setState({
       showForm: false,
     });
-  }
+  };
 
   handlePageChange = (selectedPage) => {
     this.setState(state => ({
@@ -77,7 +77,7 @@ export class LibraryListPage extends React.Component {
         page: selectedPage,
       },
     });
-  }
+  };
 
   handleFilterChange = (event) => {
     const { name, value } = event.target;
@@ -91,7 +91,7 @@ export class LibraryListPage extends React.Component {
         [name]: value,
       },
     }));
-  }
+  };
 
   handleFilterOrgChange = (event) => {
     this.handleFilterChange(event);
@@ -102,7 +102,7 @@ export class LibraryListPage extends React.Component {
         page_size: this.state.paginationParams.page_size,
       },
     });
-  }
+  };
 
   handleFilterTypeChange = (event) => {
     this.handleFilterChange(event);
@@ -113,12 +113,12 @@ export class LibraryListPage extends React.Component {
         page_size: this.state.paginationParams.page_size,
       },
     });
-  }
+  };
 
   handleFilterSubmit = (event) => {
     event.preventDefault();
     this.props.fetchLibraryList({ params: this.state.filterParams });
-  }
+  };
 
   renderError() {
     const { intl, errorMessage } = this.props;

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
@@ -70,67 +71,67 @@ const getHandlerUrl = async (blockId) => getXBlockHandlerUrl(blockId, XBLOCK_VIE
  * Template component for BlockPreview cards, which are used to display
  * components and render controls for them in a library listing.
  */
-export const BlockPreviewBase = ({
+export function BlockPreviewBase({
   intl, block, view, canEdit, showPreviews, showDeleteModal,
   setShowDeleteModal, library, previewKey, editView, isLtiUrlGenerating,
   ...props
-}) => (
-  <>
-    <Navbar className="border">
-      <Navbar.Brand>{block.display_name}</Navbar.Brand>
-      <Navbar.Collapse className="justify-content-end">
-        { library.allow_lti && (
-          <>
-            <Button disabled={isLtiUrlGenerating} size="lg" className="mr-1" onClick={() => { props.fetchBlockLtiUrl({ blockId: block.id }); }}>
-              <FontAwesomeIcon icon={faClipboard} className="pr-1" />
-              {intl.formatMessage(messages['library.detail.block.copy_lti_url'])}
-            </Button>
-          </>
-        )}
-        <Link to={editView}>
-          <Button size="lg" className="mr-1">
-            <FontAwesomeIcon icon={faEdit} className="pr-1" />
-            {intl.formatMessage(messages['library.detail.block.edit'])}
+}) {
+  return (
+    <>
+      <Navbar className="border">
+        <Navbar.Brand>{block.display_name}</Navbar.Brand>
+        <Navbar.Collapse className="justify-content-end">
+          { library.allow_lti && (
+          <Button disabled={isLtiUrlGenerating} size="lg" className="mr-1" onClick={() => { props.fetchBlockLtiUrl({ blockId: block.id }); }}>
+            <FontAwesomeIcon icon={faClipboard} className="pr-1" />
+            {intl.formatMessage(messages['library.detail.block.copy_lti_url'])}
           </Button>
-        </Link>
-        { /* Studio has a copy button, but we don't yet. */}
-        <Button
-          aria-label={intl.formatMessage(messages['library.detail.block.delete'])}
-          size="lg"
-          onClick={() => setShowDeleteModal(true)}
-        >
-          <FontAwesomeIcon icon={faTrashAlt} />
-        </Button>
-      </Navbar.Collapse>
-    </Navbar>
-    <Modal
-      open={showDeleteModal}
-      title={intl.formatMessage(messages['library.detail.block.delete.modal.title'])}
-      onClose={() => setShowDeleteModal(false)}
-      body={(
-        <div>
-          <p>
-            {intl.formatMessage(messages['library.detail.block.delete.modal.body'])}
-          </p>
-        </div>
+          )}
+          <Link to={editView}>
+            <Button size="lg" className="mr-1">
+              <FontAwesomeIcon icon={faEdit} className="pr-1" />
+              {intl.formatMessage(messages['library.detail.block.edit'])}
+            </Button>
+          </Link>
+          { /* Studio has a copy button, but we don't yet. */}
+          <Button
+            aria-label={intl.formatMessage(messages['library.detail.block.delete'])}
+            size="lg"
+            onClick={() => setShowDeleteModal(true)}
+          >
+            <FontAwesomeIcon icon={faTrashAlt} />
+          </Button>
+        </Navbar.Collapse>
+      </Navbar>
+      <Modal
+        open={showDeleteModal}
+        title={intl.formatMessage(messages['library.detail.block.delete.modal.title'])}
+        onClose={() => setShowDeleteModal(false)}
+        body={(
+          <div>
+            <p>
+              {intl.formatMessage(messages['library.detail.block.delete.modal.body'])}
+            </p>
+          </div>
       )}
-      buttons={[
-        <Button
-          onClick={() => props.deleteLibraryBlock({ blockId: block.id })}
-        >
-          {intl.formatMessage(commonMessages['library.common.forms.button.yes'])}
-        </Button>,
-      ]}
-    />
-    {showPreviews && (
+        buttons={[
+          <Button
+            onClick={() => props.deleteLibraryBlock({ blockId: block.id })}
+          >
+            {intl.formatMessage(commonMessages['library.common.forms.button.yes'])}
+          </Button>,
+        ]}
+      />
+      {showPreviews && (
       <Card>
         <Card.Body>
           <LibraryBlock getHandlerUrl={getHandlerUrl} view={view} key={previewKey} />
         </Card.Body>
       </Card>
-    )}
-  </>
-);
+      )}
+    </>
+  );
+}
 
 BlockPreviewBase.propTypes = {
   intl: intlShape.isRequired,
@@ -163,9 +164,9 @@ const needsMeta = ({ blockStates, id }) => inStandby({ blockStates, id, attr: 'm
  * Container component for the BlockPreview cards.
  * Handles the fetching of the block view and metadata.
  */
-const BlockPreviewContainerBase = ({
+function BlockPreviewContainerBase({
   intl, block, blockView, blockStates, showPreviews, library, ltiUrlClipboard, ...props
-}) => {
+}) {
   // There are enough events that trigger the effects here that we need to keep track of what we're doing to avoid
   // doing it more than once, or running them when the state can no longer support these actions.
   //
@@ -242,7 +243,7 @@ const BlockPreviewContainerBase = ({
       fetchBlockLtiUrl={props.fetchBlockLtiUrl}
     />
   );
-};
+}
 
 BlockPreviewContainerBase.defaultProps = {
   blockView: null,
@@ -261,23 +262,25 @@ BlockPreviewContainerBase.propTypes = {
   showPreviews: PropTypes.bool.isRequired,
   deleteLibraryBlock: PropTypes.func.isRequired,
   library: libraryShape.isRequired,
-  ltiUrlClipboard: fetchable(PropTypes.object),
+  ltiUrlClipboard: fetchable(PropTypes.shape({})),
 };
 
-const ButtonTogglesBase = ({
+function ButtonTogglesBase({
   library, setShowPreviews, showPreviews, sending, quickAddBehavior, intl,
-}) => (
-  <>
-    <Button variant="success" className="mr-1" size="lg" disabled={sending} onClick={quickAddBehavior}>
-      <FontAwesomeIcon icon={faPlus} className="pr-1" />
-      {intl.formatMessage(messages[`library.detail.add_${library.type}`])}
-    </Button>
-    <Button variant="primary" className="ml-1" onClick={() => setShowPreviews(!showPreviews)} size="lg">
-      <FontAwesomeIcon icon={faSync} className="pr-1" />
-      { intl.formatMessage(showPreviews ? messages['library.detail.hide_previews'] : messages['library.detail.show_previews']) }
-    </Button>
-  </>
-);
+}) {
+  return (
+    <>
+      <Button variant="success" className="mr-1" size="lg" disabled={sending} onClick={quickAddBehavior}>
+        <FontAwesomeIcon icon={faPlus} className="pr-1" />
+        {intl.formatMessage(messages[`library.detail.add_${library.type}`])}
+      </Button>
+      <Button variant="primary" className="ml-1" onClick={() => setShowPreviews(!showPreviews)} size="lg">
+        <FontAwesomeIcon icon={faSync} className="pr-1" />
+        { intl.formatMessage(showPreviews ? messages['library.detail.hide_previews'] : messages['library.detail.show_previews']) }
+      </Button>
+    </>
+  );
+}
 
 ButtonTogglesBase.propTypes = {
   intl: intlShape.isRequired,
@@ -328,37 +331,38 @@ const deriveTypeOptions = (blockTypes, intl) => {
  * LibraryAuthoringPage
  * Template component for the library Authoring page.
  */
-export const LibraryAuthoringPageBase = ({
+export function LibraryAuthoringPageBase({
   intl, library, blockView, showPreviews, setShowPreviews,
   sending, addBlock, revertChanges, commitChanges, hasChanges, errorMessage, successMessage,
   quickAddBehavior, otherTypes, blocks, changeQuery, changeType, changePage,
   paginationOptions, typeOptions, query, type, ...props
-}) => (
-  <Container fluid>
-    <Row className="pt-5 px-2 px-xl-0">
-      <Col xs={12} md={8} xl={9} className="page-header-section">
-        <small className="card-subtitle">{intl.formatMessage(messages['library.detail.page.heading'])}</small>
-        <h1 className="page-header-title">{library.title}</h1>
-      </Col>
-      <Col xs={12} md={4} xl={3} className="text-center d-none d-md-block">
-        <ButtonToggles
-          setShowPreviews={setShowPreviews}
-          showPreviews={showPreviews}
-          library={library}
-          sending={sending}
-          quickAddBehavior={quickAddBehavior}
-        />
-      </Col>
-      <ErrorAlert errorMessage={errorMessage} onClose={props.clearLibraryError} />
-      <SuccessAlert successMessage={successMessage} onClose={props.clearLibrarySuccess} />
-      <Col xs={12} className="pb-5">
-        <hr />
-      </Col>
-      <Col xs={12} md={8} xl={9}>
-        <Card>
-          <Card.Body>
-            <Row>
-              {(library.type === LIBRARY_TYPES.COMPLEX) && (
+}) {
+  return (
+    <Container fluid>
+      <Row className="pt-5 px-2 px-xl-0">
+        <Col xs={12} md={8} xl={9} className="page-header-section">
+          <small className="card-subtitle">{intl.formatMessage(messages['library.detail.page.heading'])}</small>
+          <h1 className="page-header-title">{library.title}</h1>
+        </Col>
+        <Col xs={12} md={4} xl={3} className="text-center d-none d-md-block">
+          <ButtonToggles
+            setShowPreviews={setShowPreviews}
+            showPreviews={showPreviews}
+            library={library}
+            sending={sending}
+            quickAddBehavior={quickAddBehavior}
+          />
+        </Col>
+        <ErrorAlert errorMessage={errorMessage} onClose={props.clearLibraryError} />
+        <SuccessAlert successMessage={successMessage} onClose={props.clearLibrarySuccess} />
+        <Col xs={12} className="pb-5">
+          <hr />
+        </Col>
+        <Col xs={12} md={8} xl={9}>
+          <Card>
+            <Card.Body>
+              <Row>
+                {(library.type === LIBRARY_TYPES.COMPLEX) && (
                 <>
                   <Col xs={12} md={9} className="pb-2">
                     <SearchField
@@ -378,60 +382,60 @@ export const LibraryAuthoringPageBase = ({
                     />
                   </Col>
                 </>
-              )}
-              <Col xs={12} className="text-center d-md-none py-3">
-                <ButtonToggles
-                  setShowPreviews={setShowPreviews}
-                  showPreviews={showPreviews}
-                  library={library}
-                  sending={sending}
-                  quickAddBehavior={quickAddBehavior}
-                  className="d-md-none py-3"
-                />
-              </Col>
-              <LoadGuard
-                loadingMessage={intl.formatMessage(messages['library.detail.loading.message'])}
-                condition={blocks.status !== LOADING_STATUS.LOADING}
-              >
-                {() => blocks.value.data.map((block) => (
-                  <Col xs={12} key={block.id} className="pb-3">
-                    <BlockPreviewContainer
-                      block={block}
-                      blockView={blockView}
-                      showPreviews={showPreviews}
-                      library={library}
-                    />
-                  </Col>
-                ))}
-              </LoadGuard>
-              {blocks.value.count > 0
-                ? (
-                  <Col xs={12}>
-                    <Pagination
-                      className="library-blocks-pagination"
-                      paginationLabel="pagination navigation"
-                      currentPage={paginationOptions.currentPage}
-                      pageCount={paginationOptions.pageCount}
-                      buttonLabels={paginationOptions.buttonLabels}
-                      onPageSelect={(page) => changePage(page)}
-                    />
-                  </Col>
-                )
-                : null}
-              <Col xs={12} className="text-center py-3 add-buttons-container">
-                {library.type !== LIBRARY_TYPES.COMPLEX && (
-                <Button
-                  variant="success"
-                  size="lg"
-                  disabled={sending}
-                  onClick={() => addBlock(library.type)}
-                  className="cta-button"
-                >
-                  <FontAwesomeIcon icon={faPlus} className="pr-1" />
-                  {intl.formatMessage(messages[`library.detail.add_${library.type}`])}
-                </Button>
                 )}
-                {library.type === LIBRARY_TYPES.COMPLEX && (
+                <Col xs={12} className="text-center d-md-none py-3">
+                  <ButtonToggles
+                    setShowPreviews={setShowPreviews}
+                    showPreviews={showPreviews}
+                    library={library}
+                    sending={sending}
+                    quickAddBehavior={quickAddBehavior}
+                    className="d-md-none py-3"
+                  />
+                </Col>
+                <LoadGuard
+                  loadingMessage={intl.formatMessage(messages['library.detail.loading.message'])}
+                  condition={blocks.status !== LOADING_STATUS.LOADING}
+                >
+                  {() => blocks.value.data.map((block) => (
+                    <Col xs={12} key={block.id} className="pb-3">
+                      <BlockPreviewContainer
+                        block={block}
+                        blockView={blockView}
+                        showPreviews={showPreviews}
+                        library={library}
+                      />
+                    </Col>
+                  ))}
+                </LoadGuard>
+                {blocks.value.count > 0
+                  ? (
+                    <Col xs={12}>
+                      <Pagination
+                        className="library-blocks-pagination"
+                        paginationLabel="pagination navigation"
+                        currentPage={paginationOptions.currentPage}
+                        pageCount={paginationOptions.pageCount}
+                        buttonLabels={paginationOptions.buttonLabels}
+                        onPageSelect={(page) => changePage(page)}
+                      />
+                    </Col>
+                  )
+                  : null}
+                <Col xs={12} className="text-center py-3 add-buttons-container">
+                  {library.type !== LIBRARY_TYPES.COMPLEX && (
+                  <Button
+                    variant="success"
+                    size="lg"
+                    disabled={sending}
+                    onClick={() => addBlock(library.type)}
+                    className="cta-button"
+                  >
+                    <FontAwesomeIcon icon={faPlus} className="pr-1" />
+                    {intl.formatMessage(messages[`library.detail.add_${library.type}`])}
+                  </Button>
+                  )}
+                  {library.type === LIBRARY_TYPES.COMPLEX && (
                   <Row>
                     <Col xs={12}>
                       <h2>{intl.formatMessage(messages['library.detail.add_component_heading'])}</h2>
@@ -465,51 +469,52 @@ export const LibraryAuthoringPageBase = ({
                       </Button>
                     </Col>
                   </Row>
-                )}
+                  )}
+                </Col>
+              </Row>
+            </Card.Body>
+          </Card>
+        </Col>
+        <Col xs={12} md={4} xl={3}>
+          <aside>
+            <Row>
+              <Col xs={12} className="sidebar-info order-1 order-md-0">
+                <h3>{intl.formatMessage(messages['library.detail.sidebar.adding.heading'])}</h3>
+                <p>{intl.formatMessage(messages['library.detail.sidebar.adding.first'])}</p>
+                <p>{intl.formatMessage(messages['library.detail.sidebar.adding.second'])}</p>
+                <h3>{intl.formatMessage(messages['library.detail.sidebar.using.heading'])}</h3>
+                <p>{intl.formatMessage(messages['library.detail.sidebar.using.first'])}</p>
+              </Col>
+              <Col xs={12} className="py-3 order-0 order-md-1">
+                <Card>
+                  <Card.Body>
+                    <Row>
+                      <Col xs={12}>
+                        <h3>
+                          {intl.formatMessage(messages[`library.detail.aside.${hasChanges ? 'draft' : 'published'}`])}
+                        </h3>
+                      </Col>
+                      <Col xs={12} className="text-center py-3">
+                        <Button size="lg" block disabled={!hasChanges} onClick={commitChanges}>
+                          {intl.formatMessage(messages['library.detail.aside.publish'])}
+                        </Button>
+                      </Col>
+                      <Col xs={12} className="text-right">
+                        <Button variant="link" disabled={!hasChanges} onClick={revertChanges}>
+                          {intl.formatMessage(messages['library.detail.aside.discard'])}
+                        </Button>
+                      </Col>
+                    </Row>
+                  </Card.Body>
+                </Card>
               </Col>
             </Row>
-          </Card.Body>
-        </Card>
-      </Col>
-      <Col xs={12} md={4} xl={3}>
-        <aside>
-          <Row>
-            <Col xs={12} className="sidebar-info order-1 order-md-0">
-              <h3>{intl.formatMessage(messages['library.detail.sidebar.adding.heading'])}</h3>
-              <p>{intl.formatMessage(messages['library.detail.sidebar.adding.first'])}</p>
-              <p>{intl.formatMessage(messages['library.detail.sidebar.adding.second'])}</p>
-              <h3>{intl.formatMessage(messages['library.detail.sidebar.using.heading'])}</h3>
-              <p>{intl.formatMessage(messages['library.detail.sidebar.using.first'])}</p>
-            </Col>
-            <Col xs={12} className="py-3 order-0 order-md-1">
-              <Card>
-                <Card.Body>
-                  <Row>
-                    <Col xs={12}>
-                      <h3>
-                        {intl.formatMessage(messages[`library.detail.aside.${hasChanges ? 'draft' : 'published'}`])}
-                      </h3>
-                    </Col>
-                    <Col xs={12} className="text-center py-3">
-                      <Button size="lg" block disabled={!hasChanges} onClick={commitChanges}>
-                        {intl.formatMessage(messages['library.detail.aside.publish'])}
-                      </Button>
-                    </Col>
-                    <Col xs={12} className="text-right">
-                      <Button variant="link" disabled={!hasChanges} onClick={revertChanges}>
-                        {intl.formatMessage(messages['library.detail.aside.discard'])}
-                      </Button>
-                    </Col>
-                  </Row>
-                </Card.Body>
-              </Card>
-            </Col>
-          </Row>
-        </aside>
-      </Col>
-    </Row>
-  </Container>
-);
+          </aside>
+        </Col>
+      </Row>
+    </Container>
+  );
+}
 
 LibraryAuthoringPageBase.defaultProps = {
   errorMessage: '',
@@ -573,9 +578,9 @@ const LibraryAuthoringPage = injectIntl(LibraryAuthoringPageBase);
  * Container for the Library Authoring page.
  * This is the main page for the authoring tool.
  */
-export const LibraryAuthoringPageContainerBase = ({
+export function LibraryAuthoringPageContainerBase({
   intl, library, blockStates, blocks, ...props
-}) => {
+}) {
   const { libraryId } = props.match.params;
   const [query, setQuery] = useState('');
   const [type, setType] = useState('');
@@ -756,7 +761,7 @@ export const LibraryAuthoringPageContainerBase = ({
       {...props}
     />
   );
-};
+}
 
 LibraryAuthoringPageContainerBase.defaultProps = {
   library: null,

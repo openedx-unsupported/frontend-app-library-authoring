@@ -86,7 +86,7 @@ class LibraryBlockPage extends React.Component {
         : XBLOCK_VIEW_SYSTEM.Studio
     );
     return getXBlockHandlerUrl(usageKey, viewSystem, 'handler_name');
-  }
+  };
 
   handleBlockNotification = (event) => {
     if (
@@ -102,7 +102,7 @@ class LibraryBlockPage extends React.Component {
     } else {
       logError(`Unknown XBlock runtime event: ${event}`);
     }
-  }
+  };
 
   handleDeleteBlock = () => {
     const { blockId } = this.props.match.params;
@@ -112,17 +112,17 @@ class LibraryBlockPage extends React.Component {
         this.props.history.push(ROUTES.Detail.HOME_SLUG(this.props.match.params.libraryId));
       });
     }
-  }
+  };
 
   handleSaveOlx = (olx) => {
     const { blockId } = this.props.match.params;
     this.props.setLibraryBlockOlx({ blockId, olx });
-  }
+  };
 
   handleDropFiles = (files) => {
     const { blockId } = this.props.match.params;
     this.props.uploadLibraryBlockAssets({ blockId, files });
-  }
+  };
 
   handleDeleteFile = (fileName) => {
     const { blockId } = this.props.match.params;
@@ -130,7 +130,7 @@ class LibraryBlockPage extends React.Component {
     if (window.confirm(`Are you sure you want to delete ${fileName}?`)) {
       this.props.deleteLibraryBlockAsset({ blockId, fileName });
     }
-  }
+  };
 
   handleCommitLibrary = async () => {
     const { blockId, libraryId } = this.props.match.params;
@@ -138,7 +138,7 @@ class LibraryBlockPage extends React.Component {
 
     /* We fetch block metadata immediately, as its published status may have changed. */
     this.props.fetchLibraryBlockMetadata({ blockId });
-  }
+  };
 
   handleRevertLibrary = async () => {
     const { blockId, libraryId } = this.props.match.params;
@@ -146,11 +146,11 @@ class LibraryBlockPage extends React.Component {
 
     /* We fetch block metadata immediately, as its publication status may have changed. */
     this.props.fetchLibraryBlockMetadata({ blockId });
-  }
+  };
 
   handleDismissAlert = () => {
     this.props.clearLibraryBlockError();
-  }
+  };
 
   loadData() {
     const { blockId } = this.props.match.params;

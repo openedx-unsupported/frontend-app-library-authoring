@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useContext } from 'react';
 import { AppContext } from '@edx/frontend-platform/react';
 import PropTypes from 'prop-types';
@@ -31,7 +32,7 @@ import {
   selectCourseImport,
 } from './data';
 
-export const CourseImportPageHeader = ({ intl, showCourses, ...props }) => {
+export function CourseImportPageHeader({ intl, showCourses, ...props }) {
   const showCoursesHandler = () => {
     props.setShowCourses(!showCourses);
   };
@@ -58,7 +59,7 @@ export const CourseImportPageHeader = ({ intl, showCourses, ...props }) => {
       </header>
     </div>
   );
-};
+}
 
 CourseImportPageHeader.defaultProps = {};
 CourseImportPageHeader.propTypes = {
@@ -141,15 +142,15 @@ CourseImportList.propTypes = {
   courses: PropTypes.arrayOf(courseShape),
   courseCount: PropTypes.number.isRequired,
   importBlocksHandler: PropTypes.func.isRequired,
-  ongoingImports: PropTypes.objectOf(PropTypes.object),
+  ongoingImports: PropTypes.objectOf(PropTypes.shape({})),
   paginationParams: paginationParamsShape.isRequired,
   setPaginationParams: PropTypes.func.isRequired,
   taskPaginationParams: paginationParamsShape.isRequired,
 };
 
-export const CourseImportListFilter = ({
+export function CourseImportListFilter({
   intl, organizations, filterParams, ...props
-}) => {
+}) {
   const orgOptions = [
     {
       value: '',
@@ -228,7 +229,7 @@ export const CourseImportListFilter = ({
       </div>
     </>
   );
-};
+}
 
 CourseImportListFilter.defaultProps = {};
 CourseImportListFilter.propTypes = {
@@ -307,9 +308,9 @@ ImportTaskList.propTypes = {
   setPaginationParams: PropTypes.func.isRequired,
 };
 
-export const CourseImportPage = ({
+export function CourseImportPage({
   intl, courses, courseCount, importTasks, importTaskCount, ongoingImports, organizations, ...props
-}) => {
+}) {
   const { libraryId } = props.match.params;
   const { authenticatedUser } = useContext(AppContext);
   const isCourseImportListLoading = (
@@ -425,7 +426,7 @@ export const CourseImportPage = ({
       </div>
     </div>
   );
-};
+}
 
 CourseImportPage.defaultProps = {
   ...courseImportInitialState,
@@ -447,7 +448,7 @@ CourseImportPage.propTypes = {
   importTasks: PropTypes.arrayOf(importTaskShape),
   importTaskCount: PropTypes.number.isRequired,
   organizations: PropTypes.arrayOf(PropTypes.string),
-  ongoingImports: PropTypes.objectOf(PropTypes.object),
+  ongoingImports: PropTypes.objectOf(PropTypes.shape({})),
   organizationsLoadingStatus: PropTypes.oneOf(Object.values(LOADING_STATUS)).isRequired,
   coursesLoadingStatus: PropTypes.oneOf(Object.values(LOADING_STATUS)).isRequired,
   importBlocksLoadingStatus: PropTypes.oneOf(Object.values(LOADING_STATUS)).isRequired,

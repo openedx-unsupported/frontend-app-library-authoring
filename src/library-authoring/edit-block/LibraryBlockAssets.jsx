@@ -8,7 +8,8 @@ import { LoadingPage } from '../../generic';
 /**
  * Display the static assets associated with an XBlock
  */
-const LibraryBlockAssets = (props) => {
+function LibraryBlockAssets(props) {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const onDrop = useCallback(props.onDropFiles, []);
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
   if (props.assets.value === null) {
@@ -55,7 +56,7 @@ const LibraryBlockAssets = (props) => {
       </p>
     </>
   );
-};
+}
 
 LibraryBlockAssets.propTypes = {
   assets: fetchable(PropTypes.arrayOf(PropTypes.object)).isRequired,

@@ -16,7 +16,7 @@ ensureConfig([
   'LOGOUT_URL',
 ], 'Library header');
 
-const StudioHeader = ({ intl, library }) => {
+function StudioHeader({ intl, library }) {
   const { authenticatedUser, config } = useContext(AppContext);
 
   return (
@@ -96,7 +96,7 @@ const StudioHeader = ({ intl, library }) => {
       </header>
     </div>
   );
-};
+}
 
 StudioHeader.propTypes = {
   intl: intlShape.isRequired,

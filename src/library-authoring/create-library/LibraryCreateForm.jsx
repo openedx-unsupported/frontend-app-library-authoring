@@ -69,19 +69,19 @@ class LibraryCreateForm extends React.Component {
         [name]: value,
       },
     }));
-  }
+  };
 
-  mockInputChange = (name) => (value) => this.onValueChange({ target: { value, name, type: 'text' } })
+  mockInputChange = (name) => (value) => this.onValueChange({ target: { value, name, type: 'text' } });
 
   onCancel = () => {
     this.props.resetForm();
     this.props.hideForm();
-  }
+  };
 
   onSubmit = (event) => {
     event.preventDefault();
     this.props.createLibrary({ data: this.state.data });
-  }
+  };
 
   hasFieldError = (fieldName) => {
     const { errorFields } = this.props;
@@ -91,7 +91,7 @@ class LibraryCreateForm extends React.Component {
     }
 
     return false;
-  }
+  };
 
   getFieldError = (fieldName) => {
     if (this.hasFieldError(fieldName)) {
@@ -99,7 +99,7 @@ class LibraryCreateForm extends React.Component {
     }
 
     return null;
-  }
+  };
 
   formIsValid = () => {
     const { data } = this.state;
@@ -109,7 +109,7 @@ class LibraryCreateForm extends React.Component {
     }
 
     return false;
-  }
+  };
 
   getSubmitButtonState = () => {
     const { status } = this.props;
@@ -124,11 +124,11 @@ class LibraryCreateForm extends React.Component {
     }
 
     return state;
-  }
+  };
 
   handleDismissAlert = () => {
     this.props.clearFormError();
-  }
+  };
 
   render() {
     const { intl, errorMessage } = this.props;

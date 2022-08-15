@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /*
 Library Access Page. This component handles team permissions access.
  */
@@ -35,19 +36,20 @@ import UserAccessWidgetContainer from './UserAccessWidget';
  * LibraryAccessPage:
  * Template component for the access management page for libraries.
  */
-const LibraryAccessPage = ({
+function LibraryAccessPage({
   intl, library, users, setShowAdd, errorMessage, showAdd, handleDismissAlert, multipleAdmins, isAdmin,
-}) => (
-  <div className="library-access-wrapper">
-    <div className="wrapper-mast wrapper">
-      <header className="mast has-actions has-navigation has-subtitle">
-        <div className="page-header">
-          <small className="subtitle">{intl.formatMessage(messages['library.access.page.parent_heading'])}</small>
-          <h1 className="page-header-title">{intl.formatMessage(messages['library.access.page.heading'])}</h1>
-        </div>
-        <nav className="nav-actions">
-          <ul>
-            {isAdmin && (
+}) {
+  return (
+    <div className="library-access-wrapper">
+      <div className="wrapper-mast wrapper">
+        <header className="mast has-actions has-navigation has-subtitle">
+          <div className="page-header">
+            <small className="subtitle">{intl.formatMessage(messages['library.access.page.parent_heading'])}</small>
+            <h1 className="page-header-title">{intl.formatMessage(messages['library.access.page.heading'])}</h1>
+          </div>
+          <nav className="nav-actions">
+            <ul>
+              {isAdmin && (
               <li className="nav-item">
                 <Button
                   variant="success"
@@ -57,15 +59,15 @@ const LibraryAccessPage = ({
                   {intl.formatMessage(messages['library.access.new.user'])}
                 </Button>
               </li>
-            )}
-          </ul>
-        </nav>
-      </header>
-    </div>
-    <div className="wrapper-content wrapper">
-      <section className="content">
-        <article className="content-primary" role="main">
-          {errorMessage
+              )}
+            </ul>
+          </nav>
+        </header>
+      </div>
+      <div className="wrapper-content wrapper">
+        <section className="content">
+          <article className="content-primary" role="main">
+            {errorMessage
           && (
             <Alert
               variant="danger"
@@ -75,33 +77,33 @@ const LibraryAccessPage = ({
               {truncateMessage(errorMessage)}
             </Alert>
           )}
-          {showAdd
+            {showAdd
           && (
             <LibraryAccessFormContainer
               setShowAdd={(value) => setShowAdd(value)}
               library={library}
             />
           )}
-          <Row>
-            { ((users && users.map((user) => (
-              (
-                <UserAccessWidgetContainer
-                  intl={intl}
-                  user={user}
-                  key={user.username}
-                  multipleAdmins={multipleAdmins}
-                  library={library}
-                  isAdmin={isAdmin}
-                />
-              ))))
+            <Row>
+              { ((users && users.map((user) => (
+                (
+                  <UserAccessWidgetContainer
+                    intl={intl}
+                    user={user}
+                    key={user.username}
+                    multipleAdmins={multipleAdmins}
+                    library={library}
+                    isAdmin={isAdmin}
+                  />
+                ))))
               || (
                 <Col cols={12} className="text-center">
                   <LoadingPage loadingMessage={intl.formatMessage(messages['library.access.loading.message'])} />
                 </Col>
               )
             )}
-          </Row>
-          {isAdmin && (
+            </Row>
+            {isAdmin && (
             <div className="well mt-3">
               <Row className="h-100">
                 <Col xs={12} md={8} className="my-auto">
@@ -116,22 +118,23 @@ const LibraryAccessPage = ({
                 </Col>
               </Row>
             </div>
-          )}
-        </article>
-        <aside className="content-supplementary">
-          <div className="bit">
-            <h3 className="title title-3">{intl.formatMessage(messages['library.access.aside.title'])}</h3>
-            <p>{intl.formatMessage(messages['library.access.aside.text.first'])}</p>
-            <p>{intl.formatMessage(messages['library.access.aside.text.second'])}</p>
-            <p>{intl.formatMessage(messages['library.access.aside.text.third'])}</p>
-            <p>{intl.formatMessage(messages['library.access.aside.text.fourth'])}</p>
+            )}
+          </article>
+          <aside className="content-supplementary">
+            <div className="bit">
+              <h3 className="title title-3">{intl.formatMessage(messages['library.access.aside.title'])}</h3>
+              <p>{intl.formatMessage(messages['library.access.aside.text.first'])}</p>
+              <p>{intl.formatMessage(messages['library.access.aside.text.second'])}</p>
+              <p>{intl.formatMessage(messages['library.access.aside.text.third'])}</p>
+              <p>{intl.formatMessage(messages['library.access.aside.text.fourth'])}</p>
 
-          </div>
-        </aside>
-      </section>
+            </div>
+          </aside>
+        </section>
+      </div>
     </div>
-  </div>
-);
+  );
+}
 
 LibraryAccessPage.defaultProps = { ...libraryAccessInitialState };
 
@@ -154,9 +157,9 @@ LibraryAccessPage.propTypes = {
  * a loading message during initial loading. This separation allows LibraryAccessPage to be tested
  * in unit tests without needing to mock the API.
  */
-const LibraryAccessPageContainer = ({
+function LibraryAccessPageContainer({
   intl, users, errorMessage, ...props
-}) => {
+}) {
   const [showAdd, setShowAdd] = useState(false);
   const multipleAdmins = !!(users && users.filter((user) => user.access_level === 'admin').length >= 2);
   const { authenticatedUser } = useContext(AppContext);
@@ -230,7 +233,7 @@ const LibraryAccessPageContainer = ({
       {content}
     </div>
   );
-};
+}
 
 LibraryAccessPageContainer.propTypes = {
   // errorMessage: PropTypes.string,
