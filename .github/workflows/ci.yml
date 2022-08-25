@@ -24,7 +24,7 @@ jobs:
       with:
         node-version: ${{ matrix.node }}
 
-    - name: Install npm 8.5.x
+    - name: Setup npm
       run: npm install -g npm@${{ matrix.npm }}
 
     - name: Install dependencies
