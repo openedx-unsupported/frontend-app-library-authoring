@@ -52,7 +52,7 @@ export class LibraryListPage extends React.Component {
 
   goToCreateLibraryPage = () => {
     this.props.history.push(ROUTES.List.CREATE);
-  }
+  };
 
   handlePageChange = (selectedPage) => {
     this.setState(state => ({
@@ -73,7 +73,7 @@ export class LibraryListPage extends React.Component {
 
   goToLibraryItem = (library) => {
     this.props.history.push(library.url);
-  }
+  };
 
   renderError() {
     const { intl, errorMessage } = this.props;

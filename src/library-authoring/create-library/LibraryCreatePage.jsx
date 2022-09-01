@@ -95,23 +95,23 @@ export class LibraryCreatePage extends React.Component {
       const isFormFilled = Object.keys(this.state.data).some(i => this.state.data[i]);
       this.setState({ allowLeave: !isFormFilled });
     });
-  }
+  };
 
   onCancel = () => {
     this.props.resetForm();
     this.props.history.push(ROUTES.List.HOME);
-  }
+  };
 
   onSubmit = (event) => {
     event.preventDefault();
     this.props.createLibrary({ data: { ...this.state.data, type: LIBRARY_TYPES.COMPLEX } });
-  }
+  };
 
   hasFieldError = (fieldName) => {
     const { errorFields } = this.props;
 
     return errorFields && (fieldName in errorFields);
-  }
+  };
 
   getFieldError = (fieldName) => {
     if (this.hasFieldError(fieldName)) {
@@ -119,13 +119,13 @@ export class LibraryCreatePage extends React.Component {
     }
 
     return null;
-  }
+  };
 
   formIsValid = () => {
     const { data } = this.state;
 
     return !!(data.title && data.org && data.slug);
-  }
+  };
 
   getSubmitButtonState = () => {
     const { status } = this.props;
@@ -140,15 +140,15 @@ export class LibraryCreatePage extends React.Component {
     }
 
     return state;
-  }
+  };
 
   openModal = (location) => {
     this.setState({ isOpenModal: true, lastLocation: location });
-  }
+  };
 
   closeModal = () => {
     this.setState({ isOpenModal: false });
-  }
+  };
 
   handleClickBreadcrumbs = (event) => {
     if (!this.state.allowLeave) {
@@ -156,7 +156,7 @@ export class LibraryCreatePage extends React.Component {
       const pathname = event.target.getAttribute('href');
       this.openModal({ pathname });
     }
-  }
+  };
 
   handleBlockedNavigation = (nextLocation) => {
     const { confirmedNavigation, allowLeave } = this.state;
@@ -166,7 +166,7 @@ export class LibraryCreatePage extends React.Component {
     }
 
     return true;
-  }
+  };
 
   handleConfirmNavigationClick = () => {
     const { lastLocation } = this.state;
@@ -185,7 +185,7 @@ export class LibraryCreatePage extends React.Component {
         }
       });
     }
-  }
+  };
 
   render() {
     const { intl, errorMessage, orgs } = this.props;
