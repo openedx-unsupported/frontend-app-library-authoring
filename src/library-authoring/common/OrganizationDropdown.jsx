@@ -115,6 +115,7 @@ class OrganizationDropdown extends React.Component {
     this.setDisplayValue(e.target.value);
   };
 
+  // eslint-disable-next-line react/no-unused-class-component-methods
   handleClickOutside = () => {
     if (this.state.dropDownItems.length > 0) {
       const msg = this.state.displayValue === '' ? this.props.errorMessage : '';
