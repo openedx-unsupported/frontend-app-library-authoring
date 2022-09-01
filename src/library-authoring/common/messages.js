@@ -17,15 +17,30 @@ const messages = defineMessages({
     defaultMessage: 'Cancel',
     description: 'Default label for "Cancel" buttons.',
   },
+  'library.common.forms.button.ok': {
+    id: 'library.common.forms.button.ok',
+    defaultMessage: 'Ok',
+    description: 'Default label for "Ok" buttons.',
+  },
   'library.common.forms.button.submit': {
     id: 'library.common.forms.button.submit',
     defaultMessage: 'Submit',
     description: 'Default label for "Submit" buttons.',
   },
+  'library.common.forms.button.create': {
+    id: 'library.common.forms.button.create',
+    defaultMessage: 'Create',
+    description: 'Default label for "Create" buttons.',
+  },
   'library.common.forms.button.submitting': {
     id: 'library.common.forms.button.submitting',
     defaultMessage: 'Submitting...',
     description: 'Default label for "Submit" buttons when currently submitting.',
+  },
+  'library.common.forms.button.creating': {
+    id: 'library.common.forms.button.creating',
+    defaultMessage: 'Creating...',
+    description: 'Default label for "Create" buttons when currently submitting.',
   },
   'library.common.forms.button.yes': {
     id: 'library.common.forms.button.yes',
@@ -140,6 +155,21 @@ const messages = defineMessages({
     id: 'library.common.pagination.labels.pageOfCount',
     defaultMessage: 'PageOfCount',
     description: 'Label of the pagination item for page of count used for aria text',
+  },
+  'library.common.footer.hyperlink.about': {
+    id: 'library.common.footer.hyperlink.about',
+    defaultMessage: 'Learn more about libraries',
+    description: 'The link opens in a new tab that leads to the page on edx.org',
+  },
+  'library.common.breadcrumbs.studio': {
+    id: 'library.common.breadcrumbs.studio',
+    defaultMessage: 'Studio',
+    description: 'Text for link to studio.',
+  },
+  'library.organizations.list.empty': {
+    id: 'library.organizations.list.empty',
+    defaultMessage: 'No options',
+    description: 'Text for empty organizations options list.',
   },
 });
 

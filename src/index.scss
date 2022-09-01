@@ -1,4 +1,10 @@
-@import "~@edx/frontend-component-footer/dist/footer";
+@import '~@edx/brand/paragon/fonts';
+@import '~@edx/brand/paragon/variables';
+@import '~@edx/paragon/scss/core/core';
+@import '~@edx/paragon/dist/Icon/Icon';
+@import '~@edx/brand/paragon/overrides';
+
+@import '~@edx/frontend-component-footer/dist/footer';
 
 @import 'vendor/normalize.css';
 @import 'vendor/studio.scss';

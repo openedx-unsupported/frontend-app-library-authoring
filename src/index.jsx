@@ -13,11 +13,13 @@ import appMessages from './i18n';
 import store from './store';
 import { NotFoundPage } from './generic';
 import {
+  AboutLibrariesHyperlink,
   ROUTES,
   CourseImportPage,
   LibraryBlockPage,
   LibraryEditPage,
   LibraryListPage,
+  LibraryCreatePage,
   StudioHeader,
   LibraryAccessPage,
   LibraryAuthoringPage,
@@ -39,6 +41,7 @@ subscribe(APP_READY, () => {
         <main>
           <Switch>
             <Route exact path={ROUTES.List.HOME} component={LibraryListPage} />
+            <Route exact path={ROUTES.List.CREATE} component={LibraryCreatePage} />
             <Route exact path={ROUTES.Detail.HOME} component={LibraryAuthoringPage} />
             <Route exact path={ROUTES.Detail.EDIT} component={LibraryEditPage} />
             <Route exact path={ROUTES.Detail.ACCESS} component={LibraryAccessPage} />
@@ -51,6 +54,7 @@ subscribe(APP_READY, () => {
             <Route path="*" component={NotFoundPage} />
           </Switch>
         </main>
+        <AboutLibrariesHyperlink />
         <Footer />
       </div>
     </AppProvider>,
