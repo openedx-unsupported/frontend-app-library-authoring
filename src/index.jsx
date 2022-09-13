@@ -7,6 +7,7 @@ import {
   APP_INIT_ERROR, APP_READY, initialize, mergeConfig, subscribe,
 } from '@edx/frontend-platform';
 import { AppProvider, ErrorPage } from '@edx/frontend-platform/react';
+import { StudioHeader, messages as headerMessages } from '@edx/frontend-component-header';
 import Footer, { messages as footerMessages } from '@edx/frontend-component-footer';
 
 import appMessages from './i18n';
@@ -20,15 +21,19 @@ import {
   LibraryEditPage,
   LibraryListPage,
   LibraryCreatePage,
-  StudioHeader,
   LibraryAccessPage,
   LibraryAuthoringPage,
 } from './library-authoring';
 import './index.scss';
 import './assets/favicon.ico';
 
+// todo: properly get logo from env
+import StudioLogo from './assets/studio-logo.png';
+
 mergeConfig({
+  LIB_AUTHORING_BASE_URL: process.env.BASE_URL,
   STUDIO_BASE_URL: process.env.STUDIO_BASE_URL,
+  LOGO_URL: StudioLogo,
   BLOCKSTORE_COLLECTION_UUID: process.env.BLOCKSTORE_COLLECTION_UUID,
   SECURE_ORIGIN_XBLOCK_BOOTSTRAP_HTML_URL: process.env.SECURE_ORIGIN_XBLOCK_BOOTSTRAP_HTML_URL,
 });
@@ -36,8 +41,8 @@ mergeConfig({
 subscribe(APP_READY, () => {
   ReactDOM.render(
     <AppProvider store={store}>
+      <StudioHeader />
       <div className="wrapper">
-        <StudioHeader />
         <main>
           <Switch>
             <Route exact path={ROUTES.List.HOME} component={LibraryListPage} />
