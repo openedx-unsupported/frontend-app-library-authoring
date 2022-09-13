@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 /*
 Library Access Page. This component handles team permissions access.
  */
@@ -180,11 +179,13 @@ function LibraryAccessPageContainer({
     if (users === null) {
       props.fetchUserList({ libraryId });
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   // Returning a function with an empty dependencies list indicates this is to be done on unmount,
   // rather than on data change.
   useEffect(() => () => {
     props.clearAccess();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

@@ -111,13 +111,12 @@ export const setUp = () => {
   fetchMock.enableMocks();
 };
 
-export const cleanUp = () => {
+export const CleanUp = () => {
   monitor.mockReset();
   fetchMock.resetMocks();
   window.localStorage.reset();
   resetThunks();
   resetApis();
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   useRealThunks(false);
   logError.mockReset();
   delete global.XMLHttpRequest;
@@ -129,7 +128,7 @@ export const testSuite = (suiteName, suite) => {
       setUp();
     });
     afterEach(() => {
-      cleanUp();
+      CleanUp();
     });
     suite();
   });

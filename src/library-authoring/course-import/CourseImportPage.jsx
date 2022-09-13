@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useContext } from 'react';
 import { AppContext } from '@edx/frontend-platform/react';
 import PropTypes from 'prop-types';
@@ -325,6 +324,7 @@ export function CourseImportPage({
 
   useEffect(() => {
     props.fetchOrganizationList();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -335,6 +335,7 @@ export function CourseImportPage({
         authenticatedUser,
       },
     });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [libraryId, taskPaginationParams]);
 
   useEffect(() => {
@@ -345,6 +346,7 @@ export function CourseImportPage({
         authenticatedUser,
       },
     });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filterParams, coursePaginationParams]);
 
   const loadingHandler = () => (
