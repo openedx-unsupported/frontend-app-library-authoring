@@ -148,7 +148,7 @@ export class LibraryListPage extends React.Component {
                         <Card.Header
                           className="library-title"
                           title={library.title}
-                          subtitle={`${library.org} · ${library.slug}`}
+                          subtitle={`${library.org} • ${library.slug}`}
                         />
                       </Card>
                     ))}
