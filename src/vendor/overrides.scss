@@ -1,14 +1,10 @@
-// Vendor verrides
+// Vendor overrides
 
 // edx-pattern-library
 $pink: #e83e8c !default;
 
 // Paragon
 $font-family-sans-serif: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif !default;
-
-// Breadcrumbs
-// todo: figure out why this var isn't working (and change it to a reasonable value)
-$breadcrumb-font-size:              200px !important;
 
 // Bootstrap
 .container-fluid {
@@ -17,3 +13,9 @@ $breadcrumb-font-size:              200px !important;
   padding-left: 0;
   padding-right: 0;
 }
+
+// Breadcrumbs
+// todo: figure out why this var isn't working (and change it to a reasonable value)
+$breadcrumb-font-size:              200px !important;
+$btn-border-width:            200px !important;
+$btn-font-size: 200px !important;

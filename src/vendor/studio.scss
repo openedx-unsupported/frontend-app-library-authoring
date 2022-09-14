@@ -1946,3 +1946,9 @@ $bi-app-right           : right;
 // .wrapper .list-inline-item:not(:last-child) {
 //   margin-right: 0.3rem;
 // }
+
+// Breadcrumbs
+// todo: figure out why this var isn't working (and change it to a reasonable value)
+$breadcrumb-font-size: 200px !important;
+$btn-border-width: 200px !important;
+$btn-font-size: 200px !important;

@@ -6,3 +6,9 @@
 @import './library-access/index.scss';
 @import './create-library/index.scss';
 @import './empty-page/index.scss';
+
+// Breadcrumbs
+// todo: figure out why this var isn't working (and change it to a reasonable value)
+$breadcrumb-font-size:              200px !important;
+$btn-border-width:            200px !important;
+$btn-font-size: 200px !important;
