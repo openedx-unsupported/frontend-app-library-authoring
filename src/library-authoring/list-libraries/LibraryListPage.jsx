@@ -148,15 +148,8 @@ export class LibraryListPage extends React.Component {
                         <Card.Header
                           className="library-title"
                           title={library.title}
+                          subtitle={`${library.org} · ${library.slug}`}
                         />
-                        <div className="library-metadata">
-                          <span className="library-org metadata-item">
-                            <span className="value">{library.org}</span>
-                          </span>
-                          <span className="library-slug metadata-item">
-                            <span className="value">{library.slug}</span>
-                          </span>
-                        </div>
                       </Card>
                     ))}
                   </ul>
