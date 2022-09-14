@@ -6,6 +6,10 @@ $pink: #e83e8c !default;
 // Paragon
 $font-family-sans-serif: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif !default;
 
+// Breadcrumbs
+// todo: figure out why this var isn't working (and change it to a reasonable value)
+$breadcrumb-font-size:              200px !important;
+
 // Bootstrap
 .container-fluid {
   padding-bottom: 30px;
