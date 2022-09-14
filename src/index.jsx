@@ -39,7 +39,6 @@ subscribe(APP_READY, () => {
   ReactDOM.render(
     <AppProvider store={store}>
       <StudioHeader />
-      <div className="wrapper">
         <main>
           <Switch>
             <Route exact path={ROUTES.List.HOME} component={LibraryListPage} />
@@ -58,7 +57,6 @@ subscribe(APP_READY, () => {
         </main>
         <AboutLibrariesHyperlink />
         <Footer />
-      </div>
     </AppProvider>,
     document.getElementById('root'),
   );

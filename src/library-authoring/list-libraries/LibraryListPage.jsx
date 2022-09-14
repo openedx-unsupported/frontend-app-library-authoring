@@ -109,7 +109,7 @@ export class LibraryListPage extends React.Component {
     };
 
     return (
-      <div className="library-list-wrapper">
+      <>
         <div className="wrapper-mast wrapper">
           <Breadcrumb
             links={[
@@ -194,7 +194,7 @@ export class LibraryListPage extends React.Component {
             </article>
           </section>
         </div>
-      </div>
+      </>
     );
   }
 
