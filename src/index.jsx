@@ -39,7 +39,7 @@ subscribe(APP_READY, () => {
   ReactDOM.render(
     <AppProvider store={store}>
       <StudioHeader />
-        <main>
+        <main className="library-authoring__main-content">
           <Switch>
             <Route exact path={ROUTES.List.HOME} component={LibraryListPage} />
             <Route exact path={ROUTES.List.CREATE} component={LibraryCreatePage} />

@@ -118,21 +118,18 @@ export class LibraryListPage extends React.Component {
             activeLabel={intl.formatMessage(messages['library.list.breadcrumbs.libraries'])}
           />
           <header className="mast has-actions">
-            <h1 className="page-header">{intl.formatMessage(messages['library.list.page.heading'])}</h1>
-            <nav className="nav-actions">
-              <ul className="nav-list">
-                <li className="nav-item">
-                  {libraries.count !== 0 && (
-                  <Button
-                    variant="outline-primary"
-                    onClick={this.goToCreateLibraryPage}
-                  >
-                    {intl.formatMessage(messages['library.list.new.library'])}
-                  </Button>
-                  )}
-                </li>
-              </ul>
-            </nav>
+            <ActionRow>
+              <h1 className="page-header">{intl.formatMessage(messages['library.list.page.heading'])}</h1>
+              <ActionRow.Spacer />
+              {libraries.count !== 0 && (
+                <Button
+                  variant="outline-primary"
+                  onClick={this.goToCreateLibraryPage}
+                >
+                  {intl.formatMessage(messages['library.list.new.library'])}
+                </Button>
+              )}
+            </ActionRow>
           </header>
         </div>
         <div className="wrapper-content wrapper">
