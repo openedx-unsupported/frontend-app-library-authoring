@@ -208,6 +208,11 @@ const messages = defineMessages({
       + 'of problems to be randomly selected and displayed to each student.',
     description: 'The first (and presently only) paragraph of instructional text about how to use library content.',
   },
+  'library.detail.breadcrumbs.libraries': {
+    id: 'library.list.breadcrumbs.libraries',
+    defaultMessage: 'Libraries',
+    description: 'Label for the breadcrumbs parent link.',
+  },
 });
 
 export default messageGuard(messages);
