@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
+  ActionRow,
   Breadcrumb,
   Col,
   Container,
@@ -345,6 +346,21 @@ export const LibraryAuthoringPageBase = ({
         { label: intl.formatMessage(messages['library.detail.breadcrumbs.libraries']), url: ROUTES.List.HOME },
       ]}
     />
+    <header className="mast has-actions">
+      <ActionRow>
+        <small className="card-subtitle">{intl.formatMessage(messages['library.detail.page.heading'])}</small>
+        <h1 className="page-header">{intl.formatMessage(messages['library.detail.page.heading'])}</h1>
+        <ActionRow.Spacer />
+        {/* {libraries.count !== 0 && (
+          <Button
+            variant="outline-primary"
+            onClick={this.goToCreateLibraryPage}
+          >
+            {intl.formatMessage(messages['library.list.new.library'])}
+          </Button>
+        )} */}
+      </ActionRow>
+    </header>
     <Row className="pt-5 px-2 px-xl-0">
       <Col xs={12} md={8} xl={9} className="page-header-section">
         <small className="card-subtitle">{intl.formatMessage(messages['library.detail.page.heading'])}</small>
