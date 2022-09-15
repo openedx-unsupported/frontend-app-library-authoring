@@ -360,9 +360,9 @@ export const LibraryAuthoringPageBase = ({
             {/* <Icon className="fa fa-caret-down pl-3" alt="" /> */}
           </Dropdown.Toggle>
           <Dropdown.Menu>
-            <Dropdown.Item as={Link} to={ROUTES.Detail.EDIT_SLUG(library.id)}>{intl.formatMessage(messages['library.header.settings.details'])}</Dropdown.Item>
-            <Dropdown.Item as={Link} to={ROUTES.Detail.ACCESS_SLUG(library.id)}>{intl.formatMessage(messages['library.header.settings.access'])}</Dropdown.Item>
-            <Dropdown.Item as={Link} to={ROUTES.Detail.IMPORT_SLUG(library.id)}>{intl.formatMessage(messages['library.header.settings.import'])}</Dropdown.Item>
+            <Dropdown.Item as={Link} to={ROUTES.Detail.EDIT_SLUG(library.id)}>{intl.formatMessage(messages['library.detail.settings.details'])}</Dropdown.Item>
+            <Dropdown.Item as={Link} to={ROUTES.Detail.ACCESS_SLUG(library.id)}>{intl.formatMessage(messages['library.detail.settings.access'])}</Dropdown.Item>
+            <Dropdown.Item as={Link} to={ROUTES.Detail.IMPORT_SLUG(library.id)}>{intl.formatMessage(messages['library.detail.settings.import'])}</Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
         {/* todo: hide/show previews seems odd where it is right now, maybe change that? */}
