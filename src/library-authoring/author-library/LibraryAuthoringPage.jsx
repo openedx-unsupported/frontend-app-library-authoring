@@ -270,11 +270,11 @@ const ButtonTogglesBase = ({
   library, setShowPreviews, showPreviews, sending, quickAddBehavior, intl,
 }) => (
   <>
-    <Button variant="success" className="mr-1" size="lg" disabled={sending} onClick={quickAddBehavior}>
+    <Button variant="success" className="mr-1" disabled={sending} onClick={quickAddBehavior}>
       <FontAwesomeIcon icon={faPlus} className="pr-1" />
       {intl.formatMessage(messages[`library.detail.add_${library.type}`])}
     </Button>
-    <Button variant="primary" className="ml-1" onClick={() => setShowPreviews(!showPreviews)} size="lg">
+    <Button variant="primary" className="ml-1" onClick={() => setShowPreviews(!showPreviews)}>
       <FontAwesomeIcon icon={faSync} className="pr-1" />
       { intl.formatMessage(showPreviews ? messages['library.detail.hide_previews'] : messages['library.detail.show_previews']) }
     </Button>
@@ -347,26 +347,12 @@ export const LibraryAuthoringPageBase = ({
       ]}
     />
     <header className="mast has-actions">
+      <small className="card-subtitle">{intl.formatMessage(messages['library.detail.page.heading'])}</small>
       <ActionRow>
-        <small className="card-subtitle">{intl.formatMessage(messages['library.detail.page.heading'])}</small>
-        <h1 className="page-header">{intl.formatMessage(messages['library.detail.page.heading'])}</h1>
+        <div className="page-header-section">
+          <h1 className="page-header">{library.title}</h1>
+        </div>
         <ActionRow.Spacer />
-        {/* {libraries.count !== 0 && (
-          <Button
-            variant="outline-primary"
-            onClick={this.goToCreateLibraryPage}
-          >
-            {intl.formatMessage(messages['library.list.new.library'])}
-          </Button>
-        )} */}
-      </ActionRow>
-    </header>
-    <Row className="pt-5 px-2 px-xl-0">
-      <Col xs={12} md={8} xl={9} className="page-header-section">
-        <small className="card-subtitle">{intl.formatMessage(messages['library.detail.page.heading'])}</small>
-        <h1 className="page-header-title">{library.title}</h1>
-      </Col>
-      <Col xs={12} md={4} xl={3} className="text-center d-none d-md-block">
         <ButtonToggles
           setShowPreviews={setShowPreviews}
           showPreviews={showPreviews}
@@ -374,7 +360,9 @@ export const LibraryAuthoringPageBase = ({
           sending={sending}
           quickAddBehavior={quickAddBehavior}
         />
-      </Col>
+      </ActionRow>
+    </header>
+    <Row className="pt-5 px-2 px-xl-0">
       <ErrorAlert errorMessage={errorMessage} onClose={props.clearLibraryError} />
       <SuccessAlert successMessage={successMessage} onClose={props.clearLibrarySuccess} />
       <Col xs={12} className="pb-5">
