@@ -209,9 +209,14 @@ const messages = defineMessages({
     description: 'The first (and presently only) paragraph of instructional text about how to use library content.',
   },
   'library.detail.breadcrumbs.libraries': {
-    id: 'library.list.breadcrumbs.libraries',
+    id: 'library.detail.breadcrumbs.libraries',
     defaultMessage: 'Libraries',
     description: 'Label for the breadcrumbs parent link.',
+  },
+  'library.detail.settings.menu': {
+    id: 'library.detail.settings.menu',
+    defaultMessage: 'Settings',
+    description: 'Title text for the settings menu.',
   },
 });
 
