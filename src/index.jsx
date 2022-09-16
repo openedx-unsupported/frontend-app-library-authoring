@@ -35,6 +35,27 @@ mergeConfig({
   SECURE_ORIGIN_XBLOCK_BOOTSTRAP_HTML_URL: process.env.SECURE_ORIGIN_XBLOCK_BOOTSTRAP_HTML_URL,
 });
 
+const mainMenu = {
+  content: 'blarg',
+  href: '#',
+  menuItems: [
+  {
+    type: 'item',
+    href: `#`,
+    content: 'blarg',
+  },
+  {
+    type: 'item',
+    href: `#`,
+    content: 'blarg',
+  },
+  {
+    type: 'item',
+    href: '#',
+    content: 'blarg',
+  },
+]};
+
 subscribe(APP_READY, () => {
   ReactDOM.render(
     <AppProvider store={store}>
@@ -53,7 +74,7 @@ subscribe(APP_READY, () => {
           </h3>
         </li>
       </ul> */}
-      <StudioHeader />
+      <StudioHeader appMenu={mainMenu}/>
         <main className="library-authoring__main-content">
           <Switch>
             <Route exact path={ROUTES.List.HOME} component={LibraryListPage} />
