@@ -337,15 +337,6 @@ export const LibraryAuthoringPageBase = ({
   paginationOptions, typeOptions, query, type, ...props
 }) => (
   <Container fluid>
-    <Breadcrumb
-      activeLabel={library.title}
-      // todo: allowLeave stuff like LibraryCreatePage?
-      // clickHandler={this.handleClickBreadcrumbs}
-      links={[
-        { label: intl.formatMessage(commonMessages['library.common.breadcrumbs.studio']), url: getConfig().STUDIO_BASE_URL },
-        { label: intl.formatMessage(messages['library.detail.breadcrumbs.libraries']), url: ROUTES.List.HOME },
-      ]}
-    />
     <header className="mast has-actions">
       <small className="card-subtitle">{intl.formatMessage(messages['library.detail.page.heading'])}</small>
       <ActionRow>

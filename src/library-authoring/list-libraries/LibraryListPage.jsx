@@ -111,12 +111,6 @@ export class LibraryListPage extends React.Component {
     return (
       <>
         <div className="wrapper-mast wrapper">
-          <Breadcrumb
-            links={[
-              { label: intl.formatMessage(commonMessages['library.common.breadcrumbs.studio']), url: getConfig().STUDIO_BASE_URL },
-            ]}
-            activeLabel={intl.formatMessage(messages['library.list.breadcrumbs.libraries'])}
-          />
           <header className="mast has-actions">
             <ActionRow>
               <h1 className="page-header">{intl.formatMessage(messages['library.list.page.heading'])}</h1>
