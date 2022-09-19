@@ -7,3 +7,4 @@ export * from './author-library';
 export * from './list-libraries';
 export * from './library-access';
 export * from './empty-page';
+export * from './studio-header-wrapper';

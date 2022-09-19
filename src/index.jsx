@@ -7,7 +7,6 @@ import {
   APP_INIT_ERROR, APP_READY, initialize, mergeConfig, subscribe,
 } from '@edx/frontend-platform';
 import { AppProvider, ErrorPage } from '@edx/frontend-platform/react';
-import { StudioHeader, messages as headerMessages } from '@edx/frontend-component-header';
 import Footer, { messages as footerMessages } from '@edx/frontend-component-footer';
 
 import appMessages from './i18n';
@@ -23,6 +22,7 @@ import {
   LibraryCreatePage,
   LibraryAccessPage,
   LibraryAuthoringPage,
+  StudioHeaderWrapper,
 } from './library-authoring';
 import './index.scss';
 import './assets/favicon.ico';
@@ -34,27 +34,6 @@ mergeConfig({
   BLOCKSTORE_COLLECTION_UUID: process.env.BLOCKSTORE_COLLECTION_UUID,
   SECURE_ORIGIN_XBLOCK_BOOTSTRAP_HTML_URL: process.env.SECURE_ORIGIN_XBLOCK_BOOTSTRAP_HTML_URL,
 });
-
-const mainMenu = {
-  content: 'blarg',
-  href: '#',
-  menuItems: [
-  {
-    type: 'item',
-    href: `#`,
-    content: 'blarg',
-  },
-  {
-    type: 'item',
-    href: `#`,
-    content: 'blarg',
-  },
-  {
-    type: 'item',
-    href: '#',
-    content: 'blarg',
-  },
-]};
 
 subscribe(APP_READY, () => {
   ReactDOM.render(
@@ -74,7 +53,7 @@ subscribe(APP_READY, () => {
           </h3>
         </li>
       </ul> */}
-      <StudioHeader appMenu={mainMenu}/>
+        <StudioHeaderWrapper />
         <main className="library-authoring__main-content">
           <Switch>
             <Route exact path={ROUTES.List.HOME} component={LibraryListPage} />
@@ -109,3 +88,16 @@ initialize({
   ],
   requireAuthenticatedUser: true,
 });
+
+// StudioHeader.propTypes = {
+//   intl: intlShape.isRequired,
+//   library: libraryShape,
+// };
+
+// StudioHeader.defaultProps = {
+//   library: null,
+// };
+
+// export default connect(
+//   selectLibraryDetail,
+// )(injectIntl(StudioHeader));
