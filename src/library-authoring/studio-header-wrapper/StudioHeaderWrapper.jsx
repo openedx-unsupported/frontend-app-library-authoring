@@ -1,19 +1,24 @@
 import React from 'react';
-import { StudioHeader } from '@edx/frontend-component-header';
+import { StudioHeader, ContentTitleBlock } from '@edx/frontend-component-header';
 // import PropTypes from 'prop-types';
 
-const actionRowContent = (
-  <div>BLARG</div>
-);
+const StudioHeaderWrapper = () => {
+  // const { libraryId } = props.match.params;
+  
+  const actionRowContent = (
+    <>
+      <ContentTitleBlock title="blarg" subtitle="blarg" destination='#'/>
+      <div>BLARG</div>
+    </>
+  );
 
-const StudioHeaderWrapper = () => (
-  <StudioHeader contentTitle={"test"} contentSubtitle={"test"} actionRowContent={actionRowContent}/>
-);
+  return (
+    <StudioHeader actionRowContent={actionRowContent}/>
+  )
+};
 
-// EmptyPage.propTypes = {
-//   heading: PropTypes.string.isRequired,
-//   body: PropTypes.string.isRequired,
-//   children: PropTypes.node.isRequired,
-// };
+// const StudioHeaderWrapper = () => (
+//     <StudioHeader actionRowContent={actionRowContent}/>
+// );
 
 export default StudioHeaderWrapper;
