@@ -16,6 +16,12 @@ import {
   ROUTES,
 } from '../common';
 
+/*
+todo list
+make settings dropdown button look nice
+replace ContentTitleBlock link with react router link
+*/
+
 const StudioHeaderWrapperBase = ({intl, ...props}) => {
   // loadingStatus will only ever be 'loaded' on pages
   // where we have library details, so we can use that to
