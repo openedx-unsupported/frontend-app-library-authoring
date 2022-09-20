@@ -7,15 +7,19 @@ import {
 } from '../author-library/data';
 import { injectIntl } from '@edx/frontend-platform/i18n';
 
-// import PropTypes from 'prop-types';
-
 const StudioHeaderWrapperBase = ({...props}) => {
+  // loadingStatus will only ever be 'loaded' on pages
+  // where we have library details, so we can use that to
+  // determine if we want to render the ContentTitleBlock or not
   const { loadingStatus, library } = props;
   
   const actionRowContent = (
     <>
       {(loadingStatus === 'loaded') ? 
-          <ContentTitleBlock title="blarg" subtitle="blarg" destination='#'/> :
+          <ContentTitleBlock 
+            title={library.title}
+            subtitle={library.org}
+            destination='#'/> :
           <></>
       }
       <div>BLARG</div>
@@ -26,10 +30,6 @@ const StudioHeaderWrapperBase = ({...props}) => {
     <StudioHeader actionRowContent={actionRowContent}/>
   )
 };
-
-// const StudioHeaderWrapper = () => (
-//     <StudioHeader actionRowContent={actionRowContent}/>
-// );
 
 const StudioHeaderWrapper = connect(
   selectLibraryDetail,
