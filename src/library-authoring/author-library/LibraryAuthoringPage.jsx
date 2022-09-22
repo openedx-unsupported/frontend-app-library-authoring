@@ -364,7 +364,9 @@ export const LibraryAuthoringPageBase = ({
             {(library.type === LIBRARY_TYPES.COMPLEX) && (
               <>
                 <SearchField
+                  className='content-library-search-box'
                   value={query}
+                  placeholder={intl.formatMessage(messages['library.detail.search'])}
                   onSubmit={(value) => changeQuery(value)}
                   onChange={(value) => changeQuery(value)}
                 />
