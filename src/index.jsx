@@ -38,7 +38,12 @@ mergeConfig({
 subscribe(APP_READY, () => {
   ReactDOM.render(
     <AppProvider store={store}>
-        <StudioHeaderWrapper />
+        {/* todo: look for a better way to do this, using these routes in
+                  a switch feels less than ideal */}
+        <Switch>
+          <Route path={ROUTES.Detail.HOME} component={StudioHeaderWrapper} />
+          <Route path="*" component={StudioHeaderWrapper} />
+        </Switch>
         <main className="library-authoring__main-content">
           <Switch>
             <Route exact path={ROUTES.List.HOME} component={LibraryListPage} />
@@ -73,16 +78,3 @@ initialize({
   ],
   requireAuthenticatedUser: true,
 });
-
-// StudioHeader.propTypes = {
-//   intl: intlShape.isRequired,
-//   library: libraryShape,
-// };
-
-// StudioHeader.defaultProps = {
-//   library: null,
-// };
-
-// export default connect(
-//   selectLibraryDetail,
-// )(injectIntl(StudioHeader));

@@ -33,10 +33,11 @@ const StudioHeaderWrapperBase = ({intl, ...props}) => {
   // where we have library details, so we can use that to
   // determine if we want to render the ContentTitleBlock or not
   const { loadingStatus, library } = props;
+  const { libraryId } = props.match.params;
 
   const actionRowContent = (
     <>
-      {(loadingStatus === 'loaded') ? 
+      {(libraryId !== undefined && loadingStatus === 'loaded') ? 
           <>
             <ContentTitleBlock
               // as={Link} todo try this
