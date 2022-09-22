@@ -38,21 +38,6 @@ mergeConfig({
 subscribe(APP_READY, () => {
   ReactDOM.render(
     <AppProvider store={store}>
-      {/* todo: add help link to header or somewhere else that feels reasonable */}
-      {/* <ul>
-        <li className="nav-item nav-account-help">
-          <h3 className="title">
-            <a
-              href="http://edx.readthedocs.io/projects/open-edx-building-and-running-a-course/en/latest/course_components/libraries.html"
-              title={intl.formatMessage(messages['library.header.nav.help.title'])}
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              {intl.formatMessage(messages['library.header.nav.help'])}
-            </a>
-          </h3>
-        </li>
-      </ul> */}
         <StudioHeaderWrapper />
         <main className="library-authoring__main-content">
           <Switch>

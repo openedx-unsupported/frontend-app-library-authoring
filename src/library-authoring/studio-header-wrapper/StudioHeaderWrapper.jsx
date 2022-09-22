@@ -8,8 +8,10 @@ import {
 import { injectIntl } from '@edx/frontend-platform/i18n';
 import {
   ActionRow,
+  Button,
   Dropdown
 } from '@edx/paragon';
+import messages from './messages';
 import libraryDetailMessages from '../author-library/messages';
 import { Link } from 'react-router-dom';
 import {
@@ -22,7 +24,8 @@ import ContentTitleBlock from './ContentTitleBlock';
 
 /*
 todo list
-make settings dropdown button look nice
+figure out a better way to handle getting the data
+(pressing the back button leaves the header populated with contextual data)
 */
 
 const StudioHeaderWrapperBase = ({intl, ...props}) => {
@@ -30,29 +33,36 @@ const StudioHeaderWrapperBase = ({intl, ...props}) => {
   // where we have library details, so we can use that to
   // determine if we want to render the ContentTitleBlock or not
   const { loadingStatus, library } = props;
-  
+
   const actionRowContent = (
     <>
       {(loadingStatus === 'loaded') ? 
           <>
-            <ContentTitleBlock 
+            <ContentTitleBlock
+              // as={Link} todo try this
               title={library.title}
               subtitle={library.org}
               destination={ROUTES.Detail.HOME_SLUG(library.id)}/>
-            <ActionRow.Spacer />
             <Dropdown>
-              <Dropdown.Toggle id="library-header-menu-dropdown">
-                {intl.formatMessage(libraryDetailMessages['library.detail.settings.menu'])}
-                {/* <Icon className="fa fa-caret-down pl-3" alt="" /> */}
+              <Dropdown.Toggle variant="outline-primary" id="library-header-menu-dropdown">
+                {intl.formatMessage(messages['library.header.settings.menu'])}
               </Dropdown.Toggle>
               <Dropdown.Menu>
-                <Dropdown.Item as={Link} to={ROUTES.Detail.EDIT_SLUG(library.id)}>{intl.formatMessage(libraryDetailMessages['library.detail.settings.details'])}</Dropdown.Item>
-                <Dropdown.Item as={Link} to={ROUTES.Detail.ACCESS_SLUG(library.id)}>{intl.formatMessage(libraryDetailMessages['library.detail.settings.access'])}</Dropdown.Item>
-                <Dropdown.Item as={Link} to={ROUTES.Detail.IMPORT_SLUG(library.id)}>{intl.formatMessage(libraryDetailMessages['library.detail.settings.import'])}</Dropdown.Item>
+                <Dropdown.Item as={Link} to={ROUTES.Detail.EDIT_SLUG(library.id)}>{intl.formatMessage(messages['library.header.settings.details'])}</Dropdown.Item>
+                <Dropdown.Item as={Link} to={ROUTES.Detail.ACCESS_SLUG(library.id)}>{intl.formatMessage(messages['library.header.settings.access'])}</Dropdown.Item>
+                <Dropdown.Item as={Link} to={ROUTES.Detail.IMPORT_SLUG(library.id)}>{intl.formatMessage(messages['library.header.settings.import'])}</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
           </> : <></>
       }
+      <ActionRow.Spacer />
+      <Button
+        variant="tertiary"
+        href="http://edx.readthedocs.io/projects/open-edx-building-and-running-a-course/en/latest/course_components/libraries.html"
+        rel="noopener noreferrer"
+        target="_blank"
+        title={intl.formatMessage(messages['library.header.nav.help.title'])}
+      >{intl.formatMessage(messages['library.header.nav.help'])}</Button>
     </>
   );
 
