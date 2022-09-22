@@ -1,5 +1,5 @@
 import React from 'react';
-import { StudioHeader, ContentTitleBlock } from '@edx/frontend-component-header';
+import { StudioHeader } from '@edx/frontend-component-header';
 import { connect } from 'react-redux';
 import selectLibraryDetail from '../common/data/selectors';
 import {
@@ -16,10 +16,13 @@ import {
   ROUTES,
 } from '../common';
 
+// todo: figure out why this works when doing this, but not when importing from
+// frontend-component-header (getting "You should not use <Link> outside a <Router>") error
+import ContentTitleBlock from './ContentTitleBlock';
+
 /*
 todo list
 make settings dropdown button look nice
-replace ContentTitleBlock link with react router link
 */
 
 const StudioHeaderWrapperBase = ({intl, ...props}) => {
