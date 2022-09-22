@@ -12,7 +12,7 @@ import {
   Modal,
   Dropdown,
   SearchField,
-  Input,
+  Form,
   Pagination,
 } from '@edx/paragon';
 import { v4 as uuid4 } from 'uuid';
@@ -354,126 +354,122 @@ export const LibraryAuthoringPageBase = ({
         />
       </ActionRow>
     </header>
-    <Row className="pt-5 px-2 px-xl-0">
+    <Row className="pt-3">
       <ErrorAlert errorMessage={errorMessage} onClose={props.clearLibraryError} />
       <SuccessAlert successMessage={successMessage} onClose={props.clearLibrarySuccess} />
-      <Col xs={12} className="pb-5">
-        <hr />
-      </Col>
       <Col xs={12} md={8} xl={9}>
         <Card>
           <Card.Body>
-            <Row>
-              {(library.type === LIBRARY_TYPES.COMPLEX) && (
-                <>
-                  <Col xs={12} md={9} className="pb-2">
-                    <SearchField
-                      label={intl.formatMessage(messages['library.detail.search'])}
-                      value={query}
-                      onSubmit={(value) => changeQuery(value)}
-                      onChange={(value) => changeQuery(value)}
-                    />
-                  </Col>
-                  <Col xs={12} md={3} className="pb-2">
-                    <Input
-                      type="select"
-                      data-testid="filter-dropdown"
-                      value={type}
-                      options={typeOptions}
-                      onChange={(event) => changeType(event.target.value)}
-                    />
-                  </Col>
-                </>
-              )}
-              <Col xs={12} className="text-center d-md-none py-3">
-                <ButtonToggles
-                  setShowPreviews={setShowPreviews}
-                  showPreviews={showPreviews}
-                  library={library}
-                  sending={sending}
-                  quickAddBehavior={quickAddBehavior}
-                  className="d-md-none py-3"
+            <ActionRow>
+            {(library.type === LIBRARY_TYPES.COMPLEX) && (
+              <>
+                <SearchField
+                  value={query}
+                  onSubmit={(value) => changeQuery(value)}
+                  onChange={(value) => changeQuery(value)}
                 />
-              </Col>
-              <LoadGuard
-                loadingMessage={intl.formatMessage(messages['library.detail.loading.message'])}
-                condition={blocks.status !== LOADING_STATUS.LOADING}
-              >
-                {() => blocks.value.data.map((block) => (
-                  <Col xs={12} key={block.id} className="pb-3">
-                    <BlockPreviewContainer
-                      block={block}
-                      blockView={blockView}
-                      showPreviews={showPreviews}
-                      library={library}
-                    />
-                  </Col>
-                ))}
-              </LoadGuard>
-              {blocks.value.count > 0
-                ? (
-                  <Col xs={12}>
-                    <Pagination
-                      className="library-blocks-pagination"
-                      paginationLabel="pagination navigation"
-                      currentPage={paginationOptions.currentPage}
-                      pageCount={paginationOptions.pageCount}
-                      buttonLabels={paginationOptions.buttonLabels}
-                      onPageSelect={(page) => changePage(page)}
-                    />
-                  </Col>
-                )
-                : null}
-              <Col xs={12} className="text-center py-3 add-buttons-container">
-                {library.type !== LIBRARY_TYPES.COMPLEX && (
-                <Button
-                  variant="success"
-                  size="lg"
-                  disabled={sending}
-                  onClick={() => addBlock(library.type)}
-                  className="cta-button"
+                <ActionRow.Spacer />
+                <Form.Control
+                  as="select"
+                  data-testid="filter-dropdown"
+                  value={type}
+                  onChange={(event) => changeType(event.target.value)}
                 >
-                  <FontAwesomeIcon icon={faPlus} className="pr-1" />
-                  {intl.formatMessage(messages[`library.detail.add_${library.type}`])}
-                </Button>
-                )}
-                {library.type === LIBRARY_TYPES.COMPLEX && (
-                  <Row>
-                    <Col xs={12}>
-                      <h2>{intl.formatMessage(messages['library.detail.add_component_heading'])}</h2>
-                    </Col>
-                    <Col xs={12} className="text-center">
-                      <div className="d-inline-block">
-                        <Dropdown>
-                          <Dropdown.Toggle variant="success" size="lg" disabled={sending} className="cta-button mr-2" id="library-detail-add-component-dropdown">
-                            Advanced
-                          </Dropdown.Toggle>
-                          <Dropdown.Menu size="lg">
-                            {otherTypes.map((blockSpec) => (
-                              <Dropdown.Item
-                                onClick={() => addBlock(blockSpec.block_type)}
-                                key={blockSpec.block_type}
-                              >
-                                {blockSpec.display_name}
-                              </Dropdown.Item>
-                            ))}
-                          </Dropdown.Menu>
-                        </Dropdown>
-                      </div>
-                      <Button variant="success" size="lg" disabled={sending} onClick={() => addBlock('html')} className="cta-button">
-                        HTML
-                      </Button>
-                      <Button variant="success" size="lg" disabled={sending} onClick={() => addBlock('problem')} className="cta-button mx-2">
-                        Problem
-                      </Button>
-                      <Button variant="success" size="lg" disabled={sending} onClick={() => addBlock('video')} className="cta-button">
-                        Video
-                      </Button>
-                    </Col>
-                  </Row>
-                )}
-              </Col>
-            </Row>
+                  {typeOptions.map(typeOption => (
+                    <option value={typeOption.value}>{typeOption.label}</option>
+                  ))}
+                </Form.Control>
+              </>
+            )}
+            </ActionRow>
+            <Col xs={12} className="text-center d-md-none py-3">
+              <ButtonToggles
+                setShowPreviews={setShowPreviews}
+                showPreviews={showPreviews}
+                library={library}
+                sending={sending}
+                quickAddBehavior={quickAddBehavior}
+                className="d-md-none py-3"
+              />
+            </Col>
+            <LoadGuard
+              loadingMessage={intl.formatMessage(messages['library.detail.loading.message'])}
+              condition={blocks.status !== LOADING_STATUS.LOADING}
+            >
+              {() => blocks.value.data.map((block) => (
+                <Col xs={12} key={block.id} className="pb-3">
+                  <BlockPreviewContainer
+                    block={block}
+                    blockView={blockView}
+                    showPreviews={showPreviews}
+                    library={library}
+                  />
+                </Col>
+              ))}
+            </LoadGuard>
+            {blocks.value.count > 0
+              ? (
+                <Col xs={12}>
+                  <Pagination
+                    className="library-blocks-pagination"
+                    paginationLabel="pagination navigation"
+                    currentPage={paginationOptions.currentPage}
+                    pageCount={paginationOptions.pageCount}
+                    buttonLabels={paginationOptions.buttonLabels}
+                    onPageSelect={(page) => changePage(page)}
+                  />
+                </Col>
+              )
+              : null}
+            <Col xs={12} className="text-center py-3 add-buttons-container">
+              {library.type !== LIBRARY_TYPES.COMPLEX && (
+              <Button
+                variant="success"
+                size="lg"
+                disabled={sending}
+                onClick={() => addBlock(library.type)}
+                className="cta-button"
+              >
+                <FontAwesomeIcon icon={faPlus} className="pr-1" />
+                {intl.formatMessage(messages[`library.detail.add_${library.type}`])}
+              </Button>
+              )}
+              {library.type === LIBRARY_TYPES.COMPLEX && (
+                <Row>
+                  <Col xs={12}>
+                    <h2>{intl.formatMessage(messages['library.detail.add_component_heading'])}</h2>
+                  </Col>
+                  <Col xs={12} className="text-center">
+                    <div className="d-inline-block">
+                      <Dropdown>
+                        <Dropdown.Toggle variant="success" size="lg" disabled={sending} className="cta-button mr-2" id="library-detail-add-component-dropdown">
+                          Advanced
+                        </Dropdown.Toggle>
+                        <Dropdown.Menu size="lg">
+                          {otherTypes.map((blockSpec) => (
+                            <Dropdown.Item
+                              onClick={() => addBlock(blockSpec.block_type)}
+                              key={blockSpec.block_type}
+                            >
+                              {blockSpec.display_name}
+                            </Dropdown.Item>
+                          ))}
+                        </Dropdown.Menu>
+                      </Dropdown>
+                    </div>
+                    <Button variant="success" size="lg" disabled={sending} onClick={() => addBlock('html')} className="cta-button">
+                      HTML
+                    </Button>
+                    <Button variant="success" size="lg" disabled={sending} onClick={() => addBlock('problem')} className="cta-button mx-2">
+                      Problem
+                    </Button>
+                    <Button variant="success" size="lg" disabled={sending} onClick={() => addBlock('video')} className="cta-button">
+                      Video
+                    </Button>
+                  </Col>
+                </Row>
+              )}
+            </Col>
           </Card.Body>
         </Card>
       </Col>
