@@ -360,7 +360,7 @@ export const LibraryAuthoringPageBase = ({
       <Col xs={12} md={8} xl={9}>
         <Card>
           <Card.Body>
-            <ActionRow>
+            <ActionRow className='component-search-and-filter'>
             {(library.type === LIBRARY_TYPES.COMPLEX) && (
               <>
                 <SearchField
@@ -370,8 +370,9 @@ export const LibraryAuthoringPageBase = ({
                 />
                 <ActionRow.Spacer />
                 <Form.Control
-                  as="select"
-                  data-testid="filter-dropdown"
+                  className='component-type-filter-dropdown'
+                  as='select'
+                  data-testid='filter-dropdown'
                   value={type}
                   onChange={(event) => changeType(event.target.value)}
                 >
