@@ -77,61 +77,84 @@ export const BlockPreviewBase = ({
   setShowDeleteModal, library, previewKey, editView, isLtiUrlGenerating,
   ...props
 }) => (
-  <>
-    <Navbar className="border">
-      <Navbar.Brand>{block.display_name}</Navbar.Brand>
-      <Navbar.Collapse className="justify-content-end">
-        { library.allow_lti && (
-          <>
-            <Button disabled={isLtiUrlGenerating} size="lg" className="mr-1" onClick={() => { props.fetchBlockLtiUrl({ blockId: block.id }); }}>
-              <FontAwesomeIcon icon={faClipboard} className="pr-1" />
-              {intl.formatMessage(messages['library.detail.block.copy_lti_url'])}
-            </Button>
-          </>
-        )}
-        <Link to={editView}>
-          <Button size="lg" className="mr-1">
+  <Card className='library-authoring-block-card'>
+    <Card.Header
+      title={block.display_name}
+      actions={
+        <ActionRow>
+          <Button as={Link} 
+                  to={editView}
+                  variant="tertiary">
             <FontAwesomeIcon icon={faEdit} className="pr-1" />
             {intl.formatMessage(messages['library.detail.block.edit'])}
           </Button>
-        </Link>
-        { /* Studio has a copy button, but we don't yet. */}
-        <Button
-          aria-label={intl.formatMessage(messages['library.detail.block.delete'])}
-          size="lg"
-          onClick={() => setShowDeleteModal(true)}
-        >
-          <FontAwesomeIcon icon={faTrashAlt} />
-        </Button>
-      </Navbar.Collapse>
-    </Navbar>
-    <Modal
-      open={showDeleteModal}
-      title={intl.formatMessage(messages['library.detail.block.delete.modal.title'])}
-      onClose={() => setShowDeleteModal(false)}
-      body={(
-        <div>
-          <p>
-            {intl.formatMessage(messages['library.detail.block.delete.modal.body'])}
-          </p>
-        </div>
-      )}
-      buttons={[
-        <Button
-          onClick={() => props.deleteLibraryBlock({ blockId: block.id })}
-        >
-          {intl.formatMessage(commonMessages['library.common.forms.button.yes'])}
-        </Button>,
-      ]}
+          <Button
+            aria-label={intl.formatMessage(messages['library.detail.block.delete'])}
+            variant="tertiary"
+            onClick={() => setShowDeleteModal(true)}
+          >
+            <FontAwesomeIcon icon={faTrashAlt} />
+          </Button>
+        </ActionRow>
+      }
     />
-    {showPreviews && (
-      <Card>
-        <Card.Body>
-          <LibraryBlock getHandlerUrl={getHandlerUrl} view={view} key={previewKey} />
-        </Card.Body>
-      </Card>
-    )}
-  </>
+</Card>
+
+  // <>
+  // <Navbar className="border">
+  //     <Navbar.Brand>{block.display_name}</Navbar.Brand>
+  //     <Navbar.Collapse className="justify-content-end">
+  //       { library.allow_lti && (
+  //         <>
+  //           <Button disabled={isLtiUrlGenerating} size="lg" className="mr-1" onClick={() => { props.fetchBlockLtiUrl({ blockId: block.id }); }}>
+  //             <FontAwesomeIcon icon={faClipboard} className="pr-1" />
+  //             {intl.formatMessage(messages['library.detail.block.copy_lti_url'])}
+  //           </Button>
+  //         </>
+  //       )}
+  //       <Link to={editView}>
+  //         <Button size="lg" className="mr-1">
+  //           <FontAwesomeIcon icon={faEdit} className="pr-1" />
+  //           {intl.formatMessage(messages['library.detail.block.edit'])}
+  //         </Button>
+  //       </Link>
+        // { /* Studio has a copy button, but we don't yet. */}
+    //     <Button
+    //       aria-label={intl.formatMessage(messages['library.detail.block.delete'])}
+    //       size="lg"
+    //       onClick={() => setShowDeleteModal(true)}
+    //     >
+    //       <FontAwesomeIcon icon={faTrashAlt} />
+    //     </Button>
+    //   </Navbar.Collapse>
+    // </Navbar>
+    // <Modal
+    //   open={showDeleteModal}
+    //   title={intl.formatMessage(messages['library.detail.block.delete.modal.title'])}
+    //   onClose={() => setShowDeleteModal(false)}
+    //   body={(
+    //     <div>
+    //       <p>
+    //         {intl.formatMessage(messages['library.detail.block.delete.modal.body'])}
+    //       </p>
+    //     </div>
+    //   )}
+    //   buttons={[
+    //     <Button
+    //       onClick={() => props.deleteLibraryBlock({ blockId: block.id })}
+    //     >
+    //       {intl.formatMessage(commonMessages['library.common.forms.button.yes'])}
+    //     </Button>,
+    //   ]}
+    // />
+    // {showPreviews && (
+    //   <Card>
+    //     <Card.Body>
+    //       <LibraryBlock getHandlerUrl={getHandlerUrl} view={view} key={previewKey} />
+    //     </Card.Body>
+    //   </Card>
+    // )}
+  // </>
 );
 
 BlockPreviewBase.propTypes = {
@@ -385,7 +408,10 @@ export const LibraryAuthoringPageBase = ({
               </>
             )}
             </ActionRow>
-            <Col xs={12} className="text-center d-md-none py-3">
+            {/* todo: figure out how we want to handle these at low screen widths
+                      since mobile is currently unsupported, it doesn't make sense
+                      to have partially implemented responsive logic */}
+            {/* <Col xs={12} className="text-center d-md-none py-3">
               <ButtonToggles
                 setShowPreviews={setShowPreviews}
                 showPreviews={showPreviews}
@@ -394,20 +420,19 @@ export const LibraryAuthoringPageBase = ({
                 quickAddBehavior={quickAddBehavior}
                 className="d-md-none py-3"
               />
-            </Col>
+            </Col> */}
             <LoadGuard
               loadingMessage={intl.formatMessage(messages['library.detail.loading.message'])}
               condition={blocks.status !== LOADING_STATUS.LOADING}
             >
               {() => blocks.value.data.map((block) => (
-                <Col xs={12} key={block.id} className="pb-3">
-                  <BlockPreviewContainer
-                    block={block}
-                    blockView={blockView}
-                    showPreviews={showPreviews}
-                    library={library}
-                  />
-                </Col>
+                <BlockPreviewContainer
+                  key={block.id}
+                  block={block}
+                  blockView={blockView}
+                  showPreviews={showPreviews}
+                  library={library}
+                />
               ))}
             </LoadGuard>
             {blocks.value.count > 0
@@ -445,7 +470,7 @@ export const LibraryAuthoringPageBase = ({
                   <Col xs={12} className="text-center">
                     <div className="d-inline-block">
                       <Dropdown>
-                        <Dropdown.Toggle variant="success" size="lg" disabled={sending} className="cta-button mr-2" id="library-detail-add-component-dropdown">
+                        <Dropdown.Toggle variant="success" disabled={sending} className="cta-button mr-2" id="library-detail-add-component-dropdown">
                           Advanced
                         </Dropdown.Toggle>
                         <Dropdown.Menu size="lg">
@@ -460,13 +485,13 @@ export const LibraryAuthoringPageBase = ({
                         </Dropdown.Menu>
                       </Dropdown>
                     </div>
-                    <Button variant="success" size="lg" disabled={sending} onClick={() => addBlock('html')} className="cta-button">
+                    <Button variant="success" disabled={sending} onClick={() => addBlock('html')} className="cta-button">
                       HTML
                     </Button>
-                    <Button variant="success" size="lg" disabled={sending} onClick={() => addBlock('problem')} className="cta-button mx-2">
+                    <Button variant="success" disabled={sending} onClick={() => addBlock('problem')} className="cta-button mx-2">
                       Problem
                     </Button>
-                    <Button variant="success" size="lg" disabled={sending} onClick={() => addBlock('video')} className="cta-button">
+                    <Button variant="success" disabled={sending} onClick={() => addBlock('video')} className="cta-button">
                       Video
                     </Button>
                   </Col>
