@@ -117,6 +117,13 @@ export const BlockPreviewBase = ({
         </Button>,
       ]}
     />
+    {showPreviews && (
+      <Card>
+        <Card.Body>
+          <LibraryBlock getHandlerUrl={getHandlerUrl} view={view} key={previewKey} />
+        </Card.Body>
+      </Card>
+    )}
 </Card>
 
   // <>
