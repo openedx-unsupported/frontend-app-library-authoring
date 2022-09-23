@@ -434,8 +434,8 @@ export const LibraryAuthoringPageBase = ({
               </>
             )}
             </ActionRow>
-            {/* todo: figure out how we want to handle these at low screen widths
-                      since mobile is currently unsupported, it doesn't make sense
+            {/* todo: figure out how we want to handle these at low screen widths.
+                      mobile is currently unsupported: so it doesn't make sense
                       to have partially implemented responsive logic */}
             {/* <Col xs={12} className="text-center d-md-none py-3">
               <ButtonToggles
@@ -499,7 +499,10 @@ export const LibraryAuthoringPageBase = ({
                         <Dropdown.Toggle variant="success" disabled={sending} className="cta-button mr-2" id="library-detail-add-component-dropdown">
                           Advanced
                         </Dropdown.Toggle>
-                        <Dropdown.Menu size="lg">
+                        <Dropdown.Menu>
+                          {/* todo: figure out why we're getting 
+                           "Each child in a list should have a unique "key" prop."
+                           errors here... */}
                           {otherTypes.map((blockSpec) => (
                             <Dropdown.Item
                               onClick={() => addBlock(blockSpec.block_type)}
