@@ -98,6 +98,25 @@ export const BlockPreviewBase = ({
         </ActionRow>
       }
     />
+    <Modal
+      open={showDeleteModal}
+      title={intl.formatMessage(messages['library.detail.block.delete.modal.title'])}
+      onClose={() => setShowDeleteModal(false)}
+      body={(
+        <div>
+          <p>
+            {intl.formatMessage(messages['library.detail.block.delete.modal.body'])}
+          </p>
+        </div>
+      )}
+      buttons={[
+        <Button
+          onClick={() => props.deleteLibraryBlock({ blockId: block.id })}
+        >
+          {intl.formatMessage(commonMessages['library.common.forms.button.yes'])}
+        </Button>,
+      ]}
+    />
 </Card>
 
   // <>
