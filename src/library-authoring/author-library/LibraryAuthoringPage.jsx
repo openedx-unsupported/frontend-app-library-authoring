@@ -265,10 +265,13 @@ const ButtonTogglesBase = ({
   library, setShowPreviews, showPreviews, sending, quickAddBehavior, intl,
 }) => (
   <>
-    <Button variant="success" className="mr-1" disabled={sending} onClick={quickAddBehavior}>
+    {/* todo: either reimplement the scroll to the add components button functionality,
+              figure out a better UX for the add component button at the top, or just
+              remove it entirely */}
+    {/* <Button variant="success" className="mr-1" disabled={sending} onClick={quickAddBehavior}>
       <FontAwesomeIcon icon={faPlus} className="pr-1" />
       {intl.formatMessage(messages[`library.detail.add_${library.type}`])}
-    </Button>
+    </Button> */}
     <Button variant="primary" className="ml-1" onClick={() => setShowPreviews(!showPreviews)}>
       <FontAwesomeIcon icon={faSync} className="pr-1" />
       { intl.formatMessage(showPreviews ? messages['library.detail.hide_previews'] : messages['library.detail.show_previews']) }
