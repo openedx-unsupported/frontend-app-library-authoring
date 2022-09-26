@@ -477,7 +477,7 @@ export const LibraryAuthoringPageBase = ({
                 </Col>
               )
               : null}
-            <Col xs={12} className="text-center py-3 add-buttons-container">
+            <Col xs={12} className="text-center py-3">
               {library.type !== LIBRARY_TYPES.COMPLEX && (
               <Button
                 variant="success"
@@ -532,10 +532,10 @@ export const LibraryAuthoringPageBase = ({
           </Card.Body>
         </Card>
       </Col>
-      <Col xs={12} md={4} xl={3}>
+      <Col className="library-authoring-sidebar" xs={12} md={4} xl={3}>
         <aside>
           <Row>
-            <Col xs={12} className="sidebar-info order-1 order-md-0">
+            <Col xs={12} className="order-1 order-md-0">
               <h3>{intl.formatMessage(messages['library.detail.sidebar.adding.heading'])}</h3>
               <p>{intl.formatMessage(messages['library.detail.sidebar.adding.first'])}</p>
               <p>{intl.formatMessage(messages['library.detail.sidebar.adding.second'])}</p>
@@ -544,25 +544,17 @@ export const LibraryAuthoringPageBase = ({
             </Col>
             <Col xs={12} className="py-3 order-0 order-md-1">
               <Card>
-                <Card.Body>
-                  <Row>
-                    <Col xs={12}>
-                      <h3>
-                        {intl.formatMessage(messages[`library.detail.aside.${hasChanges ? 'draft' : 'published'}`])}
-                      </h3>
-                    </Col>
-                    <Col xs={12} className="text-center py-3">
-                      <Button size="lg" block disabled={!hasChanges} onClick={commitChanges}>
-                        {intl.formatMessage(messages['library.detail.aside.publish'])}
-                      </Button>
-                    </Col>
-                    <Col xs={12} className="text-right">
-                      <Button variant="link" disabled={!hasChanges} onClick={revertChanges}>
-                        {intl.formatMessage(messages['library.detail.aside.discard'])}
-                      </Button>
-                    </Col>
-                  </Row>
-                </Card.Body>
+                <Card.Header
+                  title={intl.formatMessage(messages[`library.detail.aside.${hasChanges ? 'draft' : 'published'}`])}
+                />
+                <Card.Footer>
+                  <Button block disabled={!hasChanges} onClick={commitChanges}>
+                    {intl.formatMessage(messages['library.detail.aside.publish'])}
+                  </Button>
+                  <Button variant="link" disabled={!hasChanges} onClick={revertChanges}>
+                    {intl.formatMessage(messages['library.detail.aside.discard'])}
+                  </Button>
+                </Card.Footer>
               </Card>
             </Col>
           </Row>

@@ -32,3 +32,17 @@
         margin-top: 0.6rem;
     }
 }
+
+.library-authoring-sidebar {
+    font-size: 90%;
+    h3 {
+      font-size: 100%;
+      font-weight: bold;
+    }
+}
+
+.library-blocks-pagination {
+    ul.pagination {
+        justify-content: center;
+    }
+}
