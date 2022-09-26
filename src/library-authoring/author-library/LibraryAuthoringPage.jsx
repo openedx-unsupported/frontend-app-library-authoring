@@ -126,63 +126,7 @@ export const BlockPreviewBase = ({
         </Card.Body>
       </Card>
     )}
-</Card>
-
-  // <>
-  // <Navbar className="border">
-  //     <Navbar.Brand>{block.display_name}</Navbar.Brand>
-  //     <Navbar.Collapse className="justify-content-end">
-  //       { library.allow_lti && (
-  //         <>
-  //           <Button disabled={isLtiUrlGenerating} size="lg" className="mr-1" onClick={() => { props.fetchBlockLtiUrl({ blockId: block.id }); }}>
-  //             <FontAwesomeIcon icon={faClipboard} className="pr-1" />
-  //             {intl.formatMessage(messages['library.detail.block.copy_lti_url'])}
-  //           </Button>
-  //         </>
-  //       )}
-  //       <Link to={editView}>
-  //         <Button size="lg" className="mr-1">
-  //           <FontAwesomeIcon icon={faEdit} className="pr-1" />
-  //           {intl.formatMessage(messages['library.detail.block.edit'])}
-  //         </Button>
-  //       </Link>
-        // { /* Studio has a copy button, but we don't yet. */}
-    //     <Button
-    //       aria-label={intl.formatMessage(messages['library.detail.block.delete'])}
-    //       size="lg"
-    //       onClick={() => setShowDeleteModal(true)}
-    //     >
-    //       <FontAwesomeIcon icon={faTrashAlt} />
-    //     </Button>
-    //   </Navbar.Collapse>
-    // </Navbar>
-    // <Modal
-    //   open={showDeleteModal}
-    //   title={intl.formatMessage(messages['library.detail.block.delete.modal.title'])}
-    //   onClose={() => setShowDeleteModal(false)}
-    //   body={(
-    //     <div>
-    //       <p>
-    //         {intl.formatMessage(messages['library.detail.block.delete.modal.body'])}
-    //       </p>
-    //     </div>
-    //   )}
-    //   buttons={[
-    //     <Button
-    //       onClick={() => props.deleteLibraryBlock({ blockId: block.id })}
-    //     >
-    //       {intl.formatMessage(commonMessages['library.common.forms.button.yes'])}
-    //     </Button>,
-    //   ]}
-    // />
-    // {showPreviews && (
-    //   <Card>
-    //     <Card.Body>
-    //       <LibraryBlock getHandlerUrl={getHandlerUrl} view={view} key={previewKey} />
-    //     </Card.Body>
-    //   </Card>
-    // )}
-  // </>
+  </Card>
 );
 
 BlockPreviewBase.propTypes = {
@@ -477,7 +421,7 @@ export const LibraryAuthoringPageBase = ({
                 </Col>
               )
               : null}
-            <Col xs={12} className="text-center py-3">
+            <Col xs={12} className="text-center py-3 library-authoring-block-add-new">
               {library.type !== LIBRARY_TYPES.COMPLEX && (
               <Button
                 variant="success"
