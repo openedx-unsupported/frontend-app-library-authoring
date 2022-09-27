@@ -7,7 +7,11 @@ import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import {
-  Alert, Button, Col, Row,
+  ActionRow,
+  Alert,
+  Button,
+  Col,
+  Row
 } from '@edx/paragon';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
@@ -40,26 +44,23 @@ const LibraryAccessPage = ({
 }) => (
   <div className="library-access-wrapper">
     <div className="wrapper-mast wrapper">
-      <header className="mast has-actions has-navigation has-subtitle">
-        <div className="page-header">
-          <small className="subtitle">{intl.formatMessage(messages['library.access.page.parent_heading'])}</small>
-          <h1 className="page-header-title">{intl.formatMessage(messages['library.access.page.heading'])}</h1>
-        </div>
-        <nav className="nav-actions">
-          <ul>
-            {isAdmin && (
-              <li className="nav-item">
-                <Button
-                  variant="success"
-                  onClick={() => setShowAdd(true)}
-                >
-                  <FontAwesomeIcon icon={faPlus} className="pr-3 icon-inline" />
-                  {intl.formatMessage(messages['library.access.new.user'])}
-                </Button>
-              </li>
-            )}
-          </ul>
-        </nav>
+      <header className="mast has-actions">
+        <small className="card-subtitle">{intl.formatMessage(messages['library.access.page.parent_heading'])}</small>
+        <ActionRow>
+          <div className="page-header-section">
+            <h1 className="page-header">{intl.formatMessage(messages['library.access.page.heading'])}</h1>
+          </div>
+          <ActionRow.Spacer />
+          {isAdmin && (
+            <Button
+              variant="success"
+              onClick={() => setShowAdd(true)}
+            >
+              <FontAwesomeIcon icon={faPlus} className="pr-1 icon-inline" />
+              {intl.formatMessage(messages['library.access.new.user'])}
+            </Button>
+          )}
+        </ActionRow>
       </header>
     </div>
     <div className="wrapper-content wrapper">
