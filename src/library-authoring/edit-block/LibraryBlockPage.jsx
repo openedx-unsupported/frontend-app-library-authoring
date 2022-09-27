@@ -5,12 +5,16 @@ import {
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
+  ActionRow,
   Alert,
   Button,
+  Card,
   Col,
   Container,
   Row,
-  Spinner
+  Spinner,
+  Tab,
+  Tabs
 } from '@edx/paragon';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import { logError } from '@edx/frontend-platform/logging';
@@ -214,7 +218,10 @@ class LibraryBlockPage extends React.Component {
 
     return (
       <div className="library-block-wrapper">
-        <div className="wrapper-mast wrapper">
+        {/* todo: figure out what we want here, the header text always says "Component", and the 
+                  "back to library" button is redundant considering the header link with the
+                  library name goes back to the library */}
+        {/* <div className="wrapper-mast wrapper">
           <header className="mast has-actions has-navigation has-subtitle">
             <div className="page-header">
               <Button href={ROUTES.Detail.HOME_SLUG(libraryId)} className="my-1">
@@ -225,7 +232,7 @@ class LibraryBlockPage extends React.Component {
               <h1 className="page-header-title">{metadata !== null && metadata.display_name}</h1>
             </div>
           </header>
-        </div>
+        </div> */}
         <Container className="wrapper-content wrapper">
           <Row className="content">
             <Col xs={12} md={8} xl={9}>
@@ -240,78 +247,78 @@ class LibraryBlockPage extends React.Component {
                   {truncateMessage(errorMessage)}
                 </Alert>
                 )}
-                
-                  <div className="card">
-                    <div className="card-header">
-                      <ul className="nav nav-tabs card-header-tabs">
-                        <li className="nav-item">
-                          <NavLink exact to={ROUTES.Block.HOME_SLUG(libraryId, blockId)} className="nav-link" activeClassName="active">View</NavLink>
-                        </li>
-                        <li className="nav-item">
-                          {this.isEditable
-                            ? <NavLink to={ROUTES.Block.EDIT_SLUG(libraryId, blockId)} className="nav-link" activeClassName="active">Edit</NavLink>
-                            : <span className="nav-link">Edit</span>}
-                        </li>
-                        <li className="nav-item">
-                          <NavLink to={ROUTES.Block.ASSETS_SLUG(libraryId, blockId)} className="nav-link" activeClassName="active">Assets</NavLink>
-                        </li>
-                        <li className="nav-item">
-                          <NavLink to={ROUTES.Block.SOURCE_SLUG(libraryId, blockId)} className="nav-link" activeClassName="active">Source</NavLink>
-                        </li>
-                        <li className="nav-item">
-                          <NavLink to={ROUTES.Block.LEARN_SLUG(libraryId, blockId)} className="nav-link" activeClassName="active">Learn</NavLink>
-                        </li>
-                      </ul>
-                    </div>
-                    <div className="card-body">
-                      { this.props.view.status === LOADING_STATUS.LOADING ? (
-                        <div
-                          className="d-flex justify-content-center align-items-center flex-column"
-                          style={{ height: '400px' }}
-                        >
-                          <Spinner animation="border" variant="primary" />
-                        </div>
-                      ) : (
-                        <Switch>
-                          <Route exact path={ROUTES.Block.HOME}>
-                            <LibraryBlock
-                              view={this.props.view}
-                              getHandlerUrl={this.getHandlerUrl}
-                            />
-                          </Route>
-                          <Route exact path={ROUTES.Block.EDIT}>
-                            <LibraryBlock
-                              view={this.props.view}
-                              getHandlerUrl={this.getHandlerUrl}
-                              onBlockNotification={this.handleBlockNotification}
-                            />
-                          </Route>
-                          <Route exact path={ROUTES.Block.ASSETS}>
-                            <LibraryBlockAssets
-                              assets={this.props.assets}
-                              onDropFiles={this.handleDropFiles}
-                              onDeleteFile={this.handleDeleteFile}
-                            />
-                          </Route>
-                          <Route exact path={ROUTES.Block.SOURCE}>
-                            <LibraryBlockOlx
-                              olx={this.props.olx}
-                              onSaveOlx={this.handleSaveOlx}
-                            />
-                          </Route>
-                          <Route exact path={ROUTES.Block.LEARN}>
-                            <p>
-                              This tab uses the LMS APIs so it shows the published version only and will save user state.
-                            </p>
-                            <LibraryBlock
-                              view={this.props.view}
-                              getHandlerUrl={this.getHandlerUrl}
-                            />
-                          </Route>
-                        </Switch>
-                      )}
-                    </div>
+                <Card>
+                  {/* todo: figure out if we want to use paragon tabs here (they don't utilize different urls) */}
+                  <div className="card-header">
+                    <ul className="nav nav-tabs card-header-tabs">
+                      <li className="nav-item">
+                        <NavLink exact to={ROUTES.Block.HOME_SLUG(libraryId, blockId)} className="nav-link" activeClassName="active">View</NavLink>
+                      </li>
+                      <li className="nav-item">
+                        {this.isEditable
+                          ? <NavLink to={ROUTES.Block.EDIT_SLUG(libraryId, blockId)} className="nav-link" activeClassName="active">Edit</NavLink>
+                          : <span className="nav-link">Edit</span>}
+                      </li>
+                      <li className="nav-item">
+                        <NavLink to={ROUTES.Block.ASSETS_SLUG(libraryId, blockId)} className="nav-link" activeClassName="active">Assets</NavLink>
+                      </li>
+                      <li className="nav-item">
+                        <NavLink to={ROUTES.Block.SOURCE_SLUG(libraryId, blockId)} className="nav-link" activeClassName="active">Source</NavLink>
+                      </li>
+                      <li className="nav-item">
+                        <NavLink to={ROUTES.Block.LEARN_SLUG(libraryId, blockId)} className="nav-link" activeClassName="active">Learn</NavLink>
+                      </li>
+                    </ul>
                   </div>
+                  <div className="card-body">
+                    { this.props.view.status === LOADING_STATUS.LOADING ? (
+                      <div
+                        className="d-flex justify-content-center align-items-center flex-column"
+                        style={{ height: '400px' }}
+                      >
+                        <Spinner animation="border" variant="primary" />
+                      </div>
+                    ) : (
+                      <Switch>
+                        <Route exact path={ROUTES.Block.HOME}>
+                          <LibraryBlock
+                            view={this.props.view}
+                            getHandlerUrl={this.getHandlerUrl}
+                          />
+                        </Route>
+                        <Route exact path={ROUTES.Block.EDIT}>
+                          <LibraryBlock
+                            view={this.props.view}
+                            getHandlerUrl={this.getHandlerUrl}
+                            onBlockNotification={this.handleBlockNotification}
+                          />
+                        </Route>
+                        <Route exact path={ROUTES.Block.ASSETS}>
+                          <LibraryBlockAssets
+                            assets={this.props.assets}
+                            onDropFiles={this.handleDropFiles}
+                            onDeleteFile={this.handleDeleteFile}
+                          />
+                        </Route>
+                        <Route exact path={ROUTES.Block.SOURCE}>
+                          <LibraryBlockOlx
+                            olx={this.props.olx}
+                            onSaveOlx={this.handleSaveOlx}
+                          />
+                        </Route>
+                        <Route exact path={ROUTES.Block.LEARN}>
+                          <p>
+                            This tab uses the LMS APIs so it shows the published version only and will save user state.
+                          </p>
+                          <LibraryBlock
+                            view={this.props.view}
+                            getHandlerUrl={this.getHandlerUrl}
+                          />
+                        </Route>
+                      </Switch>
+                    )}
+                  </div>
+                </Card>
               </article>
             </Col>
             <Col xs={12} md={4} xl={3}>
@@ -336,38 +343,43 @@ class LibraryBlockPage extends React.Component {
                     <h3 className="bar-mod-title pub-status">
                       {intl.formatMessage(messages[`library.block.aside.${hasChanges ? 'draft' : 'published'}`])}
                     </h3>
-                    <div className="wrapper-pub-actions bar-mod-actions">
-                      <ul className="action-list list-unstyled">
-                        <li className="action-item">
-                          <Button
+                    <ActionRow isStacked>
+                    <Button
                             variant="primary"
-                            className="w-100 p-2 btn-lg"
+                            // className="w-100 p-2 btn-lg"
                             onClick={this.handleCommitLibrary}
                             disabled={!hasChanges}
                             aria-disabled={!hasChanges}
                           >
                             <strong>{intl.formatMessage(messages['library.block.aside.publish'])}</strong>
                           </Button>
-                        </li>
-                        <li className="action-item text-right">
                           <Button
                             variant="link"
-                            className="d-inline-block"
+                            // className="d-inline-block"
                             onClick={this.handleRevertLibrary}
                             disabled={!hasChanges}
                             aria-disabled={!hasChanges}
                           >
                             {intl.formatMessage(messages['library.block.aside.discard'])}
                           </Button>
-                        </li>
-                        <li className="action-item">
                           <Button
                             variant="danger"
-                            className="w-100 p-2 btn-lg"
+                            // className="w-100 p-2 btn-lg"
                             onClick={this.handleDeleteBlock}
                           >
                             <strong>{intl.formatMessage(messages['library.block.aside.delete'])}</strong>
                           </Button>
+                    </ActionRow>
+                    <div className="wrapper-pub-actions bar-mod-actions">
+                      <ul className="action-list list-unstyled">
+                        <li className="action-item">
+
+                        </li>
+                        <li className="action-item text-right">
+
+                        </li>
+                        <li className="action-item">
+
                         </li>
                       </ul>
                     </div>
