@@ -4,7 +4,14 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import {
-  Button, Form, Input, Pagination, Alert, ActionRow,
+  ActionRow,
+  Alert,
+  Button,
+  Col,
+  Form,
+  Input,
+  Pagination,
+  Row
 } from '@edx/paragon';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import { faSearch, faSync } from '@fortawesome/free-solid-svg-icons';
@@ -355,7 +362,8 @@ export const CourseImportPage = ({
         />
 
         <div className="wrapper-content wrapper">
-          <section className="content">
+          <Row className="content">
+            <Col xs={12} md={8} xl={9}>
             <article className="content-primary" role="main">
               {
                 props.errorMessage && (
@@ -397,25 +405,28 @@ export const CourseImportPage = ({
                 setPaginationParams={setTaskPaginationParams}
               />
             </article>
-            <aside className="content-supplementary">
-              <div className="bit">
-                <h3 className="title title-3">{intl.formatMessage(messages['library.course_import.aside.import_task_list.title'])}</h3>
-                <p>{intl.formatMessage(messages['library.course_import.aside.import_task_list.text.first'])}</p>
-                <p>{intl.formatMessage(messages['library.course_import.aside.import_task_list.text.second'])}</p>
-              </div>
+            </Col>
+            <Col xs={12} md={4} xl={3}>
+              <aside className="content-supplementary">
+                <div className="bit">
+                  <h3 className="title title-3">{intl.formatMessage(messages['library.course_import.aside.import_task_list.title'])}</h3>
+                  <p>{intl.formatMessage(messages['library.course_import.aside.import_task_list.text.first'])}</p>
+                  <p>{intl.formatMessage(messages['library.course_import.aside.import_task_list.text.second'])}</p>
+                </div>
 
-              {
-                showCourses && (
-                <CourseImportListFilter
-                  intl={intl}
-                  organizations={organizations}
-                  filterParams={filterParams}
-                  setFilterParams={setFilterParams}
-                />
-                )
-              }
-            </aside>
-          </section>
+                {
+                  showCourses && (
+                  <CourseImportListFilter
+                    intl={intl}
+                    organizations={organizations}
+                    filterParams={filterParams}
+                    setFilterParams={setFilterParams}
+                  />
+                  )
+                }
+              </aside>
+            </Col>
+          </Row>
         </div>
       </div>
     </div>
