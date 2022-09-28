@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import {
-  Button, Form, Input, Pagination, Alert,
+  Button, Form, Input, Pagination, Alert, ActionRow,
 } from '@edx/paragon';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import { faSearch, faSync } from '@fortawesome/free-solid-svg-icons';
@@ -39,22 +39,17 @@ export const CourseImportPageHeader = ({ intl, showCourses, ...props }) => {
   return (
     <div className="wrapper-mast wrapper">
       <header className="mast has-actions has-navigation has-subtitle">
-        <div className="page-header">
-          <small className="subtitle">{intl.formatMessage(messages['library.course_import.page.parent_heading'])}</small>
-          <h1 className="page-header-title">{intl.formatMessage(messages['library.course_import.page.heading'])}</h1>
-        </div>
-        <nav className="nav-actions">
-          <ul>
-            <li className="nav-item">
-              <Button className="toggle-importable-courses" variant="primary" onClick={showCoursesHandler}>
-                <FontAwesomeIcon icon={faSync} className="pr-3" />
-                {showCourses
-                  ? intl.formatMessage(messages['library.course_import.importable_courses.hide'])
-                  : intl.formatMessage(messages['library.course_import.importable_courses.show'])}
-              </Button>
-            </li>
-          </ul>
-        </nav>
+        <small className="subtitle">{intl.formatMessage(messages['library.course_import.page.parent_heading'])}</small>
+        <ActionRow>
+        <h1 className="page-header-title">{intl.formatMessage(messages['library.course_import.page.heading'])}</h1>
+        <ActionRow.Spacer />
+        <Button className="toggle-importable-courses" variant="primary" onClick={showCoursesHandler}>
+          <FontAwesomeIcon icon={faSync} className="pr-1" />
+          {showCourses
+            ? intl.formatMessage(messages['library.course_import.importable_courses.hide'])
+            : intl.formatMessage(messages['library.course_import.importable_courses.show'])}
+        </Button>
+        </ActionRow>
       </header>
     </div>
   );
