@@ -48,7 +48,7 @@ const CourseImportListItem = ({
       <Card.Header
         className="library-authoring-course-import-block-card-header"
         title={course.title}
-        subtitle={`${course.org} ${course.id}`}
+        subtitle={`${course.org} • ${course.id}`}
         actions={
           <ActionRow>
             <StatefulButton {...importButtonProps} />

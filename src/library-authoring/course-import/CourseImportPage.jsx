@@ -360,7 +360,7 @@ export const CourseImportPage = ({
         />
 
         <div className="wrapper-content wrapper">
-          <Row className="content">
+          <Row className="content mt-3">
             <Col xs={12} md={8} xl={9}>
             <article className="content-primary" role="main">
               {
