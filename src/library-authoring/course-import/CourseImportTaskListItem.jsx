@@ -31,9 +31,20 @@ const CourseImportTaskListItem = ({ intl, task }) => {
     <Card className="mt-1 mb-3">
       <Card.Header
         className="library-authoring-course-import-block-card-header"
-        title={`Import of ${task.course_id}`} 
-        subtitle={`${course.org} • ${course.id}`}
+        title={`Import of ${task.course_id}`}
+        subtitle={
+          <>
+            <Badge variant={badgeVariant}>{task.state}</Badge>
+            <span> • </span>
+            <span>{task.org}</span>
+            <span> • </span>
+            <span>{new Date(task.created_at).toLocaleString()}</span>
+          </>
+        }
       />
+   <div className="library-metadata">
+
+   </div>
     </Card>
 
     // <div className="library-link">

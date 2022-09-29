@@ -267,9 +267,9 @@ export const ImportTaskList = ({
           ? (
             <ul className="library-list importable-course-list">
               {tasks.map((task) => (
-                <li key={task.id} className="library-item no-hover-bg">
+                <>
                   <CourseImportTaskListItem task={task} />
-                </li>
+                </>
               ))}
             </ul>
           )
