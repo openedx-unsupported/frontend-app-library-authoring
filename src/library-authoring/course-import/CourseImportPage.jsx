@@ -97,9 +97,8 @@ export const CourseImportList = ({
       {
         courseCount > 0
           ? (
-            <ul className="library-list importable-course-list">
+            <>
               {courses.map((course) => (
-                <li key={course.id} className="library-item no-hover-bg">
                   <CourseImportListItem
                     libraryId={libraryId}
                     course={course}
@@ -107,9 +106,8 @@ export const CourseImportList = ({
                     taskPaginationParams={taskPaginationParams}
                     ongoingImportState={ongoingImports[course.id]}
                   />
-                </li>
               ))}
-            </ul>
+            </>
           )
           : <h3 className="">{intl.formatMessage(messages['library.course_import.importable_courses.no_item'])}</h3>
       }
