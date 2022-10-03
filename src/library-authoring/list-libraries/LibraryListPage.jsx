@@ -93,19 +93,6 @@ export class LibraryListPage extends React.Component {
     );
   }
 
-  renderOption = option => {
-    if (option.group) {
-      return (
-        <optgroup label={option.label}>
-          {option.group.map(this.renderOption)}
-        </optgroup>
-      );
-    }
-    return (
-      <option value={option.value} key={option.value}>{option.label}</option>
-    );
-  };
-
   renderContent() {
     const { intl, libraries } = this.props;
 
