@@ -61,10 +61,9 @@ export const LicenceFieldBase = (
         <Row className="border-bottom py-2">
           <Col xs={1} className="text-center align-self-center">
             <Form.Checkbox
-              type="checkbox"
               id="attribution"
               name="attribution"
-              className="m-0 p-0 position-relative"
+              // className="m-0 p-0 position-relative"
               disabled
               checked
             />
@@ -81,7 +80,6 @@ export const LicenceFieldBase = (
         <Row className="border-bottom py-2">
           <Col xs={1} className="text-center align-self-center">
             <Form.Checkbox
-              type="checkbox"
               id="nonCommercial"
               name="nonCommercial"
               className="m-0 p-0 position-relative"
@@ -101,7 +99,6 @@ export const LicenceFieldBase = (
         <Row className="border-bottom py-2">
           <Col xs={1} className="text-center align-self-center">
             <Form.Checkbox
-              type="checkbox"
               name="noDerivatives"
               id="noDerivatives"
               className="m-0 p-0 position-relative"
@@ -121,7 +118,6 @@ export const LicenceFieldBase = (
         <Row className="border-bottom py-2">
           <Col xs={1} className="text-center align-self-center">
             <Form.Checkbox
-              type="checkbox"
               id="shareAlike"
               name="shareAlike"
               className="m-0 p-0 position-relative"
