@@ -63,7 +63,7 @@ export const LicenceFieldBase = (
             <Form.Checkbox
               id="attribution"
               name="attribution"
-              // className="m-0 p-0 position-relative"
+              className="m-0 p-0 position-relative"
               disabled
               checked
             />
