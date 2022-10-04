@@ -377,7 +377,7 @@ export const LibraryAuthoringPageBase = ({
                   onChange={(event) => changeType(event.target.value)}
                 >
                   {typeOptions.map(typeOption => (
-                    <option value={typeOption.value}>{typeOption.label}</option>
+                    <option key={typeOption.value} value={typeOption.value}>{typeOption.label}</option>
                   ))}
                 </Form.Control>
               </>
@@ -449,9 +449,6 @@ export const LibraryAuthoringPageBase = ({
                           Advanced
                         </Dropdown.Toggle>
                         <Dropdown.Menu>
-                          {/* todo: figure out why we're getting 
-                           "Each child in a list should have a unique "key" prop."
-                           errors here... */}
                           {otherTypes.map((blockSpec) => (
                             <Dropdown.Item
                               onClick={() => addBlock(blockSpec.block_type)}
