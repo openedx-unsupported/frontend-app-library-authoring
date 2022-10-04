@@ -131,12 +131,12 @@ export class LibraryListPage extends React.Component {
             <article className="content-primary" role="main">
               {libraries.count > 0
                 ? (
-                  <ul className="library-list">
+                  <ul className="list-unstyled">
                     {libraries.data.map(library => (
                       <Card
                         isClickable
                         key={library.id}
-                        className="library-item"
+                        className="mt-3"
                         onClick={() => this.goToLibraryItem(library)}
                       >
                         <Card.Header
