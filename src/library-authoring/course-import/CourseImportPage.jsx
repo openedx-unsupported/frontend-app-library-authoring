@@ -93,7 +93,7 @@ export const CourseImportList = ({
   };
 
   const renderContent = () => (
-    <div className="importable-course-list-container">
+    <div className="mb-4">
       {
         courseCount > 0
           ? (
