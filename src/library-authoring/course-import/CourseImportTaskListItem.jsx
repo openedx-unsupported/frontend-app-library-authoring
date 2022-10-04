@@ -42,34 +42,7 @@ const CourseImportTaskListItem = ({ intl, task }) => {
           </>
         }
       />
-   <div className="library-metadata">
-
-   </div>
     </Card>
-
-    // <div className="library-link">
-    //   <Row className="h-100">
-    //     <Col xs={12} className="my-auto">
-    //       <h3 className="library-title">Import of {task.course_id}</h3>
-    //     </Col>
-    //   </Row>
-    //   <div className="library-metadata">
-    //     <span className="library-state metadata-item">
-    //       <span className="label">{intl.formatMessage(messages['library.library.course_import.list_item.state'])}</span>
-    //       <span className="value">
-    //         <Badge variant={badgeVariant}>{task.state}</Badge>
-    //       </span>
-    //     </span>
-    //     <span className="library-org metadata-item">
-    //       <span className="label">{intl.formatMessage(messages['library.course_import.list_item.organization'])}</span>
-    //       <span className="value">{task.org}</span>
-    //     </span>
-    //     <span className="library-slug metadata-item">
-    //       <span className="label">{intl.formatMessage(messages['library.course_import.list_item.created_at'])}</span>
-    //       <span className="value">{new Date(task.created_at).toLocaleString()}</span>
-    //     </span>
-    //   </div>
-    // </div>
   );
 };
 

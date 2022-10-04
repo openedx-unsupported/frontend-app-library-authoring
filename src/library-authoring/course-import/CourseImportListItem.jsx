@@ -56,26 +56,6 @@ const CourseImportListItem = ({
         }
       />
     </Card>
-    // <div className="library-link">
-    //   <Row className="h-100">
-    //     <Col xs={6} md={6} className="my-auto">
-    //       <h3 className="library-title">{course.title}</h3>
-    //     </Col>
-    //     <Col xs={6} md={6} className="my-auto text-center text-md-right">
-    //       <StatefulButton {...importButtonProps} />
-    //     </Col>
-    //   </Row>
-    //   <div className="library-metadata">
-    //     <span className="library-org metadata-item">
-    //       <span className="label">{intl.formatMessage(messages['library.course_import.list_item.organization'])}</span>
-    //       <span className="value">{course.org}</span>
-    //     </span>
-    //     <span className="library-slug metadata-item">
-    //       <span className="label">{intl.formatMessage(messages['library.course_import.list_item.id'])}</span>
-    //       <span className="value">{course.id}</span>
-    //     </span>
-    //   </div>
-    // </div>
   );
 };
 
