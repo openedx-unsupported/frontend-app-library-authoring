@@ -218,21 +218,6 @@ class LibraryBlockPage extends React.Component {
 
     return (
       <div className="library-block-wrapper">
-        {/* todo: figure out what we want here, the header text always says "Component", and the 
-                  "back to library" button is redundant considering the header link with the
-                  library name goes back to the library */}
-        {/* <div className="wrapper-mast wrapper">
-          <header className="mast has-actions has-navigation has-subtitle">
-            <div className="page-header">
-              <Button href={ROUTES.Detail.HOME_SLUG(libraryId)} className="my-1">
-                <FontAwesomeIcon icon={faArrowLeft} className="pr-1" />
-                {intl.formatMessage(messages['library.block.page.back_to_library'])}
-              </Button>
-              <small className="subtitle">{intl.formatMessage(messages['library.block.page.heading'])}</small>
-              <h1 className="page-header-title">{metadata !== null && metadata.display_name}</h1>
-            </div>
-          </header>
-        </div> */}
         <Container className="wrapper-content wrapper">
           <Row className="content">
             <Col xs={12} md={8} xl={9}>
