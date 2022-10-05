@@ -22,12 +22,6 @@ import {
 // frontend-component-header (getting "You should not use <Link> outside a <Router>") error
 import ContentTitleBlock from './ContentTitleBlock';
 
-/*
-todo list
-figure out a better way to handle getting the data
-(pressing the back button leaves the header populated with contextual data)
-*/
-
 const StudioHeaderWrapperBase = ({intl, ...props}) => {
   // loadingStatus will only ever be 'loaded' on pages
   // where we have library details, so we can use that to
