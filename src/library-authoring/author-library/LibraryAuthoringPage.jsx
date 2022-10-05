@@ -342,7 +342,6 @@ export const LibraryAuthoringPageBase = ({
           <h1 className="page-header">{library.title}</h1>
         </div>
         <ActionRow.Spacer />
-        {/* todo: hide/show previews seems odd where it is right now, maybe change that? */}
         <ButtonToggles
           setShowPreviews={setShowPreviews}
           showPreviews={showPreviews}
