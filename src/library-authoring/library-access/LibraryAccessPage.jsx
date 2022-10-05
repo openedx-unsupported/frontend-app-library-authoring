@@ -103,24 +103,6 @@ const LibraryAccessPage = ({
                   </Col>
                 )
               )}
-              {/* todo: figure out if we want this, we already have the "New Team Member" button at the top, having a
-                        "Add User" button with identical functionality feels redundant */}
-              {/* {isAdmin && (
-                <div className="well mt-3">
-                  <Row className="h-100">
-                    <Col xs={12} md={8} className="my-auto">
-                      <h2 className="h2 font-weight-bold">{intl.formatMessage(messages['library.access.well.title'])}</h2>
-                      <p>{intl.formatMessage(messages['library.access.well.text'])}</p>
-                    </Col>
-                    <Col xs={12} md={4} lg={3} className="my-auto offset-lg-1 text-center text-md-right">
-                      <Button variant="success" size="lg" onClick={() => setShowAdd(true)}>
-                        <FontAwesomeIcon icon={faPlus} className="pr-1 icon-inline" />
-                        <strong>{intl.formatMessage(messages['library.access.well.button'])}</strong>
-                      </Button>
-                    </Col>
-                  </Row>
-                </div>
-              )} */}
             </article>
         </Col>
         <Col xs={12} md={4} xl={3}>
