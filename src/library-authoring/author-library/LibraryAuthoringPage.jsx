@@ -77,7 +77,7 @@ export const BlockPreviewBase = ({
   setShowDeleteModal, library, previewKey, editView, isLtiUrlGenerating,
   ...props
 }) => (
-  <Card className='library-authoring-block-card'>
+  <Card className='w-auto m-2'>
     <Card.Header
       className='library-authoring-block-card-header'
       title={block.display_name}
