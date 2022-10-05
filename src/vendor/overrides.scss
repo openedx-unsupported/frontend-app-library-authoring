@@ -8,10 +8,7 @@ $font-family-sans-serif: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-s
 
 // Bootstrap
 .container-fluid {
-  // padding-bottom: 30px;
   max-width: 1280px;
-  // padding-left: 20px;
-  // padding-right: 20px;
 }
 
 html {
@@ -43,9 +40,3 @@ body {
   flex: 1 0 auto;
   display: block;
 }
-
-// Breadcrumbs
-// todo: figure out why this var isn't working (and change it to a reasonable value)
-// $breadcrumb-font-size:              200px !important;
-// $btn-border-width:            200px !important;
-// $btn-font-size: 200px;
