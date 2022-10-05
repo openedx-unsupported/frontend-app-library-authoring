@@ -7,10 +7,8 @@ import {
   Col,
   Form,
   Icon,
-  Input,
   Row,
   StatefulButton,
-  ValidationFormGroup,
 } from '@edx/paragon';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
@@ -176,7 +174,9 @@ class LibraryConfigurePage extends React.Component {
 
     const validTypes = Object.values(LIBRARY_TYPES).filter((type) => type !== LIBRARY_TYPES.LEGACY);
     const typeOptions = validTypes.map((value) => (
-      { value, label: intl.formatMessage(messages[`library.edit.type.label.${value}`]) }
+      <option value={value} key={`aoption-${value}`}>
+        {intl.formatMessage(messages[`library.edit.type.label.${value}`])}
+      </option>
     ));
 
     return (
@@ -206,68 +206,63 @@ class LibraryConfigurePage extends React.Component {
                 <Card>
                   <Form onSubmit={this.handleSubmit}>
                     <fieldset>
+                      {['title', 'description'].map(name => (
                       <Card.Section>
-                        <ValidationFormGroup
-                          for="title"
-                          helpText={intl.formatMessage(messages['library.edit.title.help'])}
-                          invalid={this.hasFieldError('title')}
-                          invalidMessage={this.getFieldError('title')}
-                          // className="mb-0 mr-2"
+                        <Form.Group
+                          controlId={name}
+                          isInvalid={this.hasFieldError(name)}
+                          className="mb-0 mr-2"
                         >
-                          <label className="h6 d-block" htmlFor="title">
-                            {intl.formatMessage(messages['library.edit.title.label'])}
-                          </label>
-                          <Input
-                            name="title"
-                            id="title"
+                          <Form.Label className="h6 d-block" htmlFor={name}>
+                            {intl.formatMessage(messages[`library.edit.${name}.label`])}
+                          </Form.Label>
+                          <Form.Control
+                            name={name}
+                            id={name}
                             type="text"
-                            placeholder={intl.formatMessage(messages['library.edit.title.placeholder'])}
-                            defaultValue={data.title}
+                            placeholder={intl.formatMessage(messages[`library.edit.${name}.placeholder`])}
+                            defaultValue={data[name]}
                             onChange={this.handleValueChange}
                           />
-                        </ValidationFormGroup>
+                          <Form.Text className="form-text text-muted">
+                            {intl.formatMessage(messages[`library.edit.${name}.help`])}
+                          </Form.Text>
+                          {this.hasFieldError(name) && (
+                            <Form.Control.Feedback hasIcon={false} type="invalid">
+                              {this.getFieldError(name)}
+                            </Form.Control.Feedback>
+                          )}
+                        </Form.Group>
                       </Card.Section>
-                      <Card.Section>
-                        <ValidationFormGroup
-                          for="description"
-                          helpText={intl.formatMessage(messages['library.edit.description.help'])}
-                          invalid={this.hasFieldError('description')}
-                          invalidMessage={this.getFieldError('description')}
-                          // className="mb-0 mr-2"
-                        >
-                          <label className="h6 d-block" htmlFor="description">
-                            {intl.formatMessage(messages['library.edit.description.label'])}
-                          </label>
-                          <Input
-                            name="description"
-                            id="description"
-                            type="textarea"
-                            placeholder={intl.formatMessage(messages['library.edit.description.placeholder'])}
-                            defaultValue={data.description}
-                            onChange={this.handleValueChange}
-                          />
-                        </ValidationFormGroup>
-                      </Card.Section>
+                      ))}
                       {data.libraryId && (
                         <Card.Section>
-                          <ValidationFormGroup
-                            for="type"
-                            helpText={intl.formatMessage(messages['library.edit.type.help'])}
-                            invalid={this.hasFieldError('type')}
-                            invalidMessage={this.getFieldError('type')}
-                            // className="mb-0 mr-2"
+                        <Form.Group
+                          for="type"
+                          isInvalid={this.hasFieldError('type')}
+                          className="mb-0 mr-2"
+                        >
+                          <label className="h6 d-block" htmlFor="type">
+                            {intl.formatMessage(messages['library.edit.type.label'])}
+                          </label>
+                          <Form.Control
+                            name="type"
+                            as="select"
+                            options={typeOptions}
+                            defaultValue={data.type}
+                            onChange={this.handleValueChange}
                           >
-                            <label className="h6 d-block" htmlFor="type">
-                              {intl.formatMessage(messages['library.edit.type.label'])}
-                            </label>
-                            <Input
-                              name="type"
-                              type="select"
-                              options={typeOptions}
-                              defaultValue={data.type}
-                              onChange={this.handleValueChange}
-                            />
-                          </ValidationFormGroup>
+                            {typeOptions}
+                          </Form.Control>
+                          <Form.Text className="form-text text-muted">
+                            {intl.formatMessage(messages['library.edit.type.help'])}
+                          </Form.Text>
+                          {this.hasFieldError('type') && (
+                            <Form.Control.Feedback hasIcon={false} type="invalid">
+                              {this.getFieldError('type')}
+                            </Form.Control.Feedback>
+                          )}
+                        </Form.Group>
                         </Card.Section>
                       ) }
                       <Card.Section>
