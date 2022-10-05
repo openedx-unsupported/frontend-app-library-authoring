@@ -358,11 +358,11 @@ export const LibraryAuthoringPageBase = ({
       <Col xs={12} md={8} xl={9}>
         <Card>
           <Card.Body>
-            <ActionRow className='component-search-and-filter'>
+            <ActionRow className='p-1 pl-2 pt-2'>
             {(library.type === LIBRARY_TYPES.COMPLEX) && (
               <>
                 <SearchField
-                  className='content-library-search-box'
+                  className='flex-grow-1'
                   value={query}
                   placeholder={intl.formatMessage(messages['library.detail.search'])}
                   onSubmit={(value) => changeQuery(value)}
@@ -370,7 +370,7 @@ export const LibraryAuthoringPageBase = ({
                 />
                 <ActionRow.Spacer />
                 <Form.Control
-                  className='component-type-filter-dropdown'
+                  className='flex-grow-0 flex-shrink-0 w-25'
                   as='select'
                   data-testid='filter-dropdown'
                   value={type}
