@@ -81,7 +81,6 @@ export const BlockPreviewBase = ({
     <Card.Header
       className='library-authoring-block-card-header'
       title={block.display_name}
-      // subtitle={library.blockTypes.find(bt => bt.block_type == block.block_type).display_name}
       actions={
         <ActionRow>
           <Button as={Link} 
