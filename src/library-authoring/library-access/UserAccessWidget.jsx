@@ -64,14 +64,10 @@ export const UserAccessWidget = ({
                         </ModalDialog.Title>
                       </ModalDialog.Header>
                       <ModalDialog.Body>
-                        <div>
-                          <p>
-                            {intl.formatMessage(
-                              messages['library.access.modal.remove_admin.body'],
-                              { library: library.title, email: user.email },
-                            )}
-                          </p>
-                        </div>
+                        {intl.formatMessage(
+                          messages['library.access.modal.remove_admin.body'],
+                          { library: library.title, email: user.email },
+                        )}
                       </ModalDialog.Body>
                       <ModalDialog.Footer>
                         <ActionRow>
@@ -132,14 +128,10 @@ export const UserAccessWidget = ({
                         </ModalDialog.Title>
                       </ModalDialog.Header>
                       <ModalDialog.Body>
-                        <div>
-                          <p>
-                            {intl.formatMessage(
-                              messages['library.access.modal.remove.body'],
-                              { library: library.title, email: user.email },
-                            )}
-                          </p>
-                        </div>
+                        {intl.formatMessage(
+                          messages['library.access.modal.remove.body'],
+                          { library: library.title, email: user.email },
+                        )}
                       </ModalDialog.Body>
                       <ModalDialog.Footer>
                         <ActionRow>

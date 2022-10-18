@@ -115,11 +115,7 @@ export const BlockPreviewBase = ({
         </ModalDialog.Title>
       </ModalDialog.Header>
       <ModalDialog.Body>
-        <div>
-          <p>
-            {intl.formatMessage(messages['library.detail.block.delete.modal.body'])}
-          </p>
-        </div>
+        {intl.formatMessage(messages['library.detail.block.delete.modal.body'])}
       </ModalDialog.Body>
       <ModalDialog.Footer>
         <ActionRow>
