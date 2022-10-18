@@ -108,7 +108,6 @@ export const BlockPreviewBase = ({
       isOpen={showDeleteModal}
       onClose={() => setShowDeleteModal(false)}
     >
-
       <ModalDialog.Header>
         <ModalDialog.Title>
           {intl.formatMessage(messages['library.detail.block.delete.modal.title'])}
