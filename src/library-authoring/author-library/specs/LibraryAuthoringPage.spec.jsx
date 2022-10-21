@@ -318,7 +318,7 @@ testSuite('<LibraryAuthoringPageContainer />', () => {
     act(() => {
       del.click();
     });
-    const yes = await screen.findByText('Yes.');
+    const yes = await screen.findByText('Yes');
     act(() => {
       yes.click();
     });

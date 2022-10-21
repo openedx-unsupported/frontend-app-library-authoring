@@ -32,7 +32,6 @@ import {
 import messages from './messages';
 import { LicenseFieldContainer } from '../common/LicenseField';
 
-
 class LibraryConfigurePage extends React.Component {
   constructor(props) {
     super(props);

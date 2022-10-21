@@ -13,7 +13,6 @@ import {
   SearchField,
   Form,
   Pagination,
-  ModalDialog,
   ActionRow,
 } from '@edx/paragon';
 import { Edit } from '@edx/paragon/icons';
@@ -381,8 +380,7 @@ const LibraryAuthoringPageHeaderBase = ({ intl, library, ...props }) => {
                 className="ml-3"
               />
             </>
-          )
-        }
+          )}
       </h2>
     </>
   );
