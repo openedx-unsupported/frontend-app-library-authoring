@@ -2,22 +2,24 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
+  ActionRow,
   Col,
   Container,
   Row,
   Button,
+  IconButton,
   Card,
-  Navbar,
-  Modal,
   Dropdown,
   SearchField,
-  Input,
+  Form,
   Pagination,
+  ModalDialog,
 } from '@edx/paragon';
+import { Edit } from '@edx/paragon/icons';
 import { v4 as uuid4 } from 'uuid';
 import { faPlus, faSync } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faClipboard, faEdit, faTrashAlt } from '@fortawesome/free-regular-svg-icons';
+import { faEdit, faTrashAlt } from '@fortawesome/free-regular-svg-icons';
 import { connect } from 'react-redux';
 import { ensureConfig, getConfig } from '@edx/frontend-platform';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
@@ -35,6 +37,10 @@ import {
   revertLibraryChanges,
   searchLibrary,
 } from './data';
+import {
+  selectLibraryEdit,
+  updateLibrary,
+} from '../configure-library/data';
 import {
   BLOCK_FILTER_ORDER,
   BLOCK_TYPE_EDIT_DENYLIST,
@@ -75,63 +81,63 @@ export function BlockPreviewBase({
   intl, block, view, canEdit, showPreviews, showDeleteModal,
   setShowDeleteModal, library, previewKey, editView, isLtiUrlGenerating,
   ...props
-}) {
-  return (
-    <>
-      <Navbar className="border">
-        <Navbar.Brand>{block.display_name}</Navbar.Brand>
-        <Navbar.Collapse className="justify-content-end">
-          { library.allow_lti && (
-          <Button disabled={isLtiUrlGenerating} size="lg" className="mr-1" onClick={() => { props.fetchBlockLtiUrl({ blockId: block.id }); }}>
-            <FontAwesomeIcon icon={faClipboard} className="pr-1" />
-            {intl.formatMessage(messages['library.detail.block.copy_lti_url'])}
+}) => (
+  <Card className="w-auto m-2">
+    <Card.Header
+      className="library-authoring-block-card-header"
+      title={block.display_name}
+      actions={(
+        <ActionRow>
+          <Button
+            as={Link}
+            to={editView}
+            variant="tertiary"
+          >
+            <FontAwesomeIcon icon={faEdit} className="pr-1" />
+            {intl.formatMessage(messages['library.detail.block.edit'])}
           </Button>
-          )}
-          <Link to={editView}>
-            <Button size="lg" className="mr-1">
-              <FontAwesomeIcon icon={faEdit} className="pr-1" />
-              {intl.formatMessage(messages['library.detail.block.edit'])}
-            </Button>
-          </Link>
-          { /* Studio has a copy button, but we don't yet. */}
           <Button
             aria-label={intl.formatMessage(messages['library.detail.block.delete'])}
-            size="lg"
+            variant="tertiary"
             onClick={() => setShowDeleteModal(true)}
           >
             <FontAwesomeIcon icon={faTrashAlt} />
           </Button>
-        </Navbar.Collapse>
-      </Navbar>
-      <Modal
-        open={showDeleteModal}
-        title={intl.formatMessage(messages['library.detail.block.delete.modal.title'])}
-        onClose={() => setShowDeleteModal(false)}
-        body={(
-          <div>
-            <p>
-              {intl.formatMessage(messages['library.detail.block.delete.modal.body'])}
-            </p>
-          </div>
+        </ActionRow>
       )}
-        buttons={[
-          <Button
-            onClick={() => props.deleteLibraryBlock({ blockId: block.id })}
-          >
+    />
+    <ModalDialog
+      isOpen={showDeleteModal}
+      onClose={() => setShowDeleteModal(false)}
+    >
+      <ModalDialog.Header>
+        <ModalDialog.Title>
+          {intl.formatMessage(messages['library.detail.block.delete.modal.title'])}
+        </ModalDialog.Title>
+      </ModalDialog.Header>
+      <ModalDialog.Body>
+        {intl.formatMessage(messages['library.detail.block.delete.modal.body'])}
+      </ModalDialog.Body>
+      <ModalDialog.Footer>
+        <ActionRow>
+          <ModalDialog.CloseButton variant="link">
+            Close
+          </ModalDialog.CloseButton>
+          <Button onClick={() => props.deleteLibraryBlock({ blockId: block.id })} variant="primary">
             {intl.formatMessage(commonMessages['library.common.forms.button.yes'])}
-          </Button>,
-        ]}
-      />
-      {showPreviews && (
+          </Button>
+        </ActionRow>
+      </ModalDialog.Footer>
+    </ModalDialog>
+    {showPreviews && (
       <Card>
         <Card.Body>
           <LibraryBlock getHandlerUrl={getHandlerUrl} view={view} key={previewKey} />
         </Card.Body>
       </Card>
-      )}
-    </>
-  );
-}
+    )}
+  </Card>
+);
 
 BlockPreviewBase.propTypes = {
   intl: intlShape.isRequired,
@@ -265,30 +271,26 @@ BlockPreviewContainerBase.propTypes = {
   ltiUrlClipboard: fetchable(PropTypes.shape({})),
 };
 
-function ButtonTogglesBase({
-  library, setShowPreviews, showPreviews, sending, quickAddBehavior, intl,
-}) {
-  return (
-    <>
-      <Button variant="success" className="mr-1" size="lg" disabled={sending} onClick={quickAddBehavior}>
-        <FontAwesomeIcon icon={faPlus} className="pr-1" />
-        {intl.formatMessage(messages[`library.detail.add_${library.type}`])}
-      </Button>
-      <Button variant="primary" className="ml-1" onClick={() => setShowPreviews(!showPreviews)} size="lg">
-        <FontAwesomeIcon icon={faSync} className="pr-1" />
-        { intl.formatMessage(showPreviews ? messages['library.detail.hide_previews'] : messages['library.detail.show_previews']) }
-      </Button>
-    </>
-  );
-}
+const ButtonTogglesBase = ({ setShowPreviews, showPreviews, intl }) => (
+  <>
+    {/* todo: either reimplement the scroll to the add components button functionality,
+              figure out a better UX for the add component button at the top, or just
+              remove it entirely */}
+    {/* <Button variant="success" className="mr-1" disabled={sending} onClick={quickAddBehavior}>
+      <FontAwesomeIcon icon={faPlus} className="pr-1" />
+      {intl.formatMessage(messages[`library.detail.add_${library.type}`])}
+    </Button> */}
+    <Button variant="primary" className="ml-1" onClick={() => setShowPreviews(!showPreviews)}>
+      <FontAwesomeIcon icon={faSync} className="pr-1" />
+      { intl.formatMessage(showPreviews ? messages['library.detail.hide_previews'] : messages['library.detail.show_previews']) }
+    </Button>
+  </>
+);
 
 ButtonTogglesBase.propTypes = {
   intl: intlShape.isRequired,
-  library: libraryShape.isRequired,
-  sending: PropTypes.bool.isRequired,
   showPreviews: PropTypes.bool.isRequired,
   setShowPreviews: PropTypes.func.isRequired,
-  quickAddBehavior: PropTypes.func.isRequired,
 };
 
 const ButtonToggles = injectIntl(ButtonTogglesBase);
@@ -328,6 +330,72 @@ const deriveTypeOptions = (blockTypes, intl) => {
 };
 
 /**
+ * LibraryAuthoringPageHeaderBase
+ * Title component for the LibraryAuthoringPageBase.
+ */
+const LibraryAuthoringPageHeaderBase = ({ intl, library, ...props }) => {
+  const [inputIsActive, setIsActive] = useState(false);
+  const handleSaveTitle = (event) => {
+    const newTitle = event.target.value;
+    if (newTitle && newTitle !== library.title) {
+      props.updateLibrary({ data: { title: newTitle, libraryId: library.id } });
+    }
+    setIsActive(false);
+  };
+  const handleClick = () => {
+    setIsActive(true);
+  };
+
+  return (
+    <>
+      <h1 className="page-header-title">
+        { inputIsActive
+          ? (
+            <Form.Control
+              autoFocus
+              name="title"
+              id="title"
+              type="text"
+              aria-label="Title input"
+              defaultValue={library.title}
+              onBlur={handleSaveTitle}
+              onKeyDown={event => {
+                if (event.key === 'Enter') { handleSaveTitle(event); }
+              }}
+            />
+          )
+          : (
+            <>
+              {library.title}
+              <IconButton
+                invertColors
+                isActive
+                iconAs={Edit}
+                alt="Edit name button"
+                onClick={handleClick}
+                className="ml-3"
+              />
+            </>
+          )}
+      </h1>
+    </>
+  );
+};
+
+LibraryAuthoringPageHeaderBase.propTypes = {
+  intl: intlShape.isRequired,
+  library: libraryShape.isRequired,
+  updateLibrary: PropTypes.func.isRequired,
+};
+
+const LibraryAuthoringPageHeader = connect(
+  selectLibraryEdit,
+  {
+    updateLibrary,
+  },
+)(injectIntl(LibraryAuthoringPageHeaderBase));
+
+/**
  * LibraryAuthoringPage
  * Template component for the library Authoring page.
  */
@@ -336,185 +404,178 @@ export function LibraryAuthoringPageBase({
   sending, addBlock, revertChanges, commitChanges, hasChanges, errorMessage, successMessage,
   quickAddBehavior, otherTypes, blocks, changeQuery, changeType, changePage,
   paginationOptions, typeOptions, query, type, ...props
-}) {
-  return (
-    <Container fluid>
-      <Row className="pt-5 px-2 px-xl-0">
-        <Col xs={12} md={8} xl={9} className="page-header-section">
-          <small className="card-subtitle">{intl.formatMessage(messages['library.detail.page.heading'])}</small>
-          <h1 className="page-header-title">{library.title}</h1>
-        </Col>
-        <Col xs={12} md={4} xl={3} className="text-center d-none d-md-block">
-          <ButtonToggles
-            setShowPreviews={setShowPreviews}
-            showPreviews={showPreviews}
-            library={library}
-            sending={sending}
-            quickAddBehavior={quickAddBehavior}
-          />
-        </Col>
-        <ErrorAlert errorMessage={errorMessage} onClose={props.clearLibraryError} />
-        <SuccessAlert successMessage={successMessage} onClose={props.clearLibrarySuccess} />
-        <Col xs={12} className="pb-5">
-          <hr />
-        </Col>
-        <Col xs={12} md={8} xl={9}>
-          <Card>
-            <Card.Body>
-              <Row>
-                {(library.type === LIBRARY_TYPES.COMPLEX) && (
-                <>
-                  <Col xs={12} md={9} className="pb-2">
-                    <SearchField
-                      label={intl.formatMessage(messages['library.detail.search'])}
-                      value={query}
-                      onSubmit={(value) => changeQuery(value)}
-                      onChange={(value) => changeQuery(value)}
-                    />
-                  </Col>
-                  <Col xs={12} md={3} className="pb-2">
-                    <Input
-                      type="select"
-                      data-testid="filter-dropdown"
-                      value={type}
-                      options={typeOptions}
-                      onChange={(event) => changeType(event.target.value)}
-                    />
-                  </Col>
-                </>
-                )}
-                <Col xs={12} className="text-center d-md-none py-3">
-                  <ButtonToggles
-                    setShowPreviews={setShowPreviews}
-                    showPreviews={showPreviews}
-                    library={library}
-                    sending={sending}
-                    quickAddBehavior={quickAddBehavior}
-                    className="d-md-none py-3"
+}) => (
+  <Container fluid>
+    <header className="mast has-actions">
+      <small className="card-subtitle">{intl.formatMessage(messages['library.detail.page.heading'])}</small>
+      <ActionRow>
+        <LibraryAuthoringPageHeader
+          library={library}
+        />
+        <ActionRow.Spacer />
+        <ButtonToggles
+          setShowPreviews={setShowPreviews}
+          showPreviews={showPreviews}
+          library={library}
+          sending={sending}
+          quickAddBehavior={quickAddBehavior}
+        />
+      </ActionRow>
+    </header>
+    <Row className="pt-3">
+      <ErrorAlert errorMessage={errorMessage} onClose={props.clearLibraryError} />
+      <SuccessAlert successMessage={successMessage} onClose={props.clearLibrarySuccess} />
+      <Col xs={12} md={8} xl={9}>
+        <Card>
+          <Card.Body>
+            <ActionRow className="p-1 pl-2 pt-2">
+              {(library.type === LIBRARY_TYPES.COMPLEX) && (
+              <>
+                <SearchField
+                  className="flex-grow-1"
+                  value={query}
+                  placeholder={intl.formatMessage(messages['library.detail.search'])}
+                  onSubmit={(value) => changeQuery(value)}
+                  onChange={(value) => changeQuery(value)}
+                />
+                <ActionRow.Spacer />
+                <Form.Control
+                  className="flex-grow-0 flex-shrink-0 w-25"
+                  as="select"
+                  data-testid="filter-dropdown"
+                  value={type}
+                  onChange={(event) => changeType(event.target.value)}
+                >
+                  {typeOptions.map(typeOption => (
+                    <option key={typeOption.value} value={typeOption.value}>{typeOption.label}</option>
+                  ))}
+                </Form.Control>
+              </>
+              )}
+            </ActionRow>
+            {/* todo: figure out how we want to handle these at low screen widths.
+                      mobile is currently unsupported: so it doesn't make sense
+                      to have partially implemented responsive logic */}
+            {/* <Col xs={12} className="text-center d-md-none py-3">
+              <ButtonToggles
+                setShowPreviews={setShowPreviews}
+                showPreviews={showPreviews}
+                library={library}
+                sending={sending}
+                quickAddBehavior={quickAddBehavior}
+                className="d-md-none py-3"
+              />
+            </Col> */}
+            <LoadGuard
+              loadingMessage={intl.formatMessage(messages['library.detail.loading.message'])}
+              condition={blocks.status !== LOADING_STATUS.LOADING}
+            >
+              {() => blocks.value.data.map((block) => (
+                <BlockPreviewContainer
+                  key={block.id}
+                  block={block}
+                  blockView={blockView}
+                  showPreviews={showPreviews}
+                  library={library}
+                />
+              ))}
+            </LoadGuard>
+            {blocks.value.count > 0
+              ? (
+                <Col xs={12}>
+                  <Pagination
+                    className="library-blocks-pagination"
+                    paginationLabel="pagination navigation"
+                    currentPage={paginationOptions.currentPage}
+                    pageCount={paginationOptions.pageCount}
+                    buttonLabels={paginationOptions.buttonLabels}
+                    onPageSelect={(page) => changePage(page)}
                   />
                 </Col>
-                <LoadGuard
-                  loadingMessage={intl.formatMessage(messages['library.detail.loading.message'])}
-                  condition={blocks.status !== LOADING_STATUS.LOADING}
-                >
-                  {() => blocks.value.data.map((block) => (
-                    <Col xs={12} key={block.id} className="pb-3">
-                      <BlockPreviewContainer
-                        block={block}
-                        blockView={blockView}
-                        showPreviews={showPreviews}
-                        library={library}
-                      />
-                    </Col>
-                  ))}
-                </LoadGuard>
-                {blocks.value.count > 0
-                  ? (
-                    <Col xs={12}>
-                      <Pagination
-                        className="library-blocks-pagination"
-                        paginationLabel="pagination navigation"
-                        currentPage={paginationOptions.currentPage}
-                        pageCount={paginationOptions.pageCount}
-                        buttonLabels={paginationOptions.buttonLabels}
-                        onPageSelect={(page) => changePage(page)}
-                      />
-                    </Col>
-                  )
-                  : null}
-                <Col xs={12} className="text-center py-3 add-buttons-container">
-                  {library.type !== LIBRARY_TYPES.COMPLEX && (
-                  <Button
-                    variant="success"
-                    size="lg"
-                    disabled={sending}
-                    onClick={() => addBlock(library.type)}
-                    className="cta-button"
-                  >
-                    <FontAwesomeIcon icon={faPlus} className="pr-1" />
-                    {intl.formatMessage(messages[`library.detail.add_${library.type}`])}
+              )
+              : null}
+            <Col xs={12} className="text-center py-3 library-authoring-block-add-new">
+              {library.type !== LIBRARY_TYPES.COMPLEX && (
+              <Button
+                variant="success"
+                disabled={sending}
+                onClick={() => addBlock(library.type)}
+                className="cta-button"
+              >
+                <FontAwesomeIcon icon={faPlus} className="pr-1" />
+                {intl.formatMessage(messages[`library.detail.add_${library.type}`])}
+              </Button>
+              )}
+              {library.type === LIBRARY_TYPES.COMPLEX && (
+                <Row>
+                  <Col xs={12}>
+                    <h2>{intl.formatMessage(messages['library.detail.add_component_heading'])}</h2>
+                  </Col>
+                  <Col xs={12} className="text-center">
+                    <div className="d-inline-block">
+                      <Dropdown>
+                        <Dropdown.Toggle variant="success" disabled={sending} className="cta-button mr-2" id="library-detail-add-component-dropdown">
+                          Advanced
+                        </Dropdown.Toggle>
+                        <Dropdown.Menu>
+                          {otherTypes.map((blockSpec) => (
+                            <Dropdown.Item
+                              onClick={() => addBlock(blockSpec.block_type)}
+                              key={blockSpec.block_type}
+                            >
+                              {blockSpec.display_name}
+                            </Dropdown.Item>
+                          ))}
+                        </Dropdown.Menu>
+                      </Dropdown>
+                    </div>
+                    <Button variant="success" disabled={sending} onClick={() => addBlock('html')} className="cta-button">
+                      HTML
+                    </Button>
+                    <Button variant="success" disabled={sending} onClick={() => addBlock('problem')} className="cta-button mx-2">
+                      Problem
+                    </Button>
+                    <Button variant="success" disabled={sending} onClick={() => addBlock('video')} className="cta-button">
+                      Video
+                    </Button>
+                  </Col>
+                </Row>
+              )}
+            </Col>
+          </Card.Body>
+        </Card>
+      </Col>
+      <Col className="library-authoring-sidebar" xs={12} md={4} xl={3}>
+        <aside>
+          <Row>
+            <Col xs={12} className="order-1 order-md-0">
+              <h3>{intl.formatMessage(messages['library.detail.sidebar.adding.heading'])}</h3>
+              <p>{intl.formatMessage(messages['library.detail.sidebar.adding.first'])}</p>
+              <p>{intl.formatMessage(messages['library.detail.sidebar.adding.second'])}</p>
+              <h3>{intl.formatMessage(messages['library.detail.sidebar.using.heading'])}</h3>
+              <p>{intl.formatMessage(messages['library.detail.sidebar.using.first'])}</p>
+            </Col>
+            <Col xs={12} className="py-3 order-0 order-md-1">
+              <Card>
+                <Card.Header
+                  title={intl.formatMessage(messages[`library.detail.aside.${hasChanges ? 'draft' : 'published'}`])}
+                />
+                <Card.Footer>
+                  <Button block disabled={!hasChanges} onClick={commitChanges}>
+                    {intl.formatMessage(messages['library.detail.aside.publish'])}
                   </Button>
-                  )}
-                  {library.type === LIBRARY_TYPES.COMPLEX && (
-                  <Row>
-                    <Col xs={12}>
-                      <h2>{intl.formatMessage(messages['library.detail.add_component_heading'])}</h2>
-                    </Col>
-                    <Col xs={12} className="text-center">
-                      <div className="d-inline-block">
-                        <Dropdown>
-                          <Dropdown.Toggle variant="success" size="lg" disabled={sending} className="cta-button mr-2" id="library-detail-add-component-dropdown">
-                            Advanced
-                          </Dropdown.Toggle>
-                          <Dropdown.Menu size="lg">
-                            {otherTypes.map((blockSpec) => (
-                              <Dropdown.Item
-                                onClick={() => addBlock(blockSpec.block_type)}
-                                key={blockSpec.block_type}
-                              >
-                                {blockSpec.display_name}
-                              </Dropdown.Item>
-                            ))}
-                          </Dropdown.Menu>
-                        </Dropdown>
-                      </div>
-                      <Button variant="success" size="lg" disabled={sending} onClick={() => addBlock('html')} className="cta-button">
-                        HTML
-                      </Button>
-                      <Button variant="success" size="lg" disabled={sending} onClick={() => addBlock('problem')} className="cta-button mx-2">
-                        Problem
-                      </Button>
-                      <Button variant="success" size="lg" disabled={sending} onClick={() => addBlock('video')} className="cta-button">
-                        Video
-                      </Button>
-                    </Col>
-                  </Row>
-                  )}
-                </Col>
-              </Row>
-            </Card.Body>
-          </Card>
-        </Col>
-        <Col xs={12} md={4} xl={3}>
-          <aside>
-            <Row>
-              <Col xs={12} className="sidebar-info order-1 order-md-0">
-                <h3>{intl.formatMessage(messages['library.detail.sidebar.adding.heading'])}</h3>
-                <p>{intl.formatMessage(messages['library.detail.sidebar.adding.first'])}</p>
-                <p>{intl.formatMessage(messages['library.detail.sidebar.adding.second'])}</p>
-                <h3>{intl.formatMessage(messages['library.detail.sidebar.using.heading'])}</h3>
-                <p>{intl.formatMessage(messages['library.detail.sidebar.using.first'])}</p>
-              </Col>
-              <Col xs={12} className="py-3 order-0 order-md-1">
-                <Card>
-                  <Card.Body>
-                    <Row>
-                      <Col xs={12}>
-                        <h3>
-                          {intl.formatMessage(messages[`library.detail.aside.${hasChanges ? 'draft' : 'published'}`])}
-                        </h3>
-                      </Col>
-                      <Col xs={12} className="text-center py-3">
-                        <Button size="lg" block disabled={!hasChanges} onClick={commitChanges}>
-                          {intl.formatMessage(messages['library.detail.aside.publish'])}
-                        </Button>
-                      </Col>
-                      <Col xs={12} className="text-right">
-                        <Button variant="link" disabled={!hasChanges} onClick={revertChanges}>
-                          {intl.formatMessage(messages['library.detail.aside.discard'])}
-                        </Button>
-                      </Col>
-                    </Row>
-                  </Card.Body>
-                </Card>
-              </Col>
-            </Row>
-          </aside>
-        </Col>
-      </Row>
-    </Container>
-  );
-}
+                  <Button variant="link" disabled={!hasChanges} onClick={revertChanges}>
+                    {intl.formatMessage(messages['library.detail.aside.discard'])}
+                  </Button>
+                </Card.Footer>
+              </Card>
+            </Col>
+          </Row>
+        </aside>
+      </Col>
+    </Row>
+  </Container>
+);
 
 LibraryAuthoringPageBase.defaultProps = {
   errorMessage: '',
@@ -632,8 +693,12 @@ export function LibraryAuthoringPageContainerBase({
   }, [query, type, page]);
 
   const changeQuery = (newQuery) => {
-    setPage(1);
-    setQuery(newQuery);
+    // this gets fired when loading/switching paginated pages,
+    // so we need to check to make sure the query actually changed
+    if (newQuery !== query) {
+      setPage(1);
+      setQuery(newQuery);
+    }
   };
 
   const changeType = (newType) => {
