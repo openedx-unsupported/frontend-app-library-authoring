@@ -11,9 +11,9 @@ import { paginationParamsShape } from '../common';
 import { courseShape } from './data';
 import messages from './messages';
 
-function CourseImportListItem({
+const CourseImportListItem = ({
   intl, course, libraryId, importBlocksHandler, ongoingImportState, taskPaginationParams,
-}) {
+}) => {
   const [importState, setImportState] = useState('default');
 
   useEffect(() => {
@@ -57,7 +57,7 @@ function CourseImportListItem({
       />
     </Card>
   );
-}
+};
 
 CourseImportListItem.defaultProps = {
   ongoingImportState: '',

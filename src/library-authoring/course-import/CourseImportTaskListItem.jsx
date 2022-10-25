@@ -43,7 +43,7 @@ const CourseImportTaskListItem = ({ task }) => {
       />
     </Card>
   );
-}
+};
 
 CourseImportTaskListItem.propTypes = {
   task: importTaskShape.isRequired,

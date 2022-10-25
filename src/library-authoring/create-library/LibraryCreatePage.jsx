@@ -127,14 +127,14 @@ export class LibraryCreatePage extends React.Component {
     const { name, value } = e.target;
 
     this.validateInput(name, value, this.state.data);
-  }
+  };
 
   handleOnChangeOrg = (value) => {
     this.setState(prevState => ({
       data: { ...prevState.data, org: value },
       errors: { ...prevState.errors, org: value ? '' : prevState.errors.org },
     }));
-  }
+  };
 
   getSubmitButtonState = () => {
     const { status } = this.props;

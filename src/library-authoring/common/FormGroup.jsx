@@ -3,7 +3,7 @@ import React from 'react';
 import { Form } from '@edx/paragon';
 import PropTypes from 'prop-types';
 
-function FormGroup(props) {
+const FormGroup = (props) => {
   const handleFocus = (e) => {
     if (props.handleFocus) { props.handleFocus(e); }
   };
@@ -43,7 +43,7 @@ function FormGroup(props) {
       {props.children}
     </Form.Group>
   );
-}
+};
 
 FormGroup.defaultProps = {
   as: 'input',

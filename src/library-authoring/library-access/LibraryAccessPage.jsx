@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /*
 Library Access Page. This component handles team permissions access.
  */
@@ -39,7 +40,7 @@ import UserAccessWidgetContainer from './UserAccessWidget';
  * LibraryAccessPage:
  * Template component for the access management page for libraries.
  */
-function LibraryAccessPage({
+const LibraryAccessPage = ({
   intl, library, users, setShowAdd, errorMessage, showAdd, handleDismissAlert, multipleAdmins, isAdmin,
 }) => (
   <div className="library-access-wrapper">
@@ -113,8 +114,8 @@ function LibraryAccessPage({
         </Col>
       </Row>
     </div>
-  );
-}
+  </div>
+);
 
 LibraryAccessPage.defaultProps = { ...libraryAccessInitialState };
 
@@ -137,9 +138,9 @@ LibraryAccessPage.propTypes = {
  * a loading message during initial loading. This separation allows LibraryAccessPage to be tested
  * in unit tests without needing to mock the API.
  */
-function LibraryAccessPageContainer({
+const LibraryAccessPageContainer = ({
   intl, users, errorMessage, ...props
-}) {
+}) => {
   const [showAdd, setShowAdd] = useState(false);
   const multipleAdmins = !!(users && users.filter((user) => user.access_level === 'admin').length >= 2);
   const { authenticatedUser } = useContext(AppContext);
@@ -160,13 +161,11 @@ function LibraryAccessPageContainer({
     if (users === null) {
       props.fetchUserList({ libraryId });
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   // Returning a function with an empty dependencies list indicates this is to be done on unmount,
   // rather than on data change.
   useEffect(() => () => {
     props.clearAccess();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -215,7 +214,7 @@ function LibraryAccessPageContainer({
       {content}
     </div>
   );
-}
+};
 
 LibraryAccessPageContainer.propTypes = {
   // errorMessage: PropTypes.string,

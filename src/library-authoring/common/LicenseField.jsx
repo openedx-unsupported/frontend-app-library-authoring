@@ -135,19 +135,18 @@ export const LicenceFieldBase = (
           </Col>
         </Row>
       </>
-      )}
-      <Row className="mt-2">
-        <Col xs={12}>
-          <h3>License Preview</h3>
-          <p>The following message will be displayed where appropriate:</p>
-        </Col>
-        <Col xs={12}>
-          <LicenseContainer spec={value} />
-        </Col>
-      </Row>
-    </div>
-  );
-}
+    )}
+    <Row className="mt-2">
+      <Col xs={12}>
+        <h3>License Preview</h3>
+        <p>The following message will be displayed where appropriate:</p>
+      </Col>
+      <Col xs={12}>
+        <LicenseContainer spec={value} />
+      </Col>
+    </Row>
+  </div>
+);
 
 LicenceFieldBase.propTypes = {
   intl: intlShape.isRequired,
@@ -174,7 +173,7 @@ export const LicenseField = injectIntl(LicenceFieldBase);
  * Container for the LicenseField-- dynamically displays the license options and allows a user to toggle features
  * for supported licenses.
  */
-export function LicenseFieldContainerBase({ value, updateValue, name }) {
+export const LicenseFieldContainerBase = ({ value, updateValue, name }) => {
   // We need to remember these values. If the user switches away from Creative Commons, we should remember what
   // checkboxes were checked.
   const [cachedSpec, updateCache] = useState(value);
@@ -197,7 +196,8 @@ export function LicenseFieldContainerBase({ value, updateValue, name }) {
     const newSpec = specFromCommonsOptions(result);
     updateValue(newSpec);
     updateCache(newSpec);
-  }, [commonsOptions, updateValue]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [commonsOptions]);
 
   return (
     <LicenseField
@@ -211,7 +211,7 @@ export function LicenseFieldContainerBase({ value, updateValue, name }) {
       name={name}
     />
   );
-}
+};
 
 LicenseFieldContainerBase.propTypes = {
   value: PropTypes.string.isRequired,

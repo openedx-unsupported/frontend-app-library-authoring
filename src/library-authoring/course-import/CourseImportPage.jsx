@@ -37,7 +37,7 @@ import {
   selectCourseImport,
 } from './data';
 
-export function CourseImportPageHeader({ intl, showCourses, ...props }) {
+export const CourseImportPageHeader = ({ intl, showCourses, ...props }) => {
   const showCoursesHandler = () => {
     props.setShowCourses(!showCourses);
   };
@@ -59,7 +59,7 @@ export function CourseImportPageHeader({ intl, showCourses, ...props }) {
       </header>
     </div>
   );
-}
+};
 
 CourseImportPageHeader.defaultProps = {};
 CourseImportPageHeader.propTypes = {
@@ -148,9 +148,9 @@ CourseImportList.propTypes = {
   taskPaginationParams: paginationParamsShape.isRequired,
 };
 
-export function CourseImportListFilter({
+export const CourseImportListFilter = ({
   intl, organizations, filterParams, ...props
-}) {
+}) => {
   const orgOptions = [
     {
       key: 'all',
@@ -246,7 +246,7 @@ export function CourseImportListFilter({
       </div>
     </>
   );
-}
+};
 
 CourseImportListFilter.defaultProps = {};
 CourseImportListFilter.propTypes = {
@@ -325,9 +325,9 @@ ImportTaskList.propTypes = {
   setPaginationParams: PropTypes.func.isRequired,
 };
 
-export function CourseImportPage({
+export const CourseImportPage = ({
   intl, courses, courseCount, importTasks, importTaskCount, ongoingImports, organizations, ...props
-}) {
+}) => {
   const { libraryId } = props.match.params;
   const { authenticatedUser } = useContext(AppContext);
   const isCourseImportListLoading = (
@@ -444,7 +444,7 @@ export function CourseImportPage({
       </div>
     </div>
   );
-}
+};
 
 CourseImportPage.defaultProps = {
   ...courseImportInitialState,

@@ -77,7 +77,7 @@ const getHandlerUrl = async (blockId) => getXBlockHandlerUrl(blockId, XBLOCK_VIE
  * Template component for BlockPreview cards, which are used to display
  * components and render controls for them in a library listing.
  */
-export function BlockPreviewBase({
+export const BlockPreviewBase = ({
   intl, block, view, canEdit, showPreviews, showDeleteModal,
   setShowDeleteModal, library, previewKey, editView, isLtiUrlGenerating,
   ...props
@@ -170,9 +170,9 @@ const needsMeta = ({ blockStates, id }) => inStandby({ blockStates, id, attr: 'm
  * Container component for the BlockPreview cards.
  * Handles the fetching of the block view and metadata.
  */
-function BlockPreviewContainerBase({
+const BlockPreviewContainerBase = ({
   intl, block, blockView, blockStates, showPreviews, library, ltiUrlClipboard, ...props
-}) {
+}) => {
   // There are enough events that trigger the effects here that we need to keep track of what we're doing to avoid
   // doing it more than once, or running them when the state can no longer support these actions.
   //
@@ -249,7 +249,7 @@ function BlockPreviewContainerBase({
       fetchBlockLtiUrl={props.fetchBlockLtiUrl}
     />
   );
-}
+};
 
 BlockPreviewContainerBase.defaultProps = {
   blockView: null,
@@ -268,7 +268,8 @@ BlockPreviewContainerBase.propTypes = {
   showPreviews: PropTypes.bool.isRequired,
   deleteLibraryBlock: PropTypes.func.isRequired,
   library: libraryShape.isRequired,
-  ltiUrlClipboard: fetchable(PropTypes.shape({})),
+  // eslint-disable-next-line react/forbid-prop-types
+  ltiUrlClipboard: fetchable(PropTypes.object),
 };
 
 const ButtonTogglesBase = ({ setShowPreviews, showPreviews, intl }) => (
@@ -347,38 +348,36 @@ const LibraryAuthoringPageHeaderBase = ({ intl, library, ...props }) => {
   };
 
   return (
-    <>
-      <h1 className="page-header-title">
-        { inputIsActive
-          ? (
-            <Form.Control
-              autoFocus
-              name="title"
-              id="title"
-              type="text"
-              aria-label="Title input"
-              defaultValue={library.title}
-              onBlur={handleSaveTitle}
-              onKeyDown={event => {
-                if (event.key === 'Enter') { handleSaveTitle(event); }
-              }}
+    <h1 className="page-header-title">
+      { inputIsActive
+        ? (
+          <Form.Control
+            autoFocus
+            name="title"
+            id="title"
+            type="text"
+            aria-label="Title input"
+            defaultValue={library.title}
+            onBlur={handleSaveTitle}
+            onKeyDown={event => {
+              if (event.key === 'Enter') { handleSaveTitle(event); }
+            }}
+          />
+        )
+        : (
+          <>
+            {library.title}
+            <IconButton
+              invertColors
+              isActive
+              iconAs={Edit}
+              alt="Edit name button"
+              onClick={handleClick}
+              className="ml-3"
             />
-          )
-          : (
-            <>
-              {library.title}
-              <IconButton
-                invertColors
-                isActive
-                iconAs={Edit}
-                alt="Edit name button"
-                onClick={handleClick}
-                className="ml-3"
-              />
-            </>
-          )}
-      </h1>
-    </>
+          </>
+        )}
+    </h1>
   );
 };
 
@@ -399,7 +398,7 @@ const LibraryAuthoringPageHeader = connect(
  * LibraryAuthoringPage
  * Template component for the library Authoring page.
  */
-export function LibraryAuthoringPageBase({
+export const LibraryAuthoringPageBase = ({
   intl, library, blockView, showPreviews, setShowPreviews,
   sending, addBlock, revertChanges, commitChanges, hasChanges, errorMessage, successMessage,
   quickAddBehavior, otherTypes, blocks, changeQuery, changeType, changePage,
@@ -639,9 +638,9 @@ const LibraryAuthoringPage = injectIntl(LibraryAuthoringPageBase);
  * Container for the Library Authoring page.
  * This is the main page for the authoring tool.
  */
-export function LibraryAuthoringPageContainerBase({
+export const LibraryAuthoringPageContainerBase = ({
   intl, library, blockStates, blocks, ...props
-}) {
+}) => {
   const { libraryId } = props.match.params;
   const [query, setQuery] = useState('');
   const [type, setType] = useState('');
@@ -826,7 +825,7 @@ export function LibraryAuthoringPageContainerBase({
       {...props}
     />
   );
-}
+};
 
 LibraryAuthoringPageContainerBase.defaultProps = {
   library: null,

@@ -136,7 +136,7 @@ export const UserAccessWidget = ({
 );
 export const UserAccessWidgetContainerBase = ({
   user, ...props
-}) {
+}) => {
   const { authenticatedUser } = useContext(AppContext);
   const isUser = authenticatedUser.username === user.username;
   const [showRemoveModal, setShowRemoveModal] = useState(false);
@@ -160,7 +160,7 @@ export const UserAccessWidgetContainerBase = ({
     removeAccess,
   };
   return <UserAccessWidget {...newProps} />;
-}
+};
 
 UserAccessWidgetContainerBase.propTypes = {
   user: libraryUserShape.isRequired,
