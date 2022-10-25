@@ -346,38 +346,36 @@ const LibraryAuthoringPageHeaderBase = ({ intl, library, ...props }) => {
   };
 
   return (
-    <>
-      <h1 className="page-header-title">
-        { inputIsActive
-          ? (
-            <Form.Control
-              autoFocus
-              name="title"
-              id="title"
-              type="text"
-              aria-label="Title input"
-              defaultValue={library.title}
-              onBlur={handleSaveTitle}
-              onKeyDown={event => {
-                if (event.key === 'Enter') { handleSaveTitle(event); }
-              }}
+    <h1 className="page-header-title">
+      { inputIsActive
+        ? (
+          <Form.Control
+            autoFocus
+            name="title"
+            id="title"
+            type="text"
+            aria-label="Title input"
+            defaultValue={library.title}
+            onBlur={handleSaveTitle}
+            onKeyDown={event => {
+              if (event.key === 'Enter') { handleSaveTitle(event); }
+            }}
+          />
+        )
+        : (
+          <>
+            {library.title}
+            <IconButton
+              invertColors
+              isActive
+              iconAs={Edit}
+              alt="Edit name button"
+              onClick={handleClick}
+              className="ml-3"
             />
-          )
-          : (
-            <>
-              {library.title}
-              <IconButton
-                invertColors
-                isActive
-                iconAs={Edit}
-                alt="Edit name button"
-                onClick={handleClick}
-                className="ml-3"
-              />
-            </>
-          )}
-      </h1>
-    </>
+          </>
+        )}
+    </h1>
   );
 };
 

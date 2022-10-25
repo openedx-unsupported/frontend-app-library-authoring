@@ -86,7 +86,7 @@ class LibraryConfigurePage extends React.Component {
         license: library.license,
       },
     });
-  }
+  };
 
   hasFieldError = (fieldName) => {
     const { errorFields } = this.props;
@@ -96,7 +96,7 @@ class LibraryConfigurePage extends React.Component {
     }
 
     return false;
-  }
+  };
 
   getFieldError = (fieldName) => {
     if (this.hasFieldError(fieldName)) {
@@ -104,7 +104,7 @@ class LibraryConfigurePage extends React.Component {
     }
 
     return null;
-  }
+  };
 
   formIsValid = () => {
     const { data } = this.state;
@@ -114,7 +114,7 @@ class LibraryConfigurePage extends React.Component {
     }
 
     return false;
-  }
+  };
 
   getSubmitButtonState = () => {
     const { submissionStatus } = this.props;
@@ -129,13 +129,13 @@ class LibraryConfigurePage extends React.Component {
     }
 
     return state;
-  }
+  };
 
   handleDismissAlert = () => {
     this.props.clearError();
-  }
+  };
 
-  mockInputChange = (name) => (value) => this.handleValueChange({ target: { value, name, type: 'text' } })
+  mockInputChange = (name) => (value) => this.handleValueChange({ target: { value, name, type: 'text' } });
 
   handleValueChange = (event) => {
     const el = event.target;
@@ -145,20 +145,20 @@ class LibraryConfigurePage extends React.Component {
         [el.name]: el.type === 'checkbox' ? el.checked : el.value,
       },
     }));
-  }
+  };
 
   handleSubmit = (event) => {
     event.preventDefault();
     this.props.updateLibrary({ data: this.state.data });
-  }
+  };
 
-  componentWillUnmount = () => {
+  componentWillUnmount() {
     this.props.clearError();
   }
 
   handleCancel = () => {
     this.props.history.push(this.props.library.url);
-  }
+  };
 
   renderLoading() {
     const { intl } = this.props;
