@@ -24,6 +24,7 @@ import {
   truncateMessage,
   FormGroup,
   OrganizationDropdown,
+  VALID_SLUG_ID_REGEX,
 } from '../common';
 import {
   createLibrary,
@@ -51,6 +52,7 @@ export class LibraryCreatePage extends React.Component {
         slug: '',
         license: '',
       },
+      errors: {},
     };
   }
 
@@ -59,7 +61,7 @@ export class LibraryCreatePage extends React.Component {
     this.props.fetchOrganizations();
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps, prevState) {
     /* Redirect on submission success. */
     const { status, createdLibrary } = this.props;
     if (
@@ -81,6 +83,17 @@ export class LibraryCreatePage extends React.Component {
 
     if (prevProps.status === SUBMISSION_STATUS.SUBMITTING && this.props.status === SUBMISSION_STATUS.FAILED) {
       window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+
+      // Update field errors after submission with error response
+      if (this.props.errorFields) {
+        // eslint-disable-next-line react/no-did-update-set-state
+        this.setState({
+          errors: {
+            ...this.props.errorFields,
+            org: prevState.errors.org || this.props.errorFields?.org,
+          },
+        });
+      }
     }
   }
 
@@ -94,38 +107,34 @@ export class LibraryCreatePage extends React.Component {
     }), () => {
       const isFormFilled = Object.keys(this.state.data).some(i => this.state.data[i]);
       this.setState({ allowLeave: !isFormFilled });
+      this.validateInput(name, value, this.state.data);
     });
-  }
+  };
 
   onCancel = () => {
     this.props.resetForm();
     this.props.history.push(ROUTES.List.HOME);
-  }
+  };
 
   onSubmit = (event) => {
     event.preventDefault();
     this.props.createLibrary({ data: { ...this.state.data, type: LIBRARY_TYPES.COMPLEX } });
-  }
+  };
 
-  hasFieldError = (fieldName) => {
-    const { errorFields } = this.props;
+  getFieldError = (fieldName) => (fieldName in this.state.errors ? this.state.errors[fieldName] : null);
 
-    return errorFields && (fieldName in errorFields);
-  }
+  handleOnBlur = (e) => {
+    const { name, value } = e.target;
 
-  getFieldError = (fieldName) => {
-    if (this.hasFieldError(fieldName)) {
-      return this.props.errorFields[fieldName];
-    }
+    this.validateInput(name, value, this.state.data);
+  };
 
-    return null;
-  }
-
-  formIsValid = () => {
-    const { data } = this.state;
-
-    return !!(data.title && data.org && data.slug);
-  }
+  handleOnChangeOrg = (value) => {
+    this.setState(prevState => ({
+      data: { ...prevState.data, org: value },
+      errors: { ...prevState.errors, org: value ? '' : prevState.errors.org },
+    }));
+  };
 
   getSubmitButtonState = () => {
     const { status } = this.props;
@@ -133,22 +142,20 @@ export class LibraryCreatePage extends React.Component {
     let state;
     if (status === SUBMISSION_STATUS.SUBMITTING) {
       state = 'pending';
-    } else if (this.formIsValid()) {
-      state = 'enabled';
     } else {
-      state = 'disabled';
+      state = 'enabled';
     }
 
     return state;
-  }
+  };
 
   openModal = (location) => {
     this.setState({ isOpenModal: true, lastLocation: location });
-  }
+  };
 
   closeModal = () => {
     this.setState({ isOpenModal: false });
-  }
+  };
 
   handleClickBreadcrumbs = (event) => {
     if (!this.state.allowLeave) {
@@ -156,7 +163,7 @@ export class LibraryCreatePage extends React.Component {
       const pathname = event.target.getAttribute('href');
       this.openModal({ pathname });
     }
-  }
+  };
 
   handleBlockedNavigation = (nextLocation) => {
     const { confirmedNavigation, allowLeave } = this.state;
@@ -166,7 +173,7 @@ export class LibraryCreatePage extends React.Component {
     }
 
     return true;
-  }
+  };
 
   handleConfirmNavigationClick = () => {
     const { lastLocation } = this.state;
@@ -185,6 +192,43 @@ export class LibraryCreatePage extends React.Component {
         }
       });
     }
+  };
+
+  validateInput(fieldName, value, data) {
+    const { intl } = this.props;
+    const { errors } = this.state;
+    const slugRegex = new RegExp(VALID_SLUG_ID_REGEX);
+
+    switch (fieldName) {
+      case 'org':
+        if (!value) {
+          errors[fieldName] = intl.formatMessage(messages['library.form.field.error.empty']);
+        } else if (value && !data.org) {
+          errors[fieldName] = intl.formatMessage(messages['library.form.field.error.mismatch.org']);
+        } else {
+          errors[fieldName] = '';
+        }
+        break;
+      case 'slug':
+        if (!value) {
+          errors[fieldName] = intl.formatMessage(messages['library.form.field.error.empty']);
+        } else if (value && !value.match(slugRegex)) {
+          errors[fieldName] = intl.formatMessage(messages['library.form.field.error.invalid.slug']);
+        } else {
+          errors[fieldName] = '';
+        }
+        break;
+      default:
+        if (!value) {
+          errors[fieldName] = intl.formatMessage(messages['library.form.field.error.empty']);
+        } else {
+          errors[fieldName] = '';
+        }
+        break;
+    }
+
+    this.setState({ errors });
+    return errors;
   }
 
   render() {
@@ -246,16 +290,15 @@ export class LibraryCreatePage extends React.Component {
                         disabled
                         type="text"
                         name="org"
+                        intl={intl}
                         readOnly={false}
                         value={data.org}
                         options={orgs}
                         controlClassName="has-value"
-                        handleChange={
-                          (value) => this.setState(prevState => ({ data: { ...prevState.data, org: value } }))
-                        }
+                        handleBlur={this.handleOnBlur}
+                        handleChange={this.handleOnChangeOrg}
                         floatingLabel={intl.formatMessage(messages['library.form.org.label'])}
                         placeholder={intl.formatMessage(messages['library.form.org.placeholder'])}
-                        hasFieldError={this.hasFieldError('org')}
                         errorMessage={this.getFieldError('org')}
                         helpMessage={intl.formatMessage(messages['library.form.org.help'])}
                       />

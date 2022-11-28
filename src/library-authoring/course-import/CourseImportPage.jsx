@@ -4,7 +4,13 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import {
-  Button, Form, Input, Pagination, Alert,
+  ActionRow,
+  Alert,
+  Button,
+  Col,
+  Form,
+  Pagination,
+  Row,
 } from '@edx/paragon';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import { faSearch, faSync } from '@fortawesome/free-solid-svg-icons';
@@ -39,22 +45,17 @@ export const CourseImportPageHeader = ({ intl, showCourses, ...props }) => {
   return (
     <div className="wrapper-mast wrapper">
       <header className="mast has-actions has-navigation has-subtitle">
-        <div className="page-header">
-          <small className="subtitle">{intl.formatMessage(messages['library.course_import.page.parent_heading'])}</small>
+        <small className="subtitle">{intl.formatMessage(messages['library.course_import.page.parent_heading'])}</small>
+        <ActionRow>
           <h1 className="page-header-title">{intl.formatMessage(messages['library.course_import.page.heading'])}</h1>
-        </div>
-        <nav className="nav-actions">
-          <ul>
-            <li className="nav-item">
-              <Button className="toggle-importable-courses" variant="primary" onClick={showCoursesHandler}>
-                <FontAwesomeIcon icon={faSync} className="pr-3" />
-                {showCourses
-                  ? intl.formatMessage(messages['library.course_import.importable_courses.hide'])
-                  : intl.formatMessage(messages['library.course_import.importable_courses.show'])}
-              </Button>
-            </li>
-          </ul>
-        </nav>
+          <ActionRow.Spacer />
+          <Button className="toggle-importable-courses" variant="primary" onClick={showCoursesHandler}>
+            <FontAwesomeIcon icon={faSync} className="pr-1" />
+            {showCourses
+              ? intl.formatMessage(messages['library.course_import.importable_courses.hide'])
+              : intl.formatMessage(messages['library.course_import.importable_courses.show'])}
+          </Button>
+        </ActionRow>
       </header>
     </div>
   );
@@ -91,13 +92,13 @@ export const CourseImportList = ({
   };
 
   const renderContent = () => (
-    <div className="importable-course-list-container">
+    <div className="importable-course-list-container mb-4">
       {
         courseCount > 0
           ? (
-            <ul className="library-list importable-course-list">
+            <ul className="library-list list-unstyled">
               {courses.map((course) => (
-                <li key={course.id} className="library-item no-hover-bg">
+                <li className="library-item" key={course.id}>
                   <CourseImportListItem
                     libraryId={libraryId}
                     course={course}
@@ -141,7 +142,7 @@ CourseImportList.propTypes = {
   courses: PropTypes.arrayOf(courseShape),
   courseCount: PropTypes.number.isRequired,
   importBlocksHandler: PropTypes.func.isRequired,
-  ongoingImports: PropTypes.objectOf(PropTypes.object),
+  ongoingImports: PropTypes.objectOf(PropTypes.shape({})),
   paginationParams: paginationParamsShape.isRequired,
   setPaginationParams: PropTypes.func.isRequired,
   taskPaginationParams: paginationParamsShape.isRequired,
@@ -152,12 +153,15 @@ export const CourseImportListFilter = ({
 }) => {
   const orgOptions = [
     {
+      key: 'all',
       value: '',
       label: intl.formatMessage(messages['library.course_import.course_filter.options.org.all']),
     },
     {
+      key: 'organizations',
       label: intl.formatMessage(messages['library.course_import.course_filter.options.org.organizations']),
       group: organizations.map(organization => ({
+        key: organization,
         value: organization,
         label: organization,
       })),
@@ -177,6 +181,19 @@ export const CourseImportListFilter = ({
       ...filterParams,
       search_term: event.target.querySelector('[name="search_term"]').value.trim(),
     });
+  };
+
+  const renderOption = option => {
+    if (option.group) {
+      return (
+        <optgroup key={option.key} label={option.label}>
+          {option.group.map(renderOption)}
+        </optgroup>
+      );
+    }
+    return (
+      <option value={option.value} key={option.value}>{option.label}</option>
+    );
   };
 
   return (
@@ -215,13 +232,14 @@ export const CourseImportListFilter = ({
               <Form.Label className="title title-3">
                 {intl.formatMessage(messages['library.course_import.course_filter.options.org.label'])}
               </Form.Label>
-              <Input
+              <Form.Control
                 name="org"
-                type="select"
-                options={orgOptions}
+                as="select"
                 defaultValue={filterParams ? filterParams.org : null}
                 onChange={handleOrgChange}
-              />
+              >
+                {orgOptions.map(renderOption)}
+              </Form.Control>
             </Form.Group>
           </Form.Row>
         </Form>
@@ -265,9 +283,9 @@ export const ImportTaskList = ({
       {
         taskCount > 0
           ? (
-            <ul className="library-list importable-course-list">
+            <ul className="library-list list-unstyled">
               {tasks.map((task) => (
-                <li key={task.id} className="library-item no-hover-bg">
+                <li key={task.course_id}>
                   <CourseImportTaskListItem task={task} />
                 </li>
               ))}
@@ -324,6 +342,7 @@ export const CourseImportPage = ({
 
   useEffect(() => {
     props.fetchOrganizationList();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -334,6 +353,7 @@ export const CourseImportPage = ({
         authenticatedUser,
       },
     });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [libraryId, taskPaginationParams]);
 
   useEffect(() => {
@@ -344,6 +364,7 @@ export const CourseImportPage = ({
         authenticatedUser,
       },
     });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filterParams, coursePaginationParams]);
 
   const loadingHandler = () => (
@@ -360,10 +381,10 @@ export const CourseImportPage = ({
         />
 
         <div className="wrapper-content wrapper">
-          <section className="content">
-            <article className="content-primary" role="main">
-              {
-                props.errorMessage && (
+          <Row className="content mt-3">
+            <Col xs={12} md={8} xl={9}>
+              <article className="content-primary" role="main">
+                {props.errorMessage && (
                   <Alert
                     variant="danger"
                     onClose={props.clearErrors}
@@ -371,56 +392,54 @@ export const CourseImportPage = ({
                   >
                     {truncateMessage(props.errorMessage)}
                   </Alert>
-                )
-              }
-
-              {
-                showCourses && (
-                <CourseImportList
+                )}
+                {showCourses && (
+                  <CourseImportList
+                    intl={intl}
+                    isLoading={isCourseImportListLoading}
+                    loadingHandler={loadingHandler}
+                    libraryId={libraryId}
+                    courses={courses}
+                    courseCount={courseCount}
+                    importBlocksHandler={props.importBlocks}
+                    ongoingImports={ongoingImports}
+                    paginationParams={coursePaginationParams}
+                    setPaginationParams={setCoursePaginationParams}
+                    taskPaginationParams={taskPaginationParams}
+                  />
+                )}
+                <ImportTaskList
                   intl={intl}
-                  isLoading={isCourseImportListLoading}
+                  isLoading={props.importTasksLoadingStatus === LOADING_STATUS.LOADING}
                   loadingHandler={loadingHandler}
-                  libraryId={libraryId}
-                  courses={courses}
-                  courseCount={courseCount}
-                  importBlocksHandler={props.importBlocks}
-                  ongoingImports={ongoingImports}
-                  paginationParams={coursePaginationParams}
-                  setPaginationParams={setCoursePaginationParams}
-                  taskPaginationParams={taskPaginationParams}
+                  tasks={importTasks}
+                  taskCount={importTaskCount}
+                  paginationParams={taskPaginationParams}
+                  setPaginationParams={setTaskPaginationParams}
                 />
-                )
-              }
+              </article>
+            </Col>
+            <Col xs={12} md={4} xl={3}>
+              <aside className="content-supplementary">
+                <div className="bit">
+                  <h3 className="title title-3">{intl.formatMessage(messages['library.course_import.aside.import_task_list.title'])}</h3>
+                  <p>{intl.formatMessage(messages['library.course_import.aside.import_task_list.text.first'])}</p>
+                  <p>{intl.formatMessage(messages['library.course_import.aside.import_task_list.text.second'])}</p>
+                </div>
 
-              <ImportTaskList
-                intl={intl}
-                isLoading={props.importTasksLoadingStatus === LOADING_STATUS.LOADING}
-                loadingHandler={loadingHandler}
-                tasks={importTasks}
-                taskCount={importTaskCount}
-                paginationParams={taskPaginationParams}
-                setPaginationParams={setTaskPaginationParams}
-              />
-            </article>
-            <aside className="content-supplementary">
-              <div className="bit">
-                <h3 className="title title-3">{intl.formatMessage(messages['library.course_import.aside.import_task_list.title'])}</h3>
-                <p>{intl.formatMessage(messages['library.course_import.aside.import_task_list.text.first'])}</p>
-                <p>{intl.formatMessage(messages['library.course_import.aside.import_task_list.text.second'])}</p>
-              </div>
-
-              {
-                showCourses && (
-                <CourseImportListFilter
-                  intl={intl}
-                  organizations={organizations}
-                  filterParams={filterParams}
-                  setFilterParams={setFilterParams}
-                />
-                )
-              }
-            </aside>
-          </section>
+                {
+                  showCourses && (
+                  <CourseImportListFilter
+                    intl={intl}
+                    organizations={organizations}
+                    filterParams={filterParams}
+                    setFilterParams={setFilterParams}
+                  />
+                  )
+                }
+              </aside>
+            </Col>
+          </Row>
         </div>
       </div>
     </div>
@@ -447,7 +466,7 @@ CourseImportPage.propTypes = {
   importTasks: PropTypes.arrayOf(importTaskShape),
   importTaskCount: PropTypes.number.isRequired,
   organizations: PropTypes.arrayOf(PropTypes.string),
-  ongoingImports: PropTypes.objectOf(PropTypes.object),
+  ongoingImports: PropTypes.objectOf(PropTypes.shape({})),
   organizationsLoadingStatus: PropTypes.oneOf(Object.values(LOADING_STATUS)).isRequired,
   coursesLoadingStatus: PropTypes.oneOf(Object.values(LOADING_STATUS)).isRequired,
   importBlocksLoadingStatus: PropTypes.oneOf(Object.values(LOADING_STATUS)).isRequired,

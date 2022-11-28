@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {
   Button,
   Col,
-  Input,
+  Form,
   Row,
 } from '@edx/paragon';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
@@ -38,12 +38,12 @@ export const LicenceFieldBase = (
     </label>
     <Row className="flex-row">
       <Col>
-        <Button name={name} className="text-uppercase mx-1" variant={reservedVariant} size="lg" onClick={() => updateValue('')}>
+        <Button name={name} className="text-uppercase mx-1" variant={reservedVariant} onClick={() => updateValue('')}>
           {intl.formatMessage(messages['library.common.license.none'])}
         </Button>
       </Col>
       <Col>
-        <Button name={name} className="text-uppercase mx-1" variant={commonsVariant} size="lg" onClick={() => updateValue(spec)}>
+        <Button name={name} className="text-uppercase mx-1" variant={commonsVariant} onClick={() => updateValue(spec)}>
           {intl.formatMessage(messages['library.common.license.cc'])}
         </Button>
         <p className="small">
@@ -60,8 +60,7 @@ export const LicenceFieldBase = (
         </div>
         <Row className="border-bottom py-2">
           <Col xs={1} className="text-center align-self-center">
-            <Input
-              type="checkbox"
+            <Form.Checkbox
               id="attribution"
               name="attribution"
               className="m-0 p-0 position-relative"
@@ -80,8 +79,7 @@ export const LicenceFieldBase = (
         </Row>
         <Row className="border-bottom py-2">
           <Col xs={1} className="text-center align-self-center">
-            <Input
-              type="checkbox"
+            <Form.Checkbox
               id="nonCommercial"
               name="nonCommercial"
               className="m-0 p-0 position-relative"
@@ -100,8 +98,7 @@ export const LicenceFieldBase = (
         </Row>
         <Row className="border-bottom py-2">
           <Col xs={1} className="text-center align-self-center">
-            <Input
-              type="checkbox"
+            <Form.Checkbox
               name="noDerivatives"
               id="noDerivatives"
               className="m-0 p-0 position-relative"
@@ -120,8 +117,7 @@ export const LicenceFieldBase = (
         </Row>
         <Row className="border-bottom py-2">
           <Col xs={1} className="text-center align-self-center">
-            <Input
-              type="checkbox"
+            <Form.Checkbox
               id="shareAlike"
               name="shareAlike"
               className="m-0 p-0 position-relative"
@@ -200,6 +196,7 @@ export const LicenseFieldContainerBase = ({ value, updateValue, name }) => {
     const newSpec = specFromCommonsOptions(result);
     updateValue(newSpec);
     updateCache(newSpec);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [commonsOptions]);
 
   return (

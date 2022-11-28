@@ -5,15 +5,18 @@ import { ExpandLess, ExpandMore } from '@edx/paragon/icons';
 import PropTypes from 'prop-types';
 // eslint-disable-next-line import/no-unresolved
 import onClickOutside from 'react-onclickoutside';
+import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import FormGroup from './FormGroup';
+
+import messages from './messages';
 
 class OrganizationDropdown extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      isFocused: false,
       displayValue: '',
       icon: this.expandMoreButton(),
-      errorMessage: '',
       dropDownItems: [],
     };
 
@@ -22,7 +25,7 @@ class OrganizationDropdown extends React.Component {
   }
 
   shouldComponentUpdate(nextProps) {
-    if (this.props.value !== nextProps.value && nextProps.value !== null) {
+    if (this.props.value !== nextProps.value && nextProps.value !== '') {
       const opt = this.props.options.find((o) => o === nextProps.value);
       if (opt && opt !== this.state.displayValue) {
         this.setState({ displayValue: opt });
@@ -33,6 +36,7 @@ class OrganizationDropdown extends React.Component {
     return true;
   }
 
+  // eslint-disable-next-line react/sort-comp
   getItems(strToFind = '') {
     let { options } = this.props;
     if (strToFind.length > 0) {
@@ -81,7 +85,7 @@ class OrganizationDropdown extends React.Component {
       this.setValue(opt);
       this.setState({ displayValue: opt });
     } else {
-      this.setValue(null);
+      this.setValue('');
       this.setState({ displayValue: value });
     }
   }
@@ -89,37 +93,36 @@ class OrganizationDropdown extends React.Component {
   handleClick = (e) => {
     const dropDownItems = this.getItems(e.target.value);
     if (dropDownItems.length > 1) {
-      this.setState({ dropDownItems, icon: this.expandLessButton(), errorMessage: '' });
+      this.setState({ dropDownItems, icon: this.expandLessButton() });
     }
 
     if (this.state.dropDownItems.length > 0) {
-      this.setState({ dropDownItems: '', icon: this.expandMoreButton(), errorMessage: '' });
+      this.setState({ dropDownItems: '', icon: this.expandMoreButton() });
     }
-  }
+  };
 
   handleOnChange = (e) => {
     const findstr = e.target.value;
 
     if (findstr.length) {
       const filteredItems = this.getItems(findstr);
-      this.setState({ dropDownItems: filteredItems, icon: this.expandLessButton(), errorMessage: '' });
+      this.setState({ dropDownItems: filteredItems, icon: this.expandLessButton() });
     } else {
-      this.setState({ dropDownItems: '', icon: this.expandMoreButton(), errorMessage: this.props.errorMessage });
+      this.setState({ dropDownItems: '', icon: this.expandMoreButton() });
     }
 
     this.setDisplayValue(e.target.value);
-  }
+  };
 
+  // eslint-disable-next-line react/no-unused-class-component-methods
   handleClickOutside = () => {
     if (this.state.dropDownItems.length > 0) {
-      const msg = this.state.displayValue === '' ? this.props.errorMessage : '';
       this.setState(() => ({
         icon: this.expandMoreButton(),
         dropDownItems: '',
-        errorMessage: msg,
       }));
     }
-  }
+  };
 
   handleExpandLess() {
     this.setState({ dropDownItems: '', icon: this.expandMoreButton() });
@@ -127,16 +130,16 @@ class OrganizationDropdown extends React.Component {
 
   handleExpandMore(e) {
     const dropDownItems = this.getItems(e.target.value);
-    this.setState({
-      dropDownItems, icon: this.expandLessButton(), errorMessage: '',
-    });
+    this.setState({ dropDownItems, icon: this.expandLessButton() });
   }
 
   handleFocus(e) {
+    this.setState({ isFocused: true });
     if (this.props.handleFocus) { this.props.handleFocus(e); }
   }
 
   handleOnBlur(e) {
+    this.setState({ isFocused: false });
     if (this.props.handleBlur) { this.props.handleBlur(e); }
   }
 
@@ -174,6 +177,12 @@ class OrganizationDropdown extends React.Component {
   }
 
   render() {
+    const noOptionsMessage = (
+      <button className="dropdown-item" type="button" disabled>
+        {this.props.intl.formatMessage(messages['library.organizations.list.empty'])}
+      </button>
+    );
+    const dropDownEmptyList = this.state.dropDownItems && this.state.isFocused ? noOptionsMessage : null;
     return (
       <div className="dropdown-group-wrapper">
         <FormGroup
@@ -182,7 +191,7 @@ class OrganizationDropdown extends React.Component {
           value={this.state.displayValue}
           readOnly={this.props.readOnly}
           controlClassName={this.props.controlClassName}
-          errorMessage={this.state.errorMessage}
+          errorMessage={this.props.errorMessage}
           trailingElement={this.state.icon}
           floatingLabel={this.props.floatingLabel}
           placeholder={this.props.placeholder}
@@ -193,7 +202,7 @@ class OrganizationDropdown extends React.Component {
           handleFocus={this.handleFocus}
         />
         <div className="dropdown-container">
-          { this.state.dropDownItems.length > 0 ? this.state.dropDownItems : null }
+          { this.state.dropDownItems.length > 0 ? this.state.dropDownItems : dropDownEmptyList }
         </div>
       </div>
     );
@@ -215,6 +224,7 @@ OrganizationDropdown.defaultProps = {
 };
 
 OrganizationDropdown.propTypes = {
+  intl: intlShape.isRequired,
   options: PropTypes.arrayOf(PropTypes.string),
   floatingLabel: PropTypes.string,
   handleFocus: PropTypes.func,
@@ -229,4 +239,4 @@ OrganizationDropdown.propTypes = {
   controlClassName: PropTypes.string,
 };
 
-export default onClickOutside(OrganizationDropdown);
+export default injectIntl(onClickOutside(OrganizationDropdown));

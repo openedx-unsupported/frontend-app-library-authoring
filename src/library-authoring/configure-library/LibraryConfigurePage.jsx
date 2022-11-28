@@ -3,11 +3,12 @@ import PropTypes from 'prop-types';
 import {
   Alert,
   Button,
+  Card,
+  Col,
   Form,
   Icon,
-  Input,
+  Row,
   StatefulButton,
-  ValidationFormGroup,
 } from '@edx/paragon';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
@@ -72,6 +73,10 @@ class LibraryConfigurePage extends React.Component {
     }
   }
 
+  componentWillUnmount() {
+    this.props.clearError();
+  }
+
   syncLibraryData = () => {
     const { library } = this.props;
     this.setState({
@@ -85,7 +90,7 @@ class LibraryConfigurePage extends React.Component {
         license: library.license,
       },
     });
-  }
+  };
 
   hasFieldError = (fieldName) => {
     const { errorFields } = this.props;
@@ -95,7 +100,7 @@ class LibraryConfigurePage extends React.Component {
     }
 
     return false;
-  }
+  };
 
   getFieldError = (fieldName) => {
     if (this.hasFieldError(fieldName)) {
@@ -103,7 +108,7 @@ class LibraryConfigurePage extends React.Component {
     }
 
     return null;
-  }
+  };
 
   formIsValid = () => {
     const { data } = this.state;
@@ -113,7 +118,7 @@ class LibraryConfigurePage extends React.Component {
     }
 
     return false;
-  }
+  };
 
   getSubmitButtonState = () => {
     const { submissionStatus } = this.props;
@@ -128,13 +133,13 @@ class LibraryConfigurePage extends React.Component {
     }
 
     return state;
-  }
+  };
 
   handleDismissAlert = () => {
     this.props.clearError();
-  }
+  };
 
-  mockInputChange = (name) => (value) => this.handleValueChange({ target: { value, name, type: 'text' } })
+  mockInputChange = (name) => (value) => this.handleValueChange({ target: { value, name, type: 'text' } });
 
   handleValueChange = (event) => {
     const el = event.target;
@@ -144,20 +149,16 @@ class LibraryConfigurePage extends React.Component {
         [el.name]: el.type === 'checkbox' ? el.checked : el.value,
       },
     }));
-  }
+  };
 
   handleSubmit = (event) => {
     event.preventDefault();
     this.props.updateLibrary({ data: this.state.data });
-  }
-
-  componentWillUnmount = () => {
-    this.props.clearError();
-  }
+  };
 
   handleCancel = () => {
     this.props.history.push(this.props.library.url);
-  }
+  };
 
   renderLoading() {
     const { intl } = this.props;
@@ -173,7 +174,9 @@ class LibraryConfigurePage extends React.Component {
 
     const validTypes = Object.values(LIBRARY_TYPES).filter((type) => type !== LIBRARY_TYPES.LEGACY);
     const typeOptions = validTypes.map((value) => (
-      { value, label: intl.formatMessage(messages[`library.edit.type.label.${value}`]) }
+      <option value={value} key={`aoption-${value}`}>
+        {intl.formatMessage(messages[`library.edit.type.label.${value}`])}
+      </option>
     ));
 
     return (
@@ -187,161 +190,162 @@ class LibraryConfigurePage extends React.Component {
           </header>
         </div>
         <div className="wrapper-content wrapper">
-          <section className="content">
-            <article className="content-primary" role="main">
-              {errorMessage
-              && (
-              <Alert
-                variant="danger"
-                onClose={this.handleDismissAlert}
-                dismissible
-              >
-                {truncateMessage(errorMessage)}
-              </Alert>
-              )}
-              <Form onSubmit={this.handleSubmit} className="form-create">
-                <fieldset>
-                  <ol className="list-input">
-                    <li className="field">
-                      <ValidationFormGroup
-                        for="title"
-                        helpText={intl.formatMessage(messages['library.edit.title.help'])}
-                        invalid={this.hasFieldError('title')}
-                        invalidMessage={this.getFieldError('title')}
-                        className="mb-0 mr-2"
-                      >
-                        <label className="h6 d-block" htmlFor="title">
-                          {intl.formatMessage(messages['library.edit.title.label'])}
-                        </label>
-                        <Input
-                          name="title"
-                          id="title"
-                          type="text"
-                          placeholder={intl.formatMessage(messages['library.edit.title.placeholder'])}
-                          defaultValue={data.title}
-                          onChange={this.handleValueChange}
-                        />
-                      </ValidationFormGroup>
-                    </li>
-                    <li className="field">
-                      <ValidationFormGroup
-                        for="description"
-                        helpText={intl.formatMessage(messages['library.edit.description.help'])}
-                        invalid={this.hasFieldError('description')}
-                        invalidMessage={this.getFieldError('description')}
-                        className="mb-0 mr-2"
-                      >
-                        <label className="h6 d-block" htmlFor="description">
-                          {intl.formatMessage(messages['library.edit.description.label'])}
-                        </label>
-                        <Input
-                          name="description"
-                          id="description"
-                          type="textarea"
-                          placeholder={intl.formatMessage(messages['library.edit.description.placeholder'])}
-                          defaultValue={data.description}
-                          onChange={this.handleValueChange}
-                        />
-                      </ValidationFormGroup>
-                    </li>
-                    <li className="field">
+          <Row className="content">
+            <Col xs={12} md={8} xl={9}>
+              <article className="content-primary" role="main">
+                {errorMessage
+                && (
+                <Alert
+                  variant="danger"
+                  onClose={this.handleDismissAlert}
+                  dismissible
+                >
+                  {truncateMessage(errorMessage)}
+                </Alert>
+                )}
+                <Card>
+                  <Form onSubmit={this.handleSubmit}>
+                    <fieldset>
+                      {['title', 'description'].map(name => (
+                        <Card.Section>
+                          <Form.Group
+                            controlId={name}
+                            isInvalid={this.hasFieldError(name)}
+                            className="mb-0 mr-2"
+                          >
+                            <Form.Label className="h6 d-block" htmlFor={name}>
+                              {intl.formatMessage(messages[`library.edit.${name}.label`])}
+                            </Form.Label>
+                            <Form.Control
+                              name={name}
+                              id={name}
+                              type="text"
+                              placeholder={intl.formatMessage(messages[`library.edit.${name}.placeholder`])}
+                              defaultValue={data[name]}
+                              onChange={this.handleValueChange}
+                            />
+                            <Form.Text className="form-text text-muted">
+                              {intl.formatMessage(messages[`library.edit.${name}.help`])}
+                            </Form.Text>
+                            {this.hasFieldError(name) && (
+                            <Form.Control.Feedback hasIcon={false} type="invalid">
+                              {this.getFieldError(name)}
+                            </Form.Control.Feedback>
+                            )}
+                          </Form.Group>
+                        </Card.Section>
+                      ))}
                       {data.libraryId && (
-                        <ValidationFormGroup
-                          for="type"
-                          helpText={intl.formatMessage(messages['library.edit.type.help'])}
-                          invalid={this.hasFieldError('type')}
-                          invalidMessage={this.getFieldError('type')}
-                          className="mb-0 mr-2"
-                        >
-                          <label className="h6 d-block" htmlFor="type">
-                            {intl.formatMessage(messages['library.edit.type.label'])}
-                          </label>
-                          <Input
-                            name="type"
-                            type="select"
-                            options={typeOptions}
-                            defaultValue={data.type}
+                        <Card.Section>
+                          <Form.Group
+                            for="type"
+                            isInvalid={this.hasFieldError('type')}
+                            className="mb-0 mr-2"
+                          >
+                            <label className="h6 d-block" htmlFor="type">
+                              {intl.formatMessage(messages['library.edit.type.label'])}
+                            </label>
+                            <Form.Control
+                              name="type"
+                              as="select"
+                              options={typeOptions}
+                              defaultValue={data.type}
+                              onChange={this.handleValueChange}
+                            >
+                              {typeOptions}
+                            </Form.Control>
+                            <Form.Text className="form-text text-muted">
+                              {intl.formatMessage(messages['library.edit.type.help'])}
+                            </Form.Text>
+                            {this.hasFieldError('type') && (
+                            <Form.Control.Feedback hasIcon={false} type="invalid">
+                              {this.getFieldError('type')}
+                            </Form.Control.Feedback>
+                            )}
+                          </Form.Group>
+                        </Card.Section>
+                      ) }
+                      <Card.Section>
+                        <Form.Group>
+                          <Form.Check
+                            type="switch"
+                            id="allow_public_learning"
+                            name="allow_public_learning"
+                            label={intl.formatMessage(messages['library.edit.public_learning.label'])}
+                            checked={data.allow_public_learning}
+                            onChange={this.handleValueChange}
+                            // className="coconut"
+                          />
+                          <Form.Check
+                            type="switch"
+                            id="allow_public_read"
+                            name="allow_public_read"
+                            label={intl.formatMessage(messages['library.edit.public_read.label'])}
+                            checked={data.allow_public_read}
                             onChange={this.handleValueChange}
                           />
-                        </ValidationFormGroup>
-                      ) }
-                    </li>
-                    <li className="field">
-                      <Form.Group>
-                        <Form.Check
-                          type="switch"
-                          id="allow_public_learning"
-                          name="allow_public_learning"
-                          label={intl.formatMessage(messages['library.edit.public_learning.label'])}
-                          checked={data.allow_public_learning}
-                          onChange={this.handleValueChange}
-                          className="coconut"
-                        />
-                        <Form.Check
-                          type="switch"
-                          id="allow_public_read"
-                          name="allow_public_read"
-                          label={intl.formatMessage(messages['library.edit.public_read.label'])}
-                          checked={data.allow_public_read}
-                          onChange={this.handleValueChange}
-                        />
-                      </Form.Group>
-                    </li>
-                    <li className="field">
+                        </Form.Group>
+                      </Card.Section>
                       { /* Checking null here since we cache the initial value. */ }
                       {(data.license !== null) && (
-                        <LicenseFieldContainer
-                          value={data.license}
-                          updateValue={this.mockInputChange('license')}
-                        />
+                        <Card.Section>
+                          <LicenseFieldContainer
+                            value={data.license}
+                            updateValue={this.mockInputChange('license')}
+                          />
+                        </Card.Section>
                       )}
+                    </fieldset>
+                    <div className="actions form-group">
+                      <Card.Section>
+                        <StatefulButton
+                          variant="primary"
+                          type="submit"
+                          state={this.getSubmitButtonState()}
+                          labels={{
+                            disabled: intl.formatMessage(messages['library.edit.button.submit']),
+                            enabled: intl.formatMessage(messages['library.edit.button.submit']),
+                            pending: intl.formatMessage(messages['library.edit.button.submitting']),
+                          }}
+                          icons={{
+                            pending: <Icon className="fa fa-spinner fa-spin" />,
+                          }}
+                          disabledStates={['disabled', 'pending']}
+                          className="action"
+                        />
+                        <Button
+                          variant="light"
+                          className="action ml-2"
+                          onClick={this.handleCancel}
+                        >
+                          {intl.formatMessage(messages['library.edit.button.cancel'])}
+                        </Button>
+                      </Card.Section>
+                    </div>
+                  </Form>
+                </Card>
+              </article>
+            </Col>
+            <Col xs={12} md={4} xl={3}>
+              <aside className="content-supplementary">
+                <div className="bit">
+                  <h3 className="title title-3">{intl.formatMessage(messages['library.edit.aside.title'])}</h3>
+                  <p>{intl.formatMessage(messages['library.edit.aside.text'])}</p>
+                  <ul className="list-actions">
+                    <li className="action-item">
+                      <a
+                        href="http://edx.readthedocs.io/projects/open-edx-building-and-running-a-course/en/latest/course_components/libraries.html"
+                        rel="noopener noreferrer"
+                        target="_blank"
+                      >
+                        {intl.formatMessage(messages['library.edit.aside.help.link'])}
+                      </a>
                     </li>
-                  </ol>
-                </fieldset>
-                <div className="actions form-group">
-                  <StatefulButton
-                    variant="primary"
-                    type="submit"
-                    state={this.getSubmitButtonState()}
-                    labels={{
-                      disabled: intl.formatMessage(messages['library.edit.button.submit']),
-                      enabled: intl.formatMessage(messages['library.edit.button.submit']),
-                      pending: intl.formatMessage(messages['library.edit.button.submitting']),
-                    }}
-                    icons={{
-                      pending: <Icon className="fa fa-spinner fa-spin" />,
-                    }}
-                    disabledStates={['disabled', 'pending']}
-                    className="action"
-                  />
-                  <Button
-                    variant="light"
-                    className="action"
-                    onClick={this.handleCancel}
-                  >
-                    {intl.formatMessage(messages['library.edit.button.cancel'])}
-                  </Button>
+                  </ul>
                 </div>
-              </Form>
-            </article>
-            <aside className="content-supplementary">
-              <div className="bit">
-                <h3 className="title title-3">{intl.formatMessage(messages['library.edit.aside.title'])}</h3>
-                <p>{intl.formatMessage(messages['library.edit.aside.text'])}</p>
-                <ul className="list-actions">
-                  <li className="action-item">
-                    <a
-                      href="http://edx.readthedocs.io/projects/open-edx-building-and-running-a-course/en/latest/course_components/libraries.html"
-                      rel="noopener noreferrer"
-                      target="_blank"
-                    >
-                      {intl.formatMessage(messages['library.edit.aside.help.link'])}
-                    </a>
-                  </li>
-                </ul>
-              </div>
-            </aside>
-          </section>
+              </aside>
+            </Col>
+          </Row>
         </div>
       </div>
     );
