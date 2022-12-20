@@ -18,7 +18,7 @@ precommit:
 	npm audit
 
 requirements:
-	npm install
+	npm install --legacy-peer-deps
 
 i18n.extract:
 	# Pulling display strings from .jsx files into .json files...
@@ -49,7 +49,7 @@ push_translations:
 
 # Pulls translations from Transifex.
 pull_translations:
-	tx pull -f --mode reviewed --languages=$(transifex_langs)
+	tx pull -t -f --mode reviewed --languages=$(transifex_langs)
 
 # This target is used by CI.
 validate-no-uncommitted-package-lock-changes:

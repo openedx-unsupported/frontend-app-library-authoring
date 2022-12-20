@@ -38,12 +38,12 @@ export const LicenceFieldBase = (
     </label>
     <Row className="flex-row">
       <Col>
-        <Button name={name} className="text-uppercase mx-1" variant={reservedVariant} size="lg" onClick={() => updateValue('')}>
+        <Button name={name} className="text-uppercase mx-1" variant={reservedVariant} onClick={() => updateValue('')}>
           {intl.formatMessage(messages['library.common.license.none'])}
         </Button>
       </Col>
       <Col>
-        <Button name={name} className="text-uppercase mx-1" variant={commonsVariant} size="lg" onClick={() => updateValue(spec)}>
+        <Button name={name} className="text-uppercase mx-1" variant={commonsVariant} onClick={() => updateValue(spec)}>
           {intl.formatMessage(messages['library.common.license.cc'])}
         </Button>
         <p className="small">
@@ -196,6 +196,7 @@ export const LicenseFieldContainerBase = ({ value, updateValue, name }) => {
     const newSpec = specFromCommonsOptions(result);
     updateValue(newSpec);
     updateCache(newSpec);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [commonsOptions]);
 
   return (
