@@ -5,7 +5,7 @@ apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
   name: 'frontend-app-library-authoring'
-  description: "The frontend (MFE) for openEdx Content Library Authoring"
+  description: "The frontend (MFE) for Open edX Content Library Authoring"
   links:
     - url: "https://github.com/openedx/frontend-app-library-authoring"
       title: "Frontend app library authoring"
