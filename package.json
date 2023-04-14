@@ -67,7 +67,7 @@
     "uuid": "8.3.2"
   },
   "devDependencies": {
-    "@edx/browserslist-config": "1.0.2",
+    "@edx/browserslist-config": "^1.2.0",
     "@edx/frontend-build": "^12.7.0",
     "@edx/reactifex": "^2.1.1",
     "@sheerun/mutationobserver-shim": "0.3.3",
