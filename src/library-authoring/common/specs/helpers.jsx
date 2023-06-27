@@ -8,7 +8,7 @@ import { initializeMockApp } from '@edx/frontend-platform';
 import AppContext from '@edx/frontend-platform/react/AppContext';
 import { Provider } from 'react-redux';
 import { createBrowserHistory } from 'history';
-import { Router } from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 import fetchMock from 'jest-fetch-mock';
 import { newMockXhr } from 'mock-xmlhttprequest';
 import { buildStore } from '../../../store';

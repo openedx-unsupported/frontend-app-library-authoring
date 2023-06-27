@@ -11,7 +11,6 @@ import {
   StatefulButton,
 } from '@edx/paragon';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import { AppContext } from '@edx/frontend-platform/react';
 
@@ -34,6 +33,7 @@ import {
 } from './data';
 import messages from './messages';
 import { LicenseFieldContainer } from '../common/LicenseField';
+import { withNavigate, withParams } from '../utils/hoc';
 
 class LibraryConfigurePage extends React.Component {
   constructor(props) {
@@ -53,7 +53,7 @@ class LibraryConfigurePage extends React.Component {
 
   componentDidMount() {
     if (this.props.library === null) {
-      const { libraryId } = this.props.match.params;
+      const { libraryId } = this.props;
       this.props.fetchLibraryDetail({ libraryId });
     } else {
       this.syncLibraryData();
@@ -69,7 +69,7 @@ class LibraryConfigurePage extends React.Component {
       this.props.submissionStatus !== prevProps.submissionStatus
       && this.props.submissionStatus === SUBMISSION_STATUS.SUBMITTED
     ) {
-      this.props.history.push(this.props.library.url);
+      this.props.navigate(this.props.library.url);
     }
   }
 
@@ -157,7 +157,7 @@ class LibraryConfigurePage extends React.Component {
   };
 
   handleCancel = () => {
-    this.props.history.push(this.props.library.url);
+    this.props.navigate(this.props.library.url);
   };
 
   renderLoading() {
@@ -376,16 +376,10 @@ LibraryConfigurePage.propTypes = {
   errorFields: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   errorMessage: PropTypes.string,
   fetchLibraryDetail: PropTypes.func.isRequired,
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-  }).isRequired,
+  navigate: PropTypes.func.isRequired,
   intl: intlShape.isRequired,
   library: libraryShape,
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      libraryId: PropTypes.string.isRequired,
-    }).isRequired,
-  }).isRequired,
+  libraryId: PropTypes.string.isRequired,
   loadingStatus: PropTypes.oneOf(Object.values(LOADING_STATUS)).isRequired,
   submissionStatus: PropTypes.oneOf(Object.values(SUBMISSION_STATUS)).isRequired,
   updateLibrary: PropTypes.func.isRequired,
@@ -400,4 +394,4 @@ export default connect(
     fetchLibraryDetail,
     updateLibrary,
   },
-)(injectIntl(withRouter(LibraryConfigurePage)));
+)(injectIntl(withNavigate(withParams((LibraryConfigurePage)))));

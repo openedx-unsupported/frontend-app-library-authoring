@@ -23,7 +23,7 @@ import { faEdit, faTrashAlt } from '@fortawesome/free-regular-svg-icons';
 import { connect } from 'react-redux';
 import { ensureConfig, getConfig } from '@edx/frontend-platform';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { LibraryBlock } from '../edit-block/LibraryBlock';
 import {
   clearLibrary,
@@ -641,7 +641,7 @@ const LibraryAuthoringPage = injectIntl(LibraryAuthoringPageBase);
 export const LibraryAuthoringPageContainerBase = ({
   intl, library, blockStates, blocks, ...props
 }) => {
-  const { libraryId } = props.match.params;
+  const libraryId = useParams().libraryId ?? props.libraryId;
   const [query, setQuery] = useState('');
   const [type, setType] = useState('');
   const [page, setPage] = useState(1);
@@ -831,6 +831,7 @@ LibraryAuthoringPageContainerBase.defaultProps = {
   library: null,
   errorMessage: null,
   successMessage: null,
+  libraryId: null,
 };
 
 LibraryAuthoringPageContainerBase.propTypes = {
@@ -847,11 +848,7 @@ LibraryAuthoringPageContainerBase.propTypes = {
   revertLibraryChanges: PropTypes.func.isRequired,
   errorMessage: PropTypes.string,
   successMessage: PropTypes.string,
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      libraryId: PropTypes.string.isRequired,
-    }).isRequired,
-  }).isRequired,
+  libraryId: PropTypes.string,
 };
 
 const LibraryAuthoringPageContainer = connect(

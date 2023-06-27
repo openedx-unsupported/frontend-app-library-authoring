@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
-import { Prompt } from 'react-router-dom';
 import {
   Button,
   Breadcrumb,
@@ -36,6 +34,7 @@ import {
 
 import commonMessages from '../common/messages';
 import messages from './messages';
+import { withNavigate } from '../utils/hoc';
 
 export class LibraryCreatePage extends React.Component {
   constructor(props) {
@@ -76,7 +75,7 @@ export class LibraryCreatePage extends React.Component {
         });
       } else if (Object.values(LIBRARY_TYPES).includes(createdLibrary.type)) {
         this.setState({ allowLeave: true }, () => { // eslint-disable-line react/no-did-update-set-state
-          this.props.history.push(createdLibrary.url);
+          this.props.navigate(createdLibrary.url);
         });
       }
     }
@@ -113,7 +112,15 @@ export class LibraryCreatePage extends React.Component {
 
   onCancel = () => {
     this.props.resetForm();
-    this.props.history.push(ROUTES.List.HOME);
+
+    const { confirmedNavigation, allowLeave } = this.state;
+    if (!confirmedNavigation && !allowLeave) {
+      this.openModal({ pathname: ROUTES.List.HOME });
+      return false;
+    }
+
+    this.props.navigate(ROUTES.List.HOME);
+    return true;
   };
 
   onSubmit = (event) => {
@@ -165,16 +172,6 @@ export class LibraryCreatePage extends React.Component {
     }
   };
 
-  handleBlockedNavigation = (nextLocation) => {
-    const { confirmedNavigation, allowLeave } = this.state;
-    if (!confirmedNavigation && !allowLeave) {
-      this.openModal(nextLocation);
-      return false;
-    }
-
-    return true;
-  };
-
   handleConfirmNavigationClick = () => {
     const { lastLocation } = this.state;
     const { config } = this.context;
@@ -188,7 +185,7 @@ export class LibraryCreatePage extends React.Component {
         if (lastLocation.pathname === config.STUDIO_BASE_URL) {
           window.location.href = lastLocation.pathname;
         } else {
-          this.props.history.push(lastLocation.pathname);
+          this.props.navigate(lastLocation.pathname);
         }
       });
     }
@@ -233,7 +230,7 @@ export class LibraryCreatePage extends React.Component {
 
   render() {
     const { intl, errorMessage, orgs } = this.props;
-    const { data, isOpenModal, allowLeave } = this.state;
+    const { data, isOpenModal } = this.state;
     const { config } = this.context;
     const errorTitle = !errorMessage && this.props.errorFields
       && intl.formatMessage(messages['library.form.generic.error.title']);
@@ -349,7 +346,6 @@ export class LibraryCreatePage extends React.Component {
             </section>
           </div>
         </div>
-        <Prompt when={!allowLeave} message={this.handleBlockedNavigation} />
         <AlertModal
           title={intl.formatMessage(messages['library.form.modal.title'])}
           isOpen={isOpenModal}
@@ -380,9 +376,7 @@ LibraryCreatePage.propTypes = {
   errorFields: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   errorMessage: PropTypes.string,
   orgs: PropTypes.arrayOf(PropTypes.string),
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-  }).isRequired,
+  navigate: PropTypes.func.isRequired,
   intl: intlShape.isRequired,
   resetForm: PropTypes.func.isRequired,
   status: PropTypes.oneOf(Object.values(SUBMISSION_STATUS)).isRequired,
@@ -397,4 +391,4 @@ export default connect(
     fetchOrganizations,
     resetForm,
   },
-)(injectIntl(withRouter(LibraryCreatePage)));
+)(injectIntl(withNavigate(LibraryCreatePage)));

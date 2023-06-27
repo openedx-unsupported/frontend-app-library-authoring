@@ -2,7 +2,9 @@ import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Route, Switch } from 'react-router-dom';
+import {
+  Route, Routes,
+} from 'react-router-dom';
 import {
   APP_INIT_ERROR, APP_READY, initialize, mergeConfig, subscribe,
 } from '@edx/frontend-platform';
@@ -37,25 +39,25 @@ mergeConfig({
 subscribe(APP_READY, () => {
   ReactDOM.render(
     <AppProvider store={store}>
-      <Switch>
-        <Route path={ROUTES.Detail.HOME} component={StudioHeaderWrapper} />
-        <Route path="*" component={StudioHeaderWrapper} />
-      </Switch>
+      <Routes>
+        <Route path={`${ROUTES.Detail.HOME}/*`} element={<StudioHeaderWrapper />} />
+        <Route path="*" element={<StudioHeaderWrapper />} />
+      </Routes>
       <main className="library-authoring__main-content">
-        <Switch>
-          <Route exact path={ROUTES.List.HOME} component={LibraryListPage} />
-          <Route exact path={ROUTES.List.CREATE} component={LibraryCreatePage} />
-          <Route exact path={ROUTES.Detail.HOME} component={LibraryAuthoringPage} />
-          <Route exact path={ROUTES.Detail.EDIT} component={LibraryEditPage} />
-          <Route exact path={ROUTES.Detail.ACCESS} component={LibraryAccessPage} />
-          <Route exact path={ROUTES.Detail.IMPORT} component={CourseImportPage} />
-          <Route exact path={ROUTES.Block.HOME} component={LibraryBlockPage} />
-          <Route exact path={ROUTES.Block.EDIT} component={LibraryBlockPage} />
-          <Route exact path={ROUTES.Block.ASSETS} component={LibraryBlockPage} />
-          <Route exact path={ROUTES.Block.SOURCE} component={LibraryBlockPage} />
-          <Route exact path={ROUTES.Block.LEARN} component={LibraryBlockPage} />
-          <Route path="*" component={NotFoundPage} />
-        </Switch>
+        <Routes>
+          <Route path={ROUTES.List.HOME} element={<LibraryListPage />} />
+          <Route path={ROUTES.List.CREATE} element={<LibraryCreatePage />} />
+          <Route path={ROUTES.Detail.HOME} element={<LibraryAuthoringPage />} />
+          <Route path={ROUTES.Detail.EDIT} element={<LibraryEditPage />} />
+          <Route path={ROUTES.Detail.ACCESS} element={<LibraryAccessPage />} />
+          <Route path={ROUTES.Detail.IMPORT} element={<CourseImportPage />} />
+          <Route path={ROUTES.Block.HOME} element={<LibraryBlockPage />} />
+          <Route path={ROUTES.Block.EDIT} element={<LibraryBlockPage />} />
+          <Route path={ROUTES.Block.ASSETS} element={<LibraryBlockPage />} />
+          <Route path={ROUTES.Block.SOURCE} element={<LibraryBlockPage />} />
+          <Route path={ROUTES.Block.LEARN} element={<LibraryBlockPage />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
       </main>
       <AboutLibrariesHyperlink />
       <Footer />
