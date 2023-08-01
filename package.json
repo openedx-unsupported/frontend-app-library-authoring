@@ -39,7 +39,7 @@
     "@edx/frontend-component-footer": "^12.0.0",
     "@edx/frontend-component-header": "^4.0.3",
     "@edx/frontend-lib-content-components": "1.166.0",
-    "@edx/frontend-platform": "4.6.0",
+    "@edx/frontend-platform": "4.6.1",
     "@edx/paragon": "20.45.5",
     "@fortawesome/fontawesome-svg-core": "6.4.0",
     "@fortawesome/free-brands-svg-icons": "6.4.0",
@@ -69,7 +69,7 @@
   },
   "devDependencies": {
     "@edx/browserslist-config": "^1.2.0",
-    "@edx/frontend-build": "^12.8.6",
+    "@edx/frontend-build": "^12.9.0-alpha.1",
     "@edx/reactifex": "^2.1.1",
     "@sheerun/mutationobserver-shim": "0.3.3",
     "@testing-library/dom": "9.3.1",
