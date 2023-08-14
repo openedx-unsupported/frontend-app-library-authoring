@@ -17,12 +17,11 @@ import {
   libraryUserShape, removeUserAccess, selectLibraryAccess, setUserAccess,
 } from './data';
 import { LIBRARY_ACCESS, libraryShape } from '../common/data';
-import commonMessages from '../common/messages';
 import messages from './messages';
 
 export const UserAccessWidget = ({
   intl, library, user, multipleAdmins, setAccessLevel, isUser, showRemoveModal, setShowRemoveModal,
-  showDeprivModal, setShowDeprivModal, isAdmin, adminLocked,
+  isAdmin, adminLocked,
 }) => (
   <Card className="mb-4 p-3">
     <Badge className={`position-absolute ml-1 permy ${user.access_level}`}>
@@ -110,7 +109,6 @@ export const UserAccessWidgetContainerBase = ({
   const { authenticatedUser } = useContext(AppContext);
   const isUser = authenticatedUser.username === user.username;
   const [showRemoveModal, setShowRemoveModal] = useState(false);
-  const [showDeprivModal, setShowDeprivModal] = useState(false);
   const adminLocked = user.access_level === LIBRARY_ACCESS.ADMIN && !props.multipleAdmins;
 
   const setAccessLevel = (level) => props.setUserAccess({ libraryId: props.library.id, user, level });
@@ -121,8 +119,6 @@ export const UserAccessWidgetContainerBase = ({
     ...props,
     showRemoveModal,
     setShowRemoveModal,
-    showDeprivModal,
-    setShowDeprivModal,
     isUser,
     user,
     adminLocked,
@@ -146,8 +142,6 @@ UserAccessWidget.propTypes = {
   isUser: PropTypes.bool.isRequired,
   showRemoveModal: PropTypes.bool.isRequired,
   setShowRemoveModal: PropTypes.func.isRequired,
-  showDeprivModal: PropTypes.bool.isRequired,
-  setShowDeprivModal: PropTypes.func.isRequired,
 };
 
 const UserAccessWidgetContainer = connect(
