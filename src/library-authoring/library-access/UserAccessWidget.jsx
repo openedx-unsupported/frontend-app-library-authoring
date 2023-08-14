@@ -43,39 +43,9 @@ export const UserAccessWidget = ({
         <small>{intl.formatMessage(messages['library.access.info.admin_unlock'])}</small>
         )}
         {user.access_level === LIBRARY_ACCESS.ADMIN && multipleAdmins && (
-        <>
-          <Button variant="secondary" onClick={() => setShowDeprivModal(true)}>
-            {intl.formatMessage(messages['library.access.remove_admin'])}
-          </Button>
-          <ModalDialog
-            isOpen={showDeprivModal}
-            onClose={() => setShowDeprivModal(false)}
-          >
-            <ModalDialog.Header>
-              <ModalDialog.Title>
-                {intl.formatMessage(messages['library.access.modal.remove_admin.title'])}
-              </ModalDialog.Title>
-            </ModalDialog.Header>
-            <ModalDialog.Body>
-              {intl.formatMessage(
-                messages['library.access.modal.remove_admin.body'],
-                { library: library.title, email: user.email },
-              )}
-            </ModalDialog.Body>
-            <ModalDialog.Footer>
-              <ActionRow>
-                <ModalDialog.CloseButton variant="link">
-                  Close
-                </ModalDialog.CloseButton>
-                <Button
-                  onClick={() => setAccessLevel(LIBRARY_ACCESS.AUTHOR).then(setShowDeprivModal(false))}
-                >
-                  {intl.formatMessage(commonMessages['library.common.forms.button.yes'])}
-                </Button>
-              </ActionRow>
-            </ModalDialog.Footer>
-          </ModalDialog>
-        </>
+        <Button variant="secondary" onClick={() => setAccessLevel(LIBRARY_ACCESS.AUTHOR)}>
+          {intl.formatMessage(messages['library.access.remove_admin'])}
+        </Button>
         )}
         {user.access_level === LIBRARY_ACCESS.READ && (
         <Button variant="primary" onClick={() => setAccessLevel(LIBRARY_ACCESS.AUTHOR)}>
