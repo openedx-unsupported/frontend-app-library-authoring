@@ -12,7 +12,6 @@ import messages from './i18n';
 import store from './store';
 import { NotFoundPage } from './generic';
 import {
-  AboutLibrariesHyperlink,
   ROUTES,
   CourseImportPage,
   LibraryBlockPage,
