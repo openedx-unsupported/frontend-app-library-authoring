@@ -15,7 +15,7 @@ import {
 import { Info } from '@edx/paragon/icons';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import { AppContext } from '@edx/frontend-platform/react';
-import {TypeaheadDropdown} from '@edx/frontend-lib-content-components'
+import { TypeaheadDropdown } from '@edx/frontend-lib-content-components';
 
 import {
   ROUTES,
@@ -287,10 +287,8 @@ export class LibraryCreatePage extends React.Component {
                     </li>
                     <li className="field">
                       <TypeaheadDropdown
-                        disabled
                         type="text"
                         name="org"
-                        intl={intl}
                         readOnly={false}
                         value={data.org}
                         options={orgs}
