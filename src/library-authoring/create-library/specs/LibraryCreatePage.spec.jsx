@@ -1,6 +1,5 @@
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
-import { createMemoryHistory } from 'history';
 import { injectIntl } from '@edx/frontend-platform/i18n';
 import { LibraryCreatePage } from '../LibraryCreatePage';
 import { libraryCreateInitialState } from '../data';
@@ -97,9 +96,6 @@ describe('create-library/LibraryCreatePage.jsx', () => {
   });
 
   it('cancels form', () => {
-    const history = createMemoryHistory({ initialEntries: [ROUTES.List.CREATE] });
-    jest.spyOn(history, 'push');
-
     const container = ctxMount(
       <BrowserRouter>
         <InjectedLibraryCreatePage {...props} />
@@ -113,10 +109,6 @@ describe('create-library/LibraryCreatePage.jsx', () => {
   });
 
   it('shows leave modal and prevents leaving', () => {
-    const history = createMemoryHistory({ initialEntries: [ROUTES.List.CREATE] });
-    jest.spyOn(history, 'push');
-    jest.spyOn(history, 'block');
-
     const container = ctxMount(
       <BrowserRouter>
         <InjectedLibraryCreatePage {...props} />

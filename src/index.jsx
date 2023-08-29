@@ -3,6 +3,7 @@ import 'regenerator-runtime/runtime';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {
+  Outlet,
   Route, Routes,
 } from 'react-router-dom';
 import {
@@ -14,7 +15,6 @@ import messages from './i18n';
 import store from './store';
 import { NotFoundPage } from './generic';
 import {
-  AboutLibrariesHyperlink,
   ROUTES,
   CourseImportPage,
   LibraryBlockPage,
@@ -26,7 +26,6 @@ import {
   StudioHeaderWrapper,
 } from './library-authoring';
 import './index.scss';
-import './assets/favicon.ico';
 
 mergeConfig({
   LIB_AUTHORING_BASE_URL: process.env.BASE_URL,
@@ -42,9 +41,11 @@ subscribe(APP_READY, () => {
       <Routes>
         <Route path={`${ROUTES.Detail.HOME}/*`} element={<StudioHeaderWrapper />} />
         <Route path="*" element={<StudioHeaderWrapper />} />
-      </Routes>
-      <main className="library-authoring__main-content">
-        <Routes>
+        <Route element={(
+          <main className="library-authoring__main-content">
+            <Outlet />
+          </main>
+        )}>
           <Route path={ROUTES.List.HOME} element={<LibraryListPage />} />
           <Route path={ROUTES.List.CREATE} element={<LibraryCreatePage />} />
           <Route path={ROUTES.Detail.HOME} element={<LibraryAuthoringPage />} />
@@ -57,9 +58,8 @@ subscribe(APP_READY, () => {
           <Route path={ROUTES.Block.SOURCE} element={<LibraryBlockPage />} />
           <Route path={ROUTES.Block.LEARN} element={<LibraryBlockPage />} />
           <Route path="*" element={<NotFoundPage />} />
-        </Routes>
-      </main>
-      <AboutLibrariesHyperlink />
+        </Route>
+      </Routes>
       <Footer />
     </AppProvider>,
     document.getElementById('root'),

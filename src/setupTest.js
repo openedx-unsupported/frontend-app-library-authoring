@@ -2,11 +2,27 @@
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import Enzyme from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
+import Adapter from '@wojtekmaj/enzyme-adapter-react-17';
 import MutationObserver from '@sheerun/mutationobserver-shim';
 import { mergeConfig } from '@edx/frontend-platform';
 
 Enzyme.configure({ adapter: new Adapter() });
+
+/* need to mock window for tinymce on import, as it is JSDOM incompatible */
+
+Object.defineProperty(window, 'matchMedia', {
+  writable: true,
+  value: jest.fn().mockImplementation(query => ({
+    matches: false,
+    media: query,
+    onchange: null,
+    addListener: jest.fn(), // Deprecated
+    removeListener: jest.fn(), // Deprecated
+    addEventListener: jest.fn(),
+    removeEventListener: jest.fn(),
+    dispatchEvent: jest.fn(),
+  })),
+});
 
 mergeConfig({
   STUDIO_BASE_URL: process.env.STUDIO_BASE_URL,
