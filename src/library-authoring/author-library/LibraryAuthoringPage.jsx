@@ -115,9 +115,11 @@ export const BlockPreviewBase = ({
         blockId={block.id}
         studioEndpointUrl={getConfig().STUDIO_BASE_URL}
         lmsEndpointUrl={getConfig().LMS_BASE_URL}
-        returnFunction={() => () => {
+        returnFunction={() => (resp) => {
           setShowEditorModal(false);
-          setUpdatedBlock(true);
+          if (resp) {
+            setUpdatedBlock(true);
+          }
         }}
       />
     </ModalDialog>
