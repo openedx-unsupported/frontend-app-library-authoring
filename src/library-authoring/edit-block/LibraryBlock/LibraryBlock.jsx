@@ -95,10 +95,10 @@ class LibraryBlock extends React.Component {
 
       // Load the XBlock HTML into the IFrame:
       //   iframe will only re-render in react when its property changes (key here)
-      this.setState({ 
+      this.setState(prevState => ({
         html,
-        iframeKey: this.state.iframeKey === 1 ? 0 : 1,
-      });
+        iframeKey: prevState.iframeKey + 1,
+      }));
     }
   }
 

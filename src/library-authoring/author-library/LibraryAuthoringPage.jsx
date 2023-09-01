@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   ActionRow,
@@ -166,6 +166,7 @@ BlockPreviewBase.propTypes = {
   setShowDeleteModal: PropTypes.func.isRequired,
   showEditorModal: PropTypes.bool.isRequired,
   setShowEditorModal: PropTypes.func.isRequired,
+  setUpdatedBlock: PropTypes.func.isRequired,
   deleteLibraryBlock: PropTypes.func.isRequired,
   fetchBlockLtiUrl: PropTypes.func.isRequired,
   isLtiUrlGenerating: PropTypes.bool,
@@ -195,8 +196,8 @@ const BlockPreviewContainerBase = ({
   // This problem feels like there should be some way to generalize it and wrap it to avoid this issue.
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showEditorModal, setShowEditorModal] = useState(false);
-  const [updatedBlock, setUpdatedBlock] = useState(false); 
-  
+  const [updatedBlock, setUpdatedBlock] = useState(false);
+
   useEffect(() => {
     props.initializeBlock({
       blockId: block.id,
@@ -218,7 +219,6 @@ const BlockPreviewContainerBase = ({
       setUpdatedBlock(false);
     }
   }, [blockStates[block.id], showPreviews, updatedBlock]);
-
 
   if (blockStates[block.id] === undefined) {
     return <LoadingPage loadingMessage={intl.formatMessage(messages['library.detail.loading.message'])} />;
