@@ -118,10 +118,10 @@ export const BlockPreviewBase = ({
         lmsEndpointUrl={getConfig().LMS_BASE_URL}
         returnFunction={() => (response) => {
           setShowEditorModal(false);
-          if (response) {
+          if (response && response.metadata) {
             props.setLibraryBlockDisplayName({
               blockId: block.id,
-              displayName: response.metadata?.display_name,
+              displayName: response.metadata.display_name,
             });
             // This state change triggers the iframe to reload.
             setIsBlockUpdated(true);
