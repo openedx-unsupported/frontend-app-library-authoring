@@ -121,7 +121,7 @@ export const BlockPreviewBase = ({
           if (response) {
             props.setLibraryBlockDisplayName({
               blockId: block.id,
-              displayName: response.metadata.display_name,
+              displayName: response.metadata?.display_name,
             });
             // This state change triggers the iframe to reload.
             setIsBlockUpdated(true);
