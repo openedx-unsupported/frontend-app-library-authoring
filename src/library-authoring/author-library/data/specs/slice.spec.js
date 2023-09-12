@@ -73,10 +73,10 @@ describe('library detail reducers', () => {
   });
 
   it('Updates the display name of an XBlock', () => {
-    const state = { blocks: { value: { data: [ { id: 'blockone', display_name: 'im a display name' } ] } } };
+    const state = { blocks: { value: { data: [{ id: 'blockone', display_name: 'im a display name' }] } } };
     reducers.libraryBlockUpdateDisplayName(state, {
-      payload: { blockId: 'blockone', displayName: 'new display name', },
+      payload: { blockId: 'blockone', displayName: 'new display name' },
     });
     expect(state.blocks.value.data[0].display_name).toEqual('new display name');
-  })
+  });
 });
