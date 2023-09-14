@@ -16,13 +16,19 @@ import {
   ModalDialog,
   SelectableBox,
   Icon,
+  IconButtonWithTooltip,
 } from '@edx/paragon';
-import { Edit, HelpOutline, TextFields, VideoCamera } from '@edx/paragon/icons';
+import {
+  Add,
+  DeleteOutline,
+  EditOutline,
+  HelpOutline,
+  Sync,
+  TextFields,
+  VideoCamera,
+} from '@edx/paragon/icons';
 import { EditorPage } from '@edx/frontend-lib-content-components';
 import { v4 as uuid4 } from 'uuid';
-import { faPlus, faSync } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faTrashAlt } from '@fortawesome/free-regular-svg-icons';
 import { connect } from 'react-redux';
 import { ensureConfig, getConfig } from '@edx/frontend-platform';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
@@ -91,20 +97,20 @@ export const BlockPreviewBase = ({
       title={block.display_name}
       actions={(
         <ActionRow>
-          <Button
+          <IconButtonWithTooltip
             aria-label={intl.formatMessage(messages['library.detail.block.edit'])}
             onClick={() => setShowEditorModal(true)}
-          >
-            <FontAwesomeIcon icon={faEdit} className="pr-1" />
-            {intl.formatMessage(messages['library.detail.block.edit'])}
-          </Button>
-          <Button
+            src={EditOutline}
+            iconAs={Icon}
+            tooltipContent={intl.formatMessage(messages['library.detail.block.edit'])}
+          />
+          <IconButtonWithTooltip
             aria-label={intl.formatMessage(messages['library.detail.block.delete'])}
-            variant="tertiary"
             onClick={() => setShowDeleteModal(true)}
-          >
-            <FontAwesomeIcon icon={faTrashAlt} />
-          </Button>
+            src={DeleteOutline}
+            iconAs={Icon}
+            tooltipContent={intl.formatMessage(messages['library.detail.block.delete'])}
+          />
         </ActionRow>
       )}
     />
@@ -307,12 +313,15 @@ const ButtonTogglesBase = ({ setShowPreviews, showPreviews, intl }) => (
     {/* todo: either reimplement the scroll to the add components button functionality,
               figure out a better UX for the add component button at the top, or just
               remove it entirely */}
-    {/* <Button variant="success" className="mr-1" disabled={sending} onClick={quickAddBehavior}>
-      <FontAwesomeIcon icon={faPlus} className="pr-1" />
+    {/* <Button variant="primary" className="mr-1" disabled={sending} onClick={quickAddBehavior} iconBefore={Add}>
       {intl.formatMessage(messages[`library.detail.add_${library.type}`])}
     </Button> */}
-    <Button variant="primary" className="ml-1" onClick={() => setShowPreviews(!showPreviews)}>
-      <FontAwesomeIcon icon={faSync} className="pr-1" />
+    <Button
+      variant="primary"
+      className="ml-1"
+      onClick={() => setShowPreviews(!showPreviews)}
+      iconBefore={Sync}
+    >
       { intl.formatMessage(showPreviews ? messages['library.detail.hide_previews'] : messages['library.detail.show_previews']) }
     </Button>
   </>
@@ -399,17 +408,17 @@ const LibraryAuthoringPageHeaderBase = ({ intl, library, ...props }) => {
           />
         )
         : (
-          <>
+          <ActionRow>
             {library.title}
             <IconButton
               invertColors
               isActive
-              iconAs={Edit}
+              iconAs={EditOutline}
               alt="Edit name button"
               onClick={handleClick}
               className="ml-3"
             />
-          </>
+          </ActionRow>
         )}
     </h1>
   );
@@ -530,12 +539,12 @@ export const LibraryAuthoringPageBase = ({
             <Col xs={12} className="text-center py-3 library-authoring-block-add-new">
               {library.type !== LIBRARY_TYPES.COMPLEX && (
               <Button
-                variant="success"
+                variant="priary"
                 disabled={sending}
                 onClick={() => addBlock(library.type)}
                 className="cta-button"
+                iconBefore={Add}
               >
-                <FontAwesomeIcon icon={faPlus} className="pr-1" />
                 {intl.formatMessage(messages[`library.detail.add_${library.type}`])}
               </Button>
               )}
