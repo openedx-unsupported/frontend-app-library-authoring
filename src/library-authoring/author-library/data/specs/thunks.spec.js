@@ -93,6 +93,7 @@ testSuite('Library detail thunks', () => {
   });
 
   it('Creates a library block', async () => {
+    const library = libraryFactory();
     const block = blockFactory();
     const blockSpec = { block_type: 'video', description_id: 'test' };
     const paginationParams = {
@@ -109,6 +110,7 @@ testSuite('Library detail thunks', () => {
 
     expect(dispatch).toHaveBeenCalledWith(actions.libraryAuthoringRequest({ attr: 'blocks' }));
     expect(api.createLibraryBlock.fn).toHaveBeenCalledWith({ libraryId: 'testLibrary', data: blockSpec });
+    expect(api.getLibraryDetail.fn).toHaveBeenCalledWith('testLibrary');
     expect(api.getBlocks.fn).toHaveBeenCalledWith({
       libraryId: 'testLibrary',
       paginationParams,
