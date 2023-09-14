@@ -161,11 +161,9 @@ export const BlockPreviewBase = ({
       </ModalDialog.Footer>
     </ModalDialog>
     {showPreviews && (
-      <Card>
-        <Card.Body>
-          <LibraryBlock getHandlerUrl={getHandlerUrl} view={view} />
-        </Card.Body>
-      </Card>
+      <Card.Body>
+        <LibraryBlock getHandlerUrl={getHandlerUrl} view={view} />
+      </Card.Body>
     )}
   </Card>
 );

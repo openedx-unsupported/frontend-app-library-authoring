@@ -116,6 +116,7 @@ class LibraryBlock extends React.Component {
         position: 'relative',
         overflow: 'hidden',
         minHeight: '200px',
+        margin: "16px",
       }}
       >
         <iframe
