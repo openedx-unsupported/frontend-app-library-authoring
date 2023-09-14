@@ -27,6 +27,21 @@ const messages = defineMessages({
     defaultMessage: 'Add New Component',
     description: 'Header on the add new component box.',
   },
+  'library.detail.add.new.component.html': {
+    id: 'library.detail.add.new.component.html',
+    defaultMessage: 'Text',
+    description: 'Title on the add new component html box.',
+  },
+  'library.detail.add.new.component.problem': {
+    id: 'library.detail.add.new.component.problem',
+    defaultMessage: 'Problem',
+    description: 'Title on the add new component problem box.',
+  },
+  'library.detail.add.new.component.video': {
+    id: 'library.detail.add.new.component.video',
+    defaultMessage: 'Video',
+    description: 'Title on the add new component video box.',
+  },
   'library.detail.add.new.component.type': {
     id: 'library.detail.add.new.component.type',
     defaultMessage: 'Type',

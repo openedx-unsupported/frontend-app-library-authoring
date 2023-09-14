@@ -14,8 +14,10 @@ import {
   Form,
   Pagination,
   ModalDialog,
+  SelectableBox,
+  Icon,
 } from '@edx/paragon';
-import { Edit } from '@edx/paragon/icons';
+import { Edit, HelpOutline, TextFields, VideoCamera } from '@edx/paragon/icons';
 import { EditorPage } from '@edx/frontend-lib-content-components';
 import { v4 as uuid4 } from 'uuid';
 import { faPlus, faSync } from '@fortawesome/free-solid-svg-icons';
@@ -543,37 +545,48 @@ export const LibraryAuthoringPageBase = ({
                     <h2>{intl.formatMessage(messages['library.detail.add_component_heading'])}</h2>
                   </Col>
                   <Col xs={12} className="text-center">
-                    {/* <div className="d-inline-block">
-                      <Dropdown>
-                        <Dropdown.Toggle
-                          variant="success"
-                          disabled={sending}
-                          className="cta-button mr-2"
-                          id="library-detail-add-component-dropdown"
-                        >
-                          Advanced
-                        </Dropdown.Toggle>
-                        <Dropdown.Menu>
-                          {otherTypes.map((blockSpec) => (
-                            <Dropdown.Item
-                              onClick={() => addBlock(blockSpec.block_type)}
-                              key={blockSpec.block_type}
-                            >
-                              {blockSpec.display_name}
-                            </Dropdown.Item>
-                          ))}
-                        </Dropdown.Menu>
-                      </Dropdown>
-                    </div> */}
-                    <Button variant="success" disabled={sending} onClick={() => addBlock('html')} className="cta-button">
-                      Text
-                    </Button>
-                    <Button variant="success" disabled={sending} onClick={() => addBlock('problem')} className="cta-button mx-2">
-                      Problem
-                    </Button>
-                    <Button variant="success" disabled={sending} onClick={() => addBlock('video')} className="cta-button">
-                      Video
-                    </Button>
+                    <SelectableBox.Set
+                      type='radio'
+                      value={null}
+                      onChange={(e) => addBlock(e.target.value)}
+                      columns={3}
+                      ariaLabel="component-selection"
+                      className="px-6"
+                    >
+                      <SelectableBox
+                        disabled={sending}
+                        value="html"
+                        ariaLabel='html-radio'
+                        className="text-center"
+                      >
+                        <div className="row m-0 mb-1 justify-content-center">
+                          <Icon src={TextFields} />
+                        </div>
+                        <p>{intl.formatMessage(messages['library.detail.add.new.component.html'])}</p>
+                      </SelectableBox>
+                      <SelectableBox
+                        disabled={sending}
+                        value="problem"
+                        ariaLabel='problem-radio'
+                        className="text-center"
+                      >
+                        <div className="row m-0 mb-1 justify-content-center">
+                          <Icon src={HelpOutline} />
+                        </div>
+                        <p>{intl.formatMessage(messages['library.detail.add.new.component.problem'])}</p>
+                      </SelectableBox>
+                      <SelectableBox
+                        disabled={sending}
+                        value="video"
+                        ariaLabel='video-radio'
+                        className="text-center"
+                      >
+                        <div className="row m-0  mb-1 justify-content-center">
+                          <Icon src={VideoCamera} />
+                        </div>
+                        <p>{intl.formatMessage(messages['library.detail.add.new.component.video'])}</p>
+                      </SelectableBox>
+                    </SelectableBox.Set>
                   </Col>
                 </Row>
               )}
