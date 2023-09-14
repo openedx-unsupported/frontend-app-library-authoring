@@ -7,7 +7,6 @@ import {
   APP_INIT_ERROR, APP_READY, initialize, mergeConfig, subscribe,
 } from '@edx/frontend-platform';
 import { AppProvider, ErrorPage } from '@edx/frontend-platform/react';
-import Footer from '@edx/frontend-component-footer';
 import messages from './i18n';
 import store from './store';
 import { NotFoundPage } from './generic';
@@ -23,6 +22,7 @@ import {
   StudioHeaderWrapper,
 } from './library-authoring';
 import './index.scss';
+import { Footer } from '@edx/frontend-lib-content-components';
 
 mergeConfig({
   LIB_AUTHORING_BASE_URL: process.env.BASE_URL,
@@ -55,7 +55,18 @@ subscribe(APP_READY, () => {
           <Route path="*" component={NotFoundPage} />
         </Switch>
       </main>
-      <Footer />
+      <div className="mt-6">
+        <Footer
+          marketingBaseUrl={process.env.MARKETING_SITE_BASE_URL}
+          termsOfServiceUrl={process.env.TERMS_OF_SERVICE_URL}
+          privacyPolicyUrl={process.env.PRIVACY_POLICY_URL}
+          supportEmail={process.env.SUPPORT_EMAIL}
+          platformName={process.env.SITE_NAME}
+          lmsBaseUrl={process.env.LMS_BASE_URL}
+          studioBaseUrl={process.env.STUDIO_BASE_URL}
+          showAccessibilityPage={process.env.ENABLE_ACCESSIBILITY_PAGE === 'true'}
+        />
+      </div>
     </AppProvider>,
     document.getElementById('root'),
   );
