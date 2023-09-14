@@ -93,7 +93,6 @@ testSuite('Library detail thunks', () => {
   });
 
   it('Creates a library block', async () => {
-    const library = libraryFactory();
     const block = blockFactory();
     const blockSpec = { block_type: 'video', description_id: 'test' };
     const paginationParams = {
