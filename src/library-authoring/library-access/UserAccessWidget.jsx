@@ -27,9 +27,9 @@ export const UserAccessWidget = ({
   isAdmin, adminLocked, removeAccess,
 }) => (
   <Card className="mb-4 p-3">
-    <Badge className={`position-absolute ml-1 permy ${user.access_level}`}>
+    <Badge className={`position-absolute ml-1 mt-n4 permy ${user.access_level}`}>
       <strong>{intl.formatMessage(messages[`library.access.info.${user.access_level}`])}</strong>&nbsp;
-      <span className="font-weight-normal">{isUser && intl.formatMessage(messages['library.access.info.self'])}</span>
+      <span className="font-weight-normal text-light-500 small">{isUser && intl.formatMessage(messages['library.access.info.self'])}</span>
     </Badge>
     <ActionRow>
       <span className="title title-2">
@@ -45,7 +45,7 @@ export const UserAccessWidget = ({
         <small>{intl.formatMessage(messages['library.access.info.admin_unlock'])}</small>
         )}
         {user.access_level === LIBRARY_ACCESS.ADMIN && multipleAdmins && (
-        <Button variant="secondary" onClick={() => setAccessLevel(LIBRARY_ACCESS.AUTHOR)}>
+        <Button variant="tertiary" onClick={() => setAccessLevel(LIBRARY_ACCESS.AUTHOR)}>
           {intl.formatMessage(messages['library.access.remove_admin'])}
         </Button>
         )}
@@ -56,7 +56,7 @@ export const UserAccessWidget = ({
         )}
         {user.access_level === LIBRARY_ACCESS.AUTHOR && (
         <>
-          <Button variant="secondary" onClick={() => setAccessLevel(LIBRARY_ACCESS.READ)}>
+          <Button variant="tertiary" onClick={() => setAccessLevel(LIBRARY_ACCESS.READ)}>
             {intl.formatMessage(messages['library.access.remove_author'])}
           </Button>
           <Button variant="primary" onClick={() => setAccessLevel(LIBRARY_ACCESS.ADMIN)}>

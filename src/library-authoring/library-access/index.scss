@@ -1,17 +1,13 @@
-$pink: #e83e8c;
-$yellow-d1: #ccae00;
-
 .permy {
-  top: -1rem;
   color: $white;
   &.admin {
-    background-color: $pink;
+    background-color: #082644;
   }
   &.author {
-    background-color: $blue;
+    background-color: #00688D;
   }
   &.read {
-    background-color: $yellow-d1;
+    background-color: #707070;
   }
 }
 

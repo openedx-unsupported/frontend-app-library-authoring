@@ -14,8 +14,6 @@ import {
   Col,
   Row,
 } from '@edx/paragon';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { AppContext } from '@edx/frontend-platform/react';
 import messages from './messages';
 import { LoadingPage } from '../../generic';
@@ -35,6 +33,7 @@ import {
 } from './data';
 // eslint-disable-next-line import/no-named-as-default
 import UserAccessWidgetContainer from './UserAccessWidget';
+import { Add } from '@edx/paragon/icons';
 
 /**
  * LibraryAccessPage:
@@ -56,8 +55,8 @@ const LibraryAccessPage = ({
             <Button
               variant="primary"
               onClick={() => setShowAdd(true)}
+              iconBefore={Add}
             >
-              <FontAwesomeIcon icon={faPlus} className="pr-1 icon-inline" />
               {intl.formatMessage(messages['library.access.new.user'])}
             </Button>
           )}
