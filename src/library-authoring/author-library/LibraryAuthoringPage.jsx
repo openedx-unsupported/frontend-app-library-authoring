@@ -537,7 +537,7 @@ export const LibraryAuthoringPageBase = ({
             <Col xs={12} className="text-center py-3 library-authoring-block-add-new">
               {library.type !== LIBRARY_TYPES.COMPLEX && (
               <Button
-                variant="priary"
+                variant="primary"
                 disabled={sending}
                 onClick={() => addBlock(library.type)}
                 className="cta-button"
@@ -560,6 +560,29 @@ export const LibraryAuthoringPageBase = ({
                       ariaLabel="component-selection"
                       className="px-6"
                     >
+                      {/* Update to use a SelectableBox that triggers a modal for options
+                      <div className="d-inline-block">
+                      <Dropdown>
+                        <Dropdown.Toggle
+                          variant="success"
+                          disabled={sending}
+                          className="cta-button mr-2"
+                          id="library-detail-add-component-dropdown"
+                        >
+                          Advanced
+                        </Dropdown.Toggle>
+                        <Dropdown.Menu>
+                          {otherTypes.map((blockSpec) => (
+                            <Dropdown.Item
+                              onClick={() => addBlock(blockSpec.block_type)}
+                              key={blockSpec.block_type}
+                            >
+                              {blockSpec.display_name}
+                            </Dropdown.Item>
+                          ))}
+                        </Dropdown.Menu>
+                      </Dropdown>
+                    </div> */}
                       <SelectableBox
                         disabled={sending}
                         value="html"
