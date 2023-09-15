@@ -114,7 +114,7 @@ export const CourseImportList = ({
               ))}
             </ul>
           )
-          : <h3 className="">{intl.formatMessage(messages['library.course_import.importable_courses.no_item'])}</h3>
+          : <h3>{intl.formatMessage(messages['library.course_import.importable_courses.no_item'])}</h3>
       }
 
       {

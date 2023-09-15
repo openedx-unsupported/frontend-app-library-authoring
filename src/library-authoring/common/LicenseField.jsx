@@ -132,8 +132,8 @@ export const LicenceFieldBase = (
     )}
     <Row className="mt-2">
       <Col xs={12}>
-        <h3>License preview</h3>
-        <p>The following message will be displayed where appropriate:</p>
+        <h3>{intl.formatMessage(messages['library.common.license.preview.title'])}</h3>
+        <p>{intl.formatMessage(messages['library.common.license.preview.message'])}</p>
       </Col>
       <Col xs={12}>
         <LicenseContainer spec={value} />

@@ -2,10 +2,6 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import { Card, ActionRow, StatefulButton, Icon } from '@edx/paragon';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faPlus, faSync, faSpinner, faCheck,
-} from '@fortawesome/free-solid-svg-icons';
 
 import { paginationParamsShape } from '../common';
 import { courseShape } from './data';

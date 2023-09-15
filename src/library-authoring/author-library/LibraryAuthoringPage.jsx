@@ -151,8 +151,8 @@ export const BlockPreviewBase = ({
       </ModalDialog.Body>
       <ModalDialog.Footer>
         <ActionRow>
-          <ModalDialog.CloseButton variant="link">
-            Cancel
+          <ModalDialog.CloseButton variant="tertiary">
+            {intl.formatMessage(messages['library.detail.block.delete.modal.cancel.button'])}
           </ModalDialog.CloseButton>
           <Button onClick={() => props.deleteLibraryBlock({ blockId: block.id })} variant="primary">
             {intl.formatMessage(messages['library.detail.block.delete.modal.confirmation.button'])}

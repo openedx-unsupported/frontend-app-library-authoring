@@ -34,6 +34,7 @@ import {
 } from './data';
 import messages from './messages';
 import { LicenseFieldContainer } from '../common/LicenseField';
+import { SpinnerSimple } from '@edx/paragon/icons';
 
 class LibraryConfigurePage extends React.Component {
   constructor(props) {
@@ -315,7 +316,7 @@ class LibraryConfigurePage extends React.Component {
                             pending: intl.formatMessage(messages['library.edit.button.submitting']),
                           }}
                           icons={{
-                            pending: <Icon className="fa fa-spinner fa-spin" />,
+                            pending: <Icon src={SpinnerSimple} className="fa fa-spinner fa-spin" />,
                           }}
                           disabledStates={['disabled', 'pending']}
                           className="action"

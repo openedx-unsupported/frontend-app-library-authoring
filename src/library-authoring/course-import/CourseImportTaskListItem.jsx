@@ -1,10 +1,11 @@
 import React from 'react';
-import { injectIntl } from '@edx/frontend-platform/i18n';
+import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import { Card, Badge } from '@edx/paragon';
 
 import { importTaskShape } from './data';
+import messages from './messages';
 
-const CourseImportTaskListItem = ({ task }) => {
+const CourseImportTaskListItem = ({ task, intl }) => {
   let badgeVariant = '';
 
   switch (task.state.toLowerCase()) {
@@ -30,7 +31,7 @@ const CourseImportTaskListItem = ({ task }) => {
     <Card className="mt-1 mb-3">
       <Card.Header
         className="library-authoring-course-import-block-card-header"
-        title={`Import of ${task.course_id}`}
+        title={intl.formatMessage(messages['library.course_import.list_item.title'], {courseId: task.course_id})}
         subtitle={(
           <>
             <Badge variant={badgeVariant}>{task.state}</Badge>
@@ -47,6 +48,7 @@ const CourseImportTaskListItem = ({ task }) => {
 
 CourseImportTaskListItem.propTypes = {
   task: importTaskShape.isRequired,
+  intl: intlShape.isRequired,
 };
 
 export default injectIntl(CourseImportTaskListItem);

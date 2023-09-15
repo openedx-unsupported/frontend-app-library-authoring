@@ -131,6 +131,16 @@ const messages = defineMessages({
     defaultMessage: 'All rights reserved',
     description: 'Text/Label for a license where all rights are reserved.',
   },
+  'library.common.license.preview.title': {
+    id: 'library.common.license..preview.title',
+    defaultMessage: 'License preview',
+    description: 'Title for license preview section',
+  },
+  'library.common.license.preview.message': {
+    id: 'library.common.license..preview.message',
+    defaultMessage: 'The following message will be displayed where appropriate:',
+    description: 'Message for license preview section',
+  },
   'library.common.pagination.labels.previous': {
     id: 'library.common.pagination.labels.previous',
     defaultMessage: 'Previous',

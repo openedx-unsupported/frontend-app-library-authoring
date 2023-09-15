@@ -132,6 +132,11 @@ const messages = defineMessages({
     defaultMessage: 'Created at:',
     description: 'Label of the import task creation metadata item',
   },
+  'library.course_import.list_item.title': {
+    id: 'library.course_import.list_item.title',
+    defaultMessage: 'Import of {courseId}',
+    description: 'Title of the import task item',
+  },
 });
 
 export default messageGuard(messages);
