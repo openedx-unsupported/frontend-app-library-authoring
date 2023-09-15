@@ -298,6 +298,13 @@ class LibraryConfigurePage extends React.Component {
                     </fieldset>
                     <div className="actions form-group">
                       <Card.Section>
+                        <Button
+                          variant="tertiary"
+                          className="action ml-2"
+                          onClick={this.handleCancel}
+                        >
+                          {intl.formatMessage(messages['library.edit.button.cancel'])}
+                        </Button>
                         <StatefulButton
                           variant="primary"
                           type="submit"
@@ -313,13 +320,6 @@ class LibraryConfigurePage extends React.Component {
                           disabledStates={['disabled', 'pending']}
                           className="action"
                         />
-                        <Button
-                          variant="light"
-                          className="action ml-2"
-                          onClick={this.handleCancel}
-                        >
-                          {intl.formatMessage(messages['library.edit.button.cancel'])}
-                        </Button>
                       </Card.Section>
                     </div>
                   </Form>
