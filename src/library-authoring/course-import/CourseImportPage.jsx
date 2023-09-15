@@ -9,12 +9,12 @@ import {
   Button,
   Col,
   Form,
+  Icon,
   Pagination,
   Row,
 } from '@edx/paragon';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
-import { faSearch, faSync } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Search, Sync } from '@edx/paragon/icons';
 
 import { LoadingPage } from '../../generic';
 import {
@@ -49,8 +49,12 @@ export const CourseImportPageHeader = ({ intl, showCourses, ...props }) => {
         <ActionRow>
           <h1 className="page-header-title">{intl.formatMessage(messages['library.course_import.page.heading'])}</h1>
           <ActionRow.Spacer />
-          <Button className="toggle-importable-courses" variant="primary" onClick={showCoursesHandler}>
-            <FontAwesomeIcon icon={faSync} className="pr-1" />
+          <Button
+            className="toggle-importable-courses"
+            variant="primary"
+            onClick={showCoursesHandler}
+            iconBefore={Sync}
+          >
             {showCourses
               ? intl.formatMessage(messages['library.course_import.importable_courses.hide'])
               : intl.formatMessage(messages['library.course_import.importable_courses.show'])}
@@ -222,7 +226,7 @@ export const CourseImportListFilter = ({
                   variant="primary"
                   className="ml-2 py-1 px-3 d-inline"
                 >
-                  <FontAwesomeIcon icon={faSearch} />
+                  <Icon src={Search} />
                 </Button>
               </div>
             </Form.Group>
