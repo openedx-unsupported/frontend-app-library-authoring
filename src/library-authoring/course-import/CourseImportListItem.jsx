@@ -51,6 +51,7 @@ const CourseImportListItem = ({
             <StatefulButton {...importButtonProps} />
           </ActionRow>
         )}
+        size="sm"
       />
     </Card>
   );

@@ -6,6 +6,7 @@ import {
   Badge,
   Button,
   Card,
+  Col,
   Icon,
   IconButton,
   ModalDialog,
@@ -31,35 +32,38 @@ export const UserAccessWidget = ({
       <strong>{intl.formatMessage(messages[`library.access.info.${user.access_level}`])}</strong>&nbsp;
       <span className="font-weight-normal text-light-500 small">{isUser && intl.formatMessage(messages['library.access.info.self'])}</span>
     </Badge>
-    <ActionRow>
-      <span className="title title-2">
+    <ActionRow className="my-2">
+      <Col>
+      <div className="title title-2">
         <span className="font-weight-bold">{user.username}</span>
-      </span>
-      <span className="title px-2">
+      </div>
+      <div className="title small">
         <a href={`mailto:${user.email}`}>{user.email}</a>
-      </span>
+      </div>
+      </Col>
+
       <ActionRow.Spacer />
       {isAdmin && (
       <>
         {(user.access_level === LIBRARY_ACCESS.ADMIN) && adminLocked && (
-        <small>{intl.formatMessage(messages['library.access.info.admin_unlock'])}</small>
+        <small className='text-muted mr-2.5'>{intl.formatMessage(messages['library.access.info.admin_unlock'])}</small>
         )}
         {user.access_level === LIBRARY_ACCESS.ADMIN && multipleAdmins && (
-        <Button variant="tertiary" onClick={() => setAccessLevel(LIBRARY_ACCESS.AUTHOR)}>
+        <Button variant="tertiary" onClick={() => setAccessLevel(LIBRARY_ACCESS.AUTHOR)} size="sm">
           {intl.formatMessage(messages['library.access.remove_admin'])}
         </Button>
         )}
         {user.access_level === LIBRARY_ACCESS.READ && (
-        <Button variant="primary" onClick={() => setAccessLevel(LIBRARY_ACCESS.AUTHOR)}>
+        <Button variant="primary" onClick={() => setAccessLevel(LIBRARY_ACCESS.AUTHOR)} size="sm">
           {intl.formatMessage(messages['library.access.add_author'])}
         </Button>
         )}
         {user.access_level === LIBRARY_ACCESS.AUTHOR && (
         <>
-          <Button variant="tertiary" onClick={() => setAccessLevel(LIBRARY_ACCESS.READ)}>
+          <Button variant="tertiary" onClick={() => setAccessLevel(LIBRARY_ACCESS.READ)} size="sm">
             {intl.formatMessage(messages['library.access.remove_author'])}
           </Button>
-          <Button variant="primary" onClick={() => setAccessLevel(LIBRARY_ACCESS.ADMIN)}>
+          <Button variant="primary" onClick={() => setAccessLevel(LIBRARY_ACCESS.ADMIN)} size="sm">
             {intl.formatMessage(messages['library.access.add_admin'])}
           </Button>
         </>

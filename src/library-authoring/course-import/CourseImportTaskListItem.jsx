@@ -33,14 +33,15 @@ const CourseImportTaskListItem = ({ task, intl }) => {
         className="library-authoring-course-import-block-card-header"
         title={intl.formatMessage(messages['library.course_import.list_item.title'], {courseId: task.course_id})}
         subtitle={(
-          <>
+          <div>
             <Badge variant={badgeVariant}>{task.state}</Badge>
             <span> • </span>
             <span>{task.org}</span>
             <span> • </span>
             <span>{new Date(task.created_at).toLocaleString()}</span>
-          </>
+          </div>
         )}
+        size="sm"
       />
     </Card>
   );

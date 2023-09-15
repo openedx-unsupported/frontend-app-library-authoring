@@ -319,6 +319,7 @@ const ButtonTogglesBase = ({ setShowPreviews, showPreviews, intl }) => (
       className="ml-1"
       onClick={() => setShowPreviews(!showPreviews)}
       iconBefore={Sync}
+      size="sm"
     >
       { intl.formatMessage(showPreviews ? messages['library.detail.hide_previews'] : messages['library.detail.show_previews']) }
     </Button>
@@ -389,7 +390,7 @@ const LibraryAuthoringPageHeaderBase = ({ intl, library, ...props }) => {
   };
 
   return (
-    <h1 className="page-header-title">
+    <h2 className="page-header-title">
       { inputIsActive
         ? (
           <Form.Control
@@ -418,7 +419,7 @@ const LibraryAuthoringPageHeaderBase = ({ intl, library, ...props }) => {
             />
           </ActionRow>
         )}
-    </h1>
+    </h2>
   );
 };
 
@@ -472,7 +473,6 @@ export const LibraryAuthoringPageBase = ({
               {(library.type === LIBRARY_TYPES.COMPLEX) && (
               <>
                 <SearchField
-                  className="flex-grow-1"
                   value={query}
                   placeholder={intl.formatMessage(messages['library.detail.search'])}
                   onSubmit={(value) => changeQuery(value)}
@@ -549,7 +549,7 @@ export const LibraryAuthoringPageBase = ({
               {library.type === LIBRARY_TYPES.COMPLEX && (
                 <Row>
                   <Col xs={12}>
-                    <h2>{intl.formatMessage(messages['library.detail.add_component_heading'])}</h2>
+                    <h3>{intl.formatMessage(messages['library.detail.add_component_heading'])}</h3>
                   </Col>
                   <Col xs={12} className="text-center">
                     <SelectableBox.Set
@@ -628,22 +628,23 @@ export const LibraryAuthoringPageBase = ({
         <aside>
           <Row>
             <Col xs={12} className="order-1 order-md-0">
-              <h3>{intl.formatMessage(messages['library.detail.sidebar.adding.heading'])}</h3>
-              <p>{intl.formatMessage(messages['library.detail.sidebar.adding.first'])}</p>
-              <p>{intl.formatMessage(messages['library.detail.sidebar.adding.second'])}</p>
-              <h3>{intl.formatMessage(messages['library.detail.sidebar.using.heading'])}</h3>
-              <p>{intl.formatMessage(messages['library.detail.sidebar.using.first'])}</p>
+              <h4>{intl.formatMessage(messages['library.detail.sidebar.adding.heading'])}</h4>
+              <p className="small">{intl.formatMessage(messages['library.detail.sidebar.adding.first'])}</p>
+              <p className="small">{intl.formatMessage(messages['library.detail.sidebar.adding.second'])}</p>
+              <hr />
+              <h4>{intl.formatMessage(messages['library.detail.sidebar.using.heading'])}</h4>
+              <p className="small">{intl.formatMessage(messages['library.detail.sidebar.using.first'])}</p>
             </Col>
             <Col xs={12} className="py-3 order-0 order-md-1">
               <Card>
                 <Card.Header
-                  title={intl.formatMessage(messages[`library.detail.aside.${hasChanges ? 'draft' : 'published'}`])}
+                  title={<div className='h4'>{intl.formatMessage(messages[`library.detail.aside.${hasChanges ? 'draft' : 'published'}`])}</div>}
                 />
                 <Card.Footer>
-                  <Button block disabled={!hasChanges} onClick={commitChanges}>
+                  <Button block disabled={!hasChanges} onClick={commitChanges} size="sm">
                     {intl.formatMessage(messages['library.detail.aside.publish'])}
                   </Button>
-                  <Button variant="link" disabled={!hasChanges} onClick={revertChanges}>
+                  <Button variant="tertiary" disabled={!hasChanges} onClick={revertChanges} size="sm">
                     {intl.formatMessage(messages['library.detail.aside.discard'])}
                   </Button>
                 </Card.Footer>

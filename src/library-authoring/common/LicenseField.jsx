@@ -132,8 +132,8 @@ export const LicenceFieldBase = (
     )}
     <Row className="mt-2">
       <Col xs={12}>
-        <h3>{intl.formatMessage(messages['library.common.license.preview.title'])}</h3>
-        <p>{intl.formatMessage(messages['library.common.license.preview.message'])}</p>
+        <div className='mt-2'>{intl.formatMessage(messages['library.common.license.preview.title'])}</div>
+        <div className='small my-2'>{intl.formatMessage(messages['library.common.license.preview.message'])}</div>
       </Col>
       <Col xs={12}>
         <LicenseContainer spec={value} />

@@ -48,7 +48,7 @@ const LibraryAccessPage = ({
         <small className="card-subtitle">{intl.formatMessage(messages['library.access.page.parent_heading'])}</small>
         <ActionRow>
           <div className="page-header-section">
-            <h1 className="page-header">{intl.formatMessage(messages['library.access.page.heading'])}</h1>
+            <h2 className="page-header">{intl.formatMessage(messages['library.access.page.heading'])}</h2>
           </div>
           <ActionRow.Spacer />
           {isAdmin && (
@@ -56,6 +56,7 @@ const LibraryAccessPage = ({
               variant="primary"
               onClick={() => setShowAdd(true)}
               iconBefore={Add}
+              size="sm"
             >
               {intl.formatMessage(messages['library.access.new.user'])}
             </Button>
@@ -101,8 +102,8 @@ const LibraryAccessPage = ({
         </Col>
         <Col xs={12} md={4} xl={3}>
           <aside className="content-supplementary">
-            <div className="bit">
-              <h3 className="title title-3">{intl.formatMessage(messages['library.access.aside.title'])}</h3>
+            <div className="bit small">
+              <h4 className="title title-3">{intl.formatMessage(messages['library.access.aside.title'])}</h4>
               <p>{intl.formatMessage(messages['library.access.aside.text.first'])}</p>
               <p>{intl.formatMessage(messages['library.access.aside.text.second'])}</p>
               <p>{intl.formatMessage(messages['library.access.aside.text.third'])}</p>
