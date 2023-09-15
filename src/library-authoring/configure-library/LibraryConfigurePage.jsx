@@ -331,7 +331,7 @@ class LibraryConfigurePage extends React.Component {
                 <div className="bit">
                   <h3 className="title title-3">{intl.formatMessage(messages['library.edit.aside.title'])}</h3>
                   <p>{intl.formatMessage(messages['library.edit.aside.text'])}</p>
-                  <ul className="list-actions">
+                  <ul className="list-actions list-unstyled">
                     <li className="action-item">
                       <a
                         href="http://edx.readthedocs.io/projects/open-edx-building-and-running-a-course/en/latest/course_components/libraries.html"
