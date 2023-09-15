@@ -27,5 +27,4 @@ module.exports = createConfig('jest', {
   moduleNameMapper: {
     '^lodash-es$': 'lodash',
   },
-  silent:true
 });
