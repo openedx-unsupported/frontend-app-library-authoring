@@ -2,10 +2,7 @@ import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {
-  Outlet,
-  Route, Routes,
-} from 'react-router-dom';
+import { Route, Routes, Outlet } from 'react-router-dom';
 import {
   APP_INIT_ERROR, APP_READY, initialize, mergeConfig, subscribe,
 } from '@edx/frontend-platform';
