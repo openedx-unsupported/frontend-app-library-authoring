@@ -1,12 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
-import { Card, ActionRow, StatefulButton, Icon } from '@edx/paragon';
+import {
+  Card,
+  ActionRow,
+  StatefulButton,
+  Icon,
+} from '@edx/paragon';
+import {
+  Add,
+  Check,
+  SpinnerSimple,
+  Sync,
+} from '@edx/paragon/icons';
 
 import { paginationParamsShape } from '../common';
 import { courseShape } from './data';
 import messages from './messages';
-import { Add, Check, SpinnerSimple, Sync } from '@edx/paragon/icons';
 
 const CourseImportListItem = ({
   intl, course, libraryId, importBlocksHandler, ongoingImportState, taskPaginationParams,

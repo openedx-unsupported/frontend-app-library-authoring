@@ -553,7 +553,7 @@ export const LibraryAuthoringPageBase = ({
                   </Col>
                   <Col xs={12} className="text-center">
                     <SelectableBox.Set
-                      type='radio'
+                      type="radio"
                       value={null}
                       onChange={(e) => addBlock(e.target.value)}
                       columns={3}
@@ -586,7 +586,7 @@ export const LibraryAuthoringPageBase = ({
                       <SelectableBox
                         disabled={sending}
                         value="html"
-                        ariaLabel='html-radio'
+                        ariaLabel="html-radio"
                         className="text-center"
                       >
                         <div className="row m-0 mb-1 justify-content-center">
@@ -597,7 +597,7 @@ export const LibraryAuthoringPageBase = ({
                       <SelectableBox
                         disabled={sending}
                         value="problem"
-                        ariaLabel='problem-radio'
+                        ariaLabel="problem-radio"
                         className="text-center"
                       >
                         <div className="row m-0 mb-1 justify-content-center">
@@ -608,7 +608,7 @@ export const LibraryAuthoringPageBase = ({
                       <SelectableBox
                         disabled={sending}
                         value="video"
-                        ariaLabel='video-radio'
+                        ariaLabel="video-radio"
                         className="text-center"
                       >
                         <div className="row m-0  mb-1 justify-content-center">
@@ -638,7 +638,7 @@ export const LibraryAuthoringPageBase = ({
             <Col xs={12} className="py-3 order-0 order-md-1">
               <Card>
                 <Card.Header
-                  title={<div className='h4'>{intl.formatMessage(messages[`library.detail.aside.${hasChanges ? 'draft' : 'published'}`])}</div>}
+                  title={<div className="h4">{intl.formatMessage(messages[`library.detail.aside.${hasChanges ? 'draft' : 'published'}`])}</div>}
                 />
                 <Card.Footer>
                   <Button block disabled={!hasChanges} onClick={commitChanges} size="sm">

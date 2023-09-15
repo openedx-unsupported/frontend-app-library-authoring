@@ -1,10 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
+import { Icon, Row } from '@edx/paragon';
+import {
+  Attribution,
+  Cc,
+  Copyright,
+  Nc,
+  Nd,
+  Sa,
+} from '@edx/paragon/icons';
 import { commonsOptionsFromSpec, commonsOptionsShape, linkFromSpec } from './data';
 import messages from './messages';
-import { Icon, Row } from '@edx/paragon';
-import { Attribution, Cc, Copyright, Nc, Nd, Sa } from '@edx/paragon/icons';
 
 /**
  * CreativeCommonsLicense
@@ -84,7 +91,7 @@ export const CreativeCommonsLicense = injectIntl(CreativeCommonsLicenseBase);
 export const AllRightsReservedBase = ({ intl }) => (
   <Row className="m-0 align-items-center">
     <Icon src={Copyright} size="inline" />
-    <div className='ml-1'>
+    <div className="ml-1">
       {intl.formatMessage(messages['library.common.license.none'])}
     </div>
   </Row>

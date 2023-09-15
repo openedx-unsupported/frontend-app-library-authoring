@@ -31,7 +31,7 @@ const CourseImportTaskListItem = ({ task, intl }) => {
     <Card className="mt-1 mb-3">
       <Card.Header
         className="library-authoring-course-import-block-card-header"
-        title={intl.formatMessage(messages['library.course_import.list_item.title'], {courseId: task.course_id})}
+        title={intl.formatMessage(messages['library.course_import.list_item.title'], { courseId: task.course_id })}
         subtitle={(
           <div>
             <Badge variant={badgeVariant}>{task.state}</Badge>

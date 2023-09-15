@@ -34,19 +34,18 @@ export const UserAccessWidget = ({
     </Badge>
     <ActionRow className="my-2">
       <Col>
-      <div className="title title-2">
-        <span className="font-weight-bold">{user.username}</span>
-      </div>
-      <div className="title small">
-        <a href={`mailto:${user.email}`}>{user.email}</a>
-      </div>
+        <div className="title title-2">
+          <span className="font-weight-bold">{user.username}</span>
+        </div>
+        <div className="title small">
+          <a href={`mailto:${user.email}`}>{user.email}</a>
+        </div>
       </Col>
-
       <ActionRow.Spacer />
       {isAdmin && (
       <>
         {(user.access_level === LIBRARY_ACCESS.ADMIN) && adminLocked && (
-        <small className='text-muted mr-2.5'>{intl.formatMessage(messages['library.access.info.admin_unlock'])}</small>
+        <small className="text-muted mr-2.5">{intl.formatMessage(messages['library.access.info.admin_unlock'])}</small>
         )}
         {user.access_level === LIBRARY_ACCESS.ADMIN && multipleAdmins && (
         <Button variant="tertiary" onClick={() => setAccessLevel(LIBRARY_ACCESS.AUTHOR)} size="sm">

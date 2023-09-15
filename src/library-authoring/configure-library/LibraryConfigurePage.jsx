@@ -14,6 +14,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import { AppContext } from '@edx/frontend-platform/react';
+import { SpinnerSimple } from '@edx/paragon/icons';
 
 import { LoadingPage } from '../../generic';
 import {
@@ -34,7 +35,6 @@ import {
 } from './data';
 import messages from './messages';
 import { LicenseFieldContainer } from '../common/LicenseField';
-import { SpinnerSimple } from '@edx/paragon/icons';
 
 class LibraryConfigurePage extends React.Component {
   constructor(props) {

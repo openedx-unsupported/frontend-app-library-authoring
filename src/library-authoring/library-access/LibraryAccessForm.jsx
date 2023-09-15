@@ -65,7 +65,7 @@ const LibraryAccessForm = ({
           </div>
         </Card.Section>
         <Card.Section className="pt-0">
-        <Button size="sm" variant="tertiary"onClick={() => setShowAdd(false)}>
+          <Button size="sm" variant="tertiary" onClick={() => setShowAdd(false)}>
             {intl.formatMessage(commonMessages['library.common.forms.button.cancel'])}
           </Button>
           <StatefulButton

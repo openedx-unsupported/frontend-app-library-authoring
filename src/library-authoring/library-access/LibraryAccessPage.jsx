@@ -14,6 +14,7 @@ import {
   Col,
   Row,
 } from '@edx/paragon';
+import { Add } from '@edx/paragon/icons';
 import { AppContext } from '@edx/frontend-platform/react';
 import messages from './messages';
 import { LoadingPage } from '../../generic';
@@ -33,7 +34,6 @@ import {
 } from './data';
 // eslint-disable-next-line import/no-named-as-default
 import UserAccessWidgetContainer from './UserAccessWidget';
-import { Add } from '@edx/paragon/icons';
 
 /**
  * LibraryAccessPage:

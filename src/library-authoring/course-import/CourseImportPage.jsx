@@ -13,7 +13,6 @@ import {
   IconButton,
   Pagination,
   Row,
-  SearchField,
 } from '@edx/paragon';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import { Search, Sync } from '@edx/paragon/icons';

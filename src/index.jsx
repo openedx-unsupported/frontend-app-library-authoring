@@ -7,6 +7,7 @@ import {
   APP_INIT_ERROR, APP_READY, initialize, mergeConfig, subscribe,
 } from '@edx/frontend-platform';
 import { AppProvider, ErrorPage } from '@edx/frontend-platform/react';
+import { Footer } from '@edx/frontend-lib-content-components';
 import messages from './i18n';
 import store from './store';
 import { NotFoundPage } from './generic';
@@ -22,7 +23,6 @@ import {
   StudioHeaderWrapper,
 } from './library-authoring';
 import './index.scss';
-import { Footer } from '@edx/frontend-lib-content-components';
 
 mergeConfig({
   LIB_AUTHORING_BASE_URL: process.env.BASE_URL,
