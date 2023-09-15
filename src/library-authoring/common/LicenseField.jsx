@@ -132,7 +132,7 @@ export const LicenceFieldBase = (
     )}
     <Row className="mt-2">
       <Col xs={12}>
-        <h3>License Preview</h3>
+        <h3>License preview</h3>
         <p>The following message will be displayed where appropriate:</p>
       </Col>
       <Col xs={12}>

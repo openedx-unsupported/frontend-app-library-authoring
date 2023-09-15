@@ -54,7 +54,7 @@ const messages = defineMessages({
   },
   'library.common.fields.license.label': {
     id: 'library.common.fields.license.label',
-    defaultMessage: 'License Type',
+    defaultMessage: 'License type',
     description: 'Label for license type field.',
   },
   'library.common.fields.license.cc.learn_more': {
@@ -113,22 +113,22 @@ const messages = defineMessages({
   },
   'library.common.license.cc.no_derivatives': {
     id: 'library.common.license.cc.no_derivatives',
-    defaultMessage: 'No Derivatives',
+    defaultMessage: 'No derivatives',
     description: 'Label for the Creative Commons \'no derivatives\' (ND) modifier.',
   },
   'library.common.license.cc.share_alike': {
     id: 'library.common.license.cc.share_alike',
-    defaultMessage: 'Share Alike',
+    defaultMessage: 'Share alike',
     description: 'Label for the Creative Commons \'share alikes\' (SA) modifier.',
   },
   'library.common.license.cc.postscript': {
     id: 'library.common.license.cc.postscript',
-    defaultMessage: 'Some Rights Reserved.',
+    defaultMessage: 'Some rights reserved.',
     description: 'Postscript message after showing the attributes for a Creative Commons license.',
   },
   'library.common.license.none': {
     id: 'library.common.license.none',
-    defaultMessage: 'All Rights Reserved',
+    defaultMessage: 'All rights reserved',
     description: 'Text/Label for a license where all rights are reserved.',
   },
   'library.common.pagination.labels.previous': {

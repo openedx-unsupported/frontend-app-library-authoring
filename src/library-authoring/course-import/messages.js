@@ -14,7 +14,7 @@ const messages = defineMessages({
   },
   'library.course_import.page.heading': {
     id: 'library.course_import.page.heading',
-    defaultMessage: 'Course Import',
+    defaultMessage: 'Course import',
     description: 'Title of course import settings page',
   },
   'library.course_import.aside.course_list.title': {
