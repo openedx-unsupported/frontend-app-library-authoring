@@ -56,6 +56,18 @@ export class LibraryCreatePage extends React.Component {
   }
 
   componentDidMount() {
+    window.history.pushState(null, document.title, window.location.href);
+    window.addEventListener('popstate', () => {
+      const { confirmedNavigation, allowLeave } = this.state;
+
+      if (!confirmedNavigation && !allowLeave) {
+        this.openModal({ pathname: ROUTES.List.HOME });
+        window.history.pushState(null, document.title, window.location.href);
+      } else {
+        this.props.navigate(ROUTES.List.HOME);
+      }
+    });
+
     this.props.resetForm();
     this.props.fetchOrganizations();
   }

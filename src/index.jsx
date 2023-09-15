@@ -41,11 +41,14 @@ subscribe(APP_READY, () => {
       <Routes>
         <Route path={`${ROUTES.Detail.HOME}/*`} element={<StudioHeaderWrapper />} />
         <Route path="*" element={<StudioHeaderWrapper />} />
+      </Routes>
+      <Routes>
         <Route element={(
           <main className="library-authoring__main-content">
             <Outlet />
           </main>
-        )}>
+          )}
+        >
           <Route path={ROUTES.List.HOME} element={<LibraryListPage />} />
           <Route path={ROUTES.List.CREATE} element={<LibraryCreatePage />} />
           <Route path={ROUTES.Detail.HOME} element={<LibraryAuthoringPage />} />
