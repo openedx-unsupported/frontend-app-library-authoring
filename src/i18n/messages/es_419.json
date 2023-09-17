@@ -192,6 +192,8 @@
   "library.access.remove_user": "Quitar usuario",
   "library.access.modal.remove.title": "¿Está seguro?",
   "library.access.modal.remove.body": "¿Seguro que desea eliminar {email} de la librería \"{library}\"?",
+  "library.access.modal.remove.footer.cancel": "Cancel",
+  "library.access.modal.remove.footer.delete": "Delete",
   "library.access.modal.remove_admin.title": "¿Está seguro?",
   "library.access.modal.remove_admin.body": "¿Seguro que deseas revocar los privilegios de administrador para {email} de la librería \"{library}\"?",
   "library.list.page.heading": "Librerías",
