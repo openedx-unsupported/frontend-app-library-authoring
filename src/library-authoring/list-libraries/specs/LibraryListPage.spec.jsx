@@ -9,7 +9,7 @@ import { ctxMount } from '../../common/specs/helpers';
 import { libraryFactory } from '../../common/specs/factories';
 import { withNavigate } from '../../utils/hoc';
 
-const mockedNavigator = jest.fn();
+const mockNavigate = jest.fn();
 const InjectedLibraryListPage = injectIntl(withNavigate(LibraryListPage));
 const mockLibraryFetcher = jest.fn();
 const props = {
@@ -20,7 +20,7 @@ const props = {
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
-  useNavigate: () => mockedNavigator,
+  useNavigate: () => mockNavigate,
 }));
 
 describe('list-libraries/LibraryListPage.jsx', () => {
@@ -160,7 +160,7 @@ describe('list-libraries/LibraryListPage.jsx', () => {
     const newLibraryButton = emptyPage.find('button.btn-outline-primary');
     newLibraryButton.simulate('click');
 
-    expect(mockedNavigator).toHaveBeenCalledWith(ROUTES.List.CREATE);
+    expect(mockNavigate).toHaveBeenCalledWith(ROUTES.List.CREATE);
   });
 
   it('handle click on library listing item', () => {
@@ -181,7 +181,7 @@ describe('list-libraries/LibraryListPage.jsx', () => {
     const libraryItem = container.find('.library-item').at(0);
     libraryItem.simulate('click');
 
-    expect(mockedNavigator).toHaveBeenCalled();
+    expect(mockNavigate).toHaveBeenCalled();
   });
 
   it('handle click create library page', () => {
@@ -202,6 +202,6 @@ describe('list-libraries/LibraryListPage.jsx', () => {
     const newLibraryBtn = container.find('button.btn-outline-primary').at(0);
     newLibraryBtn.simulate('click');
 
-    expect(mockedNavigator).toHaveBeenCalledWith(ROUTES.List.CREATE);
+    expect(mockNavigate).toHaveBeenCalledWith(ROUTES.List.CREATE);
   });
 });

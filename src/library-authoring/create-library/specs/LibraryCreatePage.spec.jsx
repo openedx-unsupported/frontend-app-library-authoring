@@ -18,11 +18,11 @@ const props = {
   createLibrary: mockCreateLibrary,
   fetchOrganizations: mockFetchOrganizations,
 };
-const mockedNavigator = jest.fn();
+const mockNavigate = jest.fn();
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
-  useNavigate: () => mockedNavigator,
+  useNavigate: () => mockNavigate,
 }));
 
 describe('create-library/LibraryCreatePage.jsx', () => {
@@ -105,7 +105,7 @@ describe('create-library/LibraryCreatePage.jsx', () => {
 
     const cancelPageButton = container.find('button.btn-light').at(0);
     cancelPageButton.simulate('click');
-    expect(mockedNavigator).toHaveBeenCalledWith(ROUTES.List.HOME);
+    expect(mockNavigate).toHaveBeenCalledWith(ROUTES.List.HOME);
   });
 
   it('shows leave modal and prevents leaving', () => {
@@ -121,7 +121,7 @@ describe('create-library/LibraryCreatePage.jsx', () => {
     cancelPageButton.simulate('click');
 
     // The leave page modal was shown and history was updated but blocked
-    expect(mockedNavigator).toHaveBeenCalledWith(ROUTES.List.HOME);
+    expect(mockNavigate).toHaveBeenCalledWith(ROUTES.List.HOME);
     expect(container.find('.pgn__modal-title').text()).toEqual('Unsaved changes');
 
     // Reject the leave page modal
@@ -134,6 +134,6 @@ describe('create-library/LibraryCreatePage.jsx', () => {
     const SubmitModalButton = container.find('.pgn__modal .btn-primary');
     SubmitModalButton.simulate('click');
     expect(container.find('.pgn__modal-title').exists()).toEqual(false);
-    expect(mockedNavigator).toHaveBeenCalledWith(ROUTES.List.HOME);
+    expect(mockNavigate).toHaveBeenCalledWith(ROUTES.List.HOME);
   });
 });
