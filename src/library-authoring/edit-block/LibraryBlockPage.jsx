@@ -1,7 +1,5 @@
 import React from 'react';
-import {
-  NavLink,
-} from 'react-router-dom';
+import { NavLink, Route, Routes } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
@@ -26,7 +24,7 @@ import {
   ROUTES,
   truncateMessage,
   XBLOCK_VIEW_SYSTEM,
-  getXBlockHandlerUrl, fetchable,
+  getXBlockHandlerUrl, fetchable, BLOCK_TYPE,
 } from '../common';
 import {
   commitLibraryChanges,
@@ -204,61 +202,6 @@ class LibraryBlockPage extends React.Component {
     }
   }
 
-  renderBlock() {
-    switch (this.props.path) {
-      case ROUTES.Block.HOME: {
-        return (
-          <LibraryBlock
-            view={this.props.view}
-            getHandlerUrl={this.getHandlerUrl}
-          />
-        );
-      }
-      case ROUTES.Block.EDIT: {
-        return (
-          <LibraryBlock
-            view={this.props.view}
-            getHandlerUrl={this.getHandlerUrl}
-            onBlockNotification={this.handleBlockNotification}
-          />
-        );
-      }
-      case ROUTES.Block.SOURCE: {
-        return (
-          <LibraryBlockOlx
-            olx={this.props.olx}
-            onSaveOlx={this.handleSaveOlx}
-          />
-        );
-      }
-      case ROUTES.Block.ASSETS: {
-        return (
-          <LibraryBlockAssets
-            assets={this.props.assets}
-            onDropFiles={this.handleDropFiles}
-            onDeleteFile={this.handleDeleteFile}
-          />
-        );
-      }
-      case ROUTES.Block.LEARN: {
-        return (
-          <>
-            <p>
-              This tab uses the LMS APIs so it shows the published version only
-              and will save user state.
-            </p>
-            <LibraryBlock
-              view={this.props.view}
-              getHandlerUrl={this.getHandlerUrl}
-            />
-          </>
-        );
-      }
-      default:
-        return null;
-    }
-  }
-
   renderContent() {
     const {
       errorMessage,
@@ -316,7 +259,61 @@ class LibraryBlockPage extends React.Component {
                         <Spinner animation="border" variant="primary" />
                       </div>
                     ) : (
-                      this.renderBlock()
+                      <Routes>
+                        <Route
+                          path={BLOCK_TYPE.HOME}
+                          element={(
+                            <LibraryBlock
+                              view={this.props.view}
+                              getHandlerUrl={this.getHandlerUrl}
+                            />
+                          )}
+                        />
+                        <Route
+                          path={BLOCK_TYPE.EDIT}
+                          element={(
+                            <LibraryBlock
+                              view={this.props.view}
+                              getHandlerUrl={this.getHandlerUrl}
+                              onBlockNotification={this.handleBlockNotification}
+                            />
+                          )}
+                        />
+                        <Route
+                          path={BLOCK_TYPE.ASSETS}
+                          element={(
+                            <LibraryBlockAssets
+                              assets={this.props.assets}
+                              onDropFiles={this.handleDropFiles}
+                              onDeleteFile={this.handleDeleteFile}
+                            />
+                          )}
+                        />
+                        <Route
+                          path={BLOCK_TYPE.SOURCE}
+                          element={(
+                            <LibraryBlockOlx
+                              olx={this.props.olx}
+                              onSaveOlx={this.handleSaveOlx}
+                            />
+                          )}
+                        />
+                        <Route
+                          path={BLOCK_TYPE.LEARN}
+                          element={(
+                            <>
+                              <p>
+                                This tab uses the LMS APIs so it shows the published version only
+                                and will save user state.
+                              </p>
+                              <LibraryBlock
+                                view={this.props.view}
+                                getHandlerUrl={this.getHandlerUrl}
+                              />
+                            </>
+                          )}
+                        />
+                      </Routes>
                     )}
                   </div>
                 </Card>

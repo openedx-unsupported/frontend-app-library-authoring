@@ -52,11 +52,7 @@ subscribe(APP_READY, () => {
           <Route path={ROUTES.Detail.EDIT} element={<LibraryEditPage />} />
           <Route path={ROUTES.Detail.ACCESS} element={<LibraryAccessPage />} />
           <Route path={ROUTES.Detail.IMPORT} element={<CourseImportPage />} />
-          <Route path={ROUTES.Block.HOME} element={<LibraryBlockPage />} />
-          <Route path={ROUTES.Block.EDIT} element={<LibraryBlockPage />} />
-          <Route path={ROUTES.Block.ASSETS} element={<LibraryBlockPage />} />
-          <Route path={ROUTES.Block.SOURCE} element={<LibraryBlockPage />} />
-          <Route path={ROUTES.Block.LEARN} element={<LibraryBlockPage />} />
+          <Route path={`${ROUTES.Block.HOME}/*`} element={<LibraryBlockPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Route>
       </Routes>

@@ -54,6 +54,14 @@ export const ROUTES = {
   },
 };
 
+export const BLOCK_TYPE = {
+  HOME: '/',
+  EDIT: '/edit',
+  ASSETS: '/assets',
+  SOURCE: '/source',
+  LEARN: '/learn',
+};
+
 export const XBLOCK_VIEW_SYSTEM = {
   LMS: 'lms',
   Studio: 'studio',
