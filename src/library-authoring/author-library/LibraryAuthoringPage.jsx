@@ -905,8 +905,8 @@ export const LibraryAuthoringPageContainerBase = ({
 LibraryAuthoringPageContainerBase.defaultProps = {
   errorMessage: null,
   library: null,
-  successMessage: null,
   libraryId: null,
+  successMessage: null,
 };
 
 LibraryAuthoringPageContainerBase.propTypes = {
@@ -920,6 +920,7 @@ LibraryAuthoringPageContainerBase.propTypes = {
   fetchLibraryDetail: PropTypes.func.isRequired,
   intl: intlShape.isRequired,
   library: libraryShape,
+  libraryId: PropTypes.string,
   match: PropTypes.shape({
     params: PropTypes.shape({
       libraryId: PropTypes.string.isRequired,
