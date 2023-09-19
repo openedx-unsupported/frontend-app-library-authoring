@@ -54,7 +54,7 @@ export const ROUTES = {
   },
 };
 
-export const BLOCK_TYPE = {
+export const PAGE_TYPE = {
   HOME: '/',
   EDIT: '/edit',
   ASSETS: '/assets',

@@ -24,7 +24,7 @@ import {
   ROUTES,
   truncateMessage,
   XBLOCK_VIEW_SYSTEM,
-  getXBlockHandlerUrl, fetchable, BLOCK_TYPE,
+  getXBlockHandlerUrl, fetchable, PAGE_TYPE,
 } from '../common';
 import {
   commitLibraryChanges,
@@ -261,7 +261,7 @@ class LibraryBlockPage extends React.Component {
                     ) : (
                       <Routes>
                         <Route
-                          path={BLOCK_TYPE.HOME}
+                          path={PAGE_TYPE.HOME}
                           element={(
                             <LibraryBlock
                               view={this.props.view}
@@ -270,7 +270,7 @@ class LibraryBlockPage extends React.Component {
                           )}
                         />
                         <Route
-                          path={BLOCK_TYPE.EDIT}
+                          path={PAGE_TYPE.EDIT}
                           element={(
                             <LibraryBlock
                               view={this.props.view}
@@ -280,7 +280,7 @@ class LibraryBlockPage extends React.Component {
                           )}
                         />
                         <Route
-                          path={BLOCK_TYPE.ASSETS}
+                          path={PAGE_TYPE.ASSETS}
                           element={(
                             <LibraryBlockAssets
                               assets={this.props.assets}
@@ -290,7 +290,7 @@ class LibraryBlockPage extends React.Component {
                           )}
                         />
                         <Route
-                          path={BLOCK_TYPE.SOURCE}
+                          path={PAGE_TYPE.SOURCE}
                           element={(
                             <LibraryBlockOlx
                               olx={this.props.olx}
@@ -299,7 +299,7 @@ class LibraryBlockPage extends React.Component {
                           )}
                         />
                         <Route
-                          path={BLOCK_TYPE.LEARN}
+                          path={PAGE_TYPE.LEARN}
                           element={(
                             <>
                               <p>
