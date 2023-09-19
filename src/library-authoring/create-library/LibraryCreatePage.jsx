@@ -276,10 +276,10 @@ export class LibraryCreatePage extends React.Component {
             </header>
           </div>
           <div className="wrapper-content wrapper">
-            <section className="content">
+            <section className="content mt-4">
               <form onSubmit={this.onSubmit} className="form-create">
                 <fieldset>
-                  <ol className="list-input">
+                  <ol className="list-input list-unstyled">
                     <li className="field">
                       <FormGroup
                         name="title"
@@ -329,7 +329,6 @@ export class LibraryCreatePage extends React.Component {
                 </fieldset>
                 <div className="actions form-group">
                   <Button
-                    size="md"
                     variant="tertiary"
                     onClick={this.onCancel}
                     className="mb-2 mb-sm-0 action btn-light"
@@ -337,7 +336,6 @@ export class LibraryCreatePage extends React.Component {
                     {intl.formatMessage(commonMessages['library.common.forms.button.cancel'])}
                   </Button>
                   <StatefulButton
-                    size="md"
                     type="submit"
                     variant="primary"
                     className="action btn-primary"
@@ -362,10 +360,10 @@ export class LibraryCreatePage extends React.Component {
           isOpen={isOpenModal}
           footerNode={(
             <ActionRow>
-              <Button variant="tertiary" size="md" onClick={this.closeModal}>
+              <Button variant="tertiary" onClick={this.closeModal}>
                 {intl.formatMessage(commonMessages['library.common.forms.button.cancel'])}
               </Button>
-              <Button variant="primary" size="md" onClick={this.handleConfirmNavigationClick}>
+              <Button variant="primary" onClick={this.handleConfirmNavigationClick}>
                 {intl.formatMessage(commonMessages['library.common.forms.button.ok'])}
               </Button>
             </ActionRow>
