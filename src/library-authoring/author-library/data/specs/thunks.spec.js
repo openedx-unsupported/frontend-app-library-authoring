@@ -6,6 +6,7 @@ import { useRealThunks } from '../../../common/data';
 import * as api from '../api';
 import { blockFactory, blockFactoryLine, libraryFactory } from '../../../common/specs/factories';
 import {
+  clearLibrary,
   commitLibraryChanges,
   createBlock, debouncedBlockSearch,
   fetchBlocks,
@@ -18,6 +19,7 @@ import { normalizeErrors } from '../../../common/helpers';
 testSuite('Library detail thunks', () => {
   const dispatch = jest.fn();
   beforeEach(() => {
+    jest.clearAllMocks();
     useRealThunks(true);
   });
   afterEach(() => {
@@ -47,6 +49,25 @@ testSuite('Library detail thunks', () => {
   const checkSuccess = (attr, value) => {
     expect(dispatch).toHaveBeenCalledWith(actions.libraryAuthoringSuccess({ attr, value }));
   };
+
+  describe('clearLibrary', () => {
+    const abortFn = jest.fn();
+    global.AbortController = jest.fn(() => ({
+      abort: abortFn,
+    }));
+
+    it('with no previous api calls should not call abort', async () => {
+      await clearLibrary(dispatch)();
+      expect(abortFn).not.toHaveBeenCalled();
+    });
+
+    it('with previous api calls should call abort', async () => {
+      const library = libraryFactory();
+      await fetchLibraryDetail(dispatch)({ libraryId: library.id });
+      await clearLibrary(dispatch)();
+      expect(abortFn).toHaveBeenCalledTimes(1);
+    });
+  });
 
   it('Fetches library details', async () => {
     const library = libraryFactory();
