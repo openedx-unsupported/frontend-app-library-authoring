@@ -9,10 +9,13 @@ const toError = (dispatch, error, attr) => {
   logError(error);
 };
 
+let controllers = [];
 export const fetchLibraryDetail = annotateThunk(({ libraryId }) => async (dispatch) => {
   try {
+    const currentController = new AbortController();
+    controllers.push(currentController);
     dispatch(actions.libraryAuthoringRequest({ attr: 'library' }));
-    const library = await api.getLibraryDetail(libraryId).catch(normalizeErrors);
+    const library = await api.getLibraryDetail(libraryId, currentController).catch(normalizeErrors);
     dispatch(actions.libraryAuthoringSuccess({ value: library, attr: 'library' }));
   } catch (error) {
     toError(dispatch, error, 'library');
@@ -21,8 +24,15 @@ export const fetchLibraryDetail = annotateThunk(({ libraryId }) => async (dispat
 
 export const fetchBlocks = annotateThunk(({ libraryId, paginationParams, query }) => async (dispatch) => {
   try {
+    const currentController = new AbortController();
+    controllers.push(currentController);
     dispatch(actions.libraryAuthoringRequest({ attr: 'blocks' }));
-    const blocks = await api.getBlocks({ libraryId, paginationParams, query }).catch(normalizeErrors);
+    const blocks = await api.getBlocks({
+      libraryId,
+      paginationParams,
+      query,
+      controller: currentController,
+    }).catch(normalizeErrors);
     dispatch(actions.libraryAuthoringSuccess({ value: blocks, attr: 'blocks' }));
   } catch (error) {
     toError(dispatch, error, 'blocks');
@@ -49,9 +59,13 @@ export const createBlock = annotateThunk(({
   try {
     dispatch(actions.libraryAuthoringRequest({ attr: 'blocks' }));
     await api.createLibraryBlock({ libraryId, data }).catch(normalizeErrors);
-    const blocks = await api.getBlocks({
-      libraryId, paginationParams, query, types,
-    }).catch(normalizeErrors);
+    const [library, blocks] = await Promise.all([
+      api.getLibraryDetail(libraryId),
+      api.getBlocks({
+        libraryId, paginationParams, query, types,
+      }),
+    ]).catch(normalizeErrors);
+    dispatch(actions.libraryAuthoringSuccess({ value: library, attr: 'library' }));
     dispatch(actions.libraryAuthoringSuccess({ value: blocks, attr: 'blocks' }));
   } catch (error) {
     toError(dispatch, error, 'blocks');
@@ -94,15 +108,23 @@ export const clearLibrarySuccess = annotateThunk(() => async (dispatch) => {
 });
 
 export const clearLibrary = annotateThunk(() => async (dispatch) => {
+  if (controllers) {
+    controllers.forEach(control => {
+      control.abort();
+    });
+  }
   dispatch(actions.libraryAuthoringReset());
+  controllers = [];
 });
 
 const baseBlockSearch = ({
   dispatch, libraryId, paginationParams, query, types,
 }) => {
+  const currentController = new AbortController();
+  controllers.push(currentController);
   dispatch(actions.libraryAuthoringRequest({ attr: 'blocks' }));
   api.getBlocks({
-    libraryId, paginationParams, query, types,
+    libraryId, paginationParams, query, types, controller: currentController,
   }).then((blocks) => {
     dispatch(actions.libraryAuthoringSuccess({ value: blocks, attr: 'blocks' }));
   }).catch(normalizeErrors).catch((error) => {

@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
-import { Prompt } from 'react-router-dom';
 import {
   Button,
   Breadcrumb,
@@ -36,6 +34,7 @@ import {
 
 import commonMessages from '../common/messages';
 import messages from './messages';
+import { withNavigate } from '../utils/hoc';
 
 export class LibraryCreatePage extends React.Component {
   constructor(props) {
@@ -57,6 +56,18 @@ export class LibraryCreatePage extends React.Component {
   }
 
   componentDidMount() {
+    window.history.pushState(null, document.title, window.location.href);
+    window.addEventListener('popstate', () => {
+      const { confirmedNavigation, allowLeave } = this.state;
+
+      if (!confirmedNavigation && !allowLeave) {
+        this.openModal({ pathname: ROUTES.List.HOME });
+        window.history.pushState(null, document.title, window.location.href);
+      } else {
+        this.props.navigate(ROUTES.List.HOME);
+      }
+    });
+
     this.props.resetForm();
     this.props.fetchOrganizations();
   }
@@ -76,7 +87,7 @@ export class LibraryCreatePage extends React.Component {
         });
       } else if (Object.values(LIBRARY_TYPES).includes(createdLibrary.type)) {
         this.setState({ allowLeave: true }, () => { // eslint-disable-line react/no-did-update-set-state
-          this.props.history.push(createdLibrary.url);
+          this.props.navigate(createdLibrary.url);
         });
       }
     }
@@ -113,7 +124,15 @@ export class LibraryCreatePage extends React.Component {
 
   onCancel = () => {
     this.props.resetForm();
-    this.props.history.push(ROUTES.List.HOME);
+
+    const { confirmedNavigation, allowLeave } = this.state;
+    if (!confirmedNavigation && !allowLeave) {
+      this.openModal({ pathname: ROUTES.List.HOME });
+      return false;
+    }
+
+    this.props.navigate(ROUTES.List.HOME);
+    return true;
   };
 
   onSubmit = (event) => {
@@ -165,16 +184,6 @@ export class LibraryCreatePage extends React.Component {
     }
   };
 
-  handleBlockedNavigation = (nextLocation) => {
-    const { confirmedNavigation, allowLeave } = this.state;
-    if (!confirmedNavigation && !allowLeave) {
-      this.openModal(nextLocation);
-      return false;
-    }
-
-    return true;
-  };
-
   handleConfirmNavigationClick = () => {
     const { lastLocation } = this.state;
     const { config } = this.context;
@@ -188,7 +197,7 @@ export class LibraryCreatePage extends React.Component {
         if (lastLocation.pathname === config.STUDIO_BASE_URL) {
           window.location.href = lastLocation.pathname;
         } else {
-          this.props.history.push(lastLocation.pathname);
+          this.props.navigate(lastLocation.pathname);
         }
       });
     }
@@ -233,7 +242,7 @@ export class LibraryCreatePage extends React.Component {
 
   render() {
     const { intl, errorMessage, orgs } = this.props;
-    const { data, isOpenModal, allowLeave } = this.state;
+    const { data, isOpenModal } = this.state;
     const { config } = this.context;
     const errorTitle = !errorMessage && this.props.errorFields
       && intl.formatMessage(messages['library.form.generic.error.title']);
@@ -267,10 +276,10 @@ export class LibraryCreatePage extends React.Component {
             </header>
           </div>
           <div className="wrapper-content wrapper">
-            <section className="content">
+            <section className="content mt-4">
               <form onSubmit={this.onSubmit} className="form-create">
                 <fieldset>
-                  <ol className="list-input">
+                  <ol className="list-input list-unstyled">
                     <li className="field">
                       <FormGroup
                         name="title"
@@ -320,7 +329,6 @@ export class LibraryCreatePage extends React.Component {
                 </fieldset>
                 <div className="actions form-group">
                   <Button
-                    size="md"
                     variant="tertiary"
                     onClick={this.onCancel}
                     className="mb-2 mb-sm-0 action btn-light"
@@ -328,7 +336,6 @@ export class LibraryCreatePage extends React.Component {
                     {intl.formatMessage(commonMessages['library.common.forms.button.cancel'])}
                   </Button>
                   <StatefulButton
-                    size="md"
                     type="submit"
                     variant="primary"
                     className="action btn-primary"
@@ -348,16 +355,15 @@ export class LibraryCreatePage extends React.Component {
             </section>
           </div>
         </div>
-        <Prompt when={!allowLeave} message={this.handleBlockedNavigation} />
         <AlertModal
           title={intl.formatMessage(messages['library.form.modal.title'])}
           isOpen={isOpenModal}
           footerNode={(
             <ActionRow>
-              <Button variant="tertiary" size="md" onClick={this.closeModal}>
+              <Button variant="tertiary" onClick={this.closeModal}>
                 {intl.formatMessage(commonMessages['library.common.forms.button.cancel'])}
               </Button>
-              <Button variant="primary" size="md" onClick={this.handleConfirmNavigationClick}>
+              <Button variant="primary" onClick={this.handleConfirmNavigationClick}>
                 {intl.formatMessage(commonMessages['library.common.forms.button.ok'])}
               </Button>
             </ActionRow>
@@ -379,9 +385,7 @@ LibraryCreatePage.propTypes = {
   errorFields: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   errorMessage: PropTypes.string,
   orgs: PropTypes.arrayOf(PropTypes.string),
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-  }).isRequired,
+  navigate: PropTypes.func.isRequired,
   intl: intlShape.isRequired,
   resetForm: PropTypes.func.isRequired,
   status: PropTypes.oneOf(Object.values(SUBMISSION_STATUS)).isRequired,
@@ -396,4 +400,4 @@ export default connect(
     fetchOrganizations,
     resetForm,
   },
-)(injectIntl(withRouter(LibraryCreatePage)));
+)(injectIntl(withNavigate(LibraryCreatePage)));

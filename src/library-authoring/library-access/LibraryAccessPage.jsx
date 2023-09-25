@@ -6,7 +6,6 @@ import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
 import {
   ActionRow,
   Alert,
@@ -14,9 +13,9 @@ import {
   Col,
   Row,
 } from '@edx/paragon';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { Add } from '@edx/paragon/icons';
 import { AppContext } from '@edx/frontend-platform/react';
+import { useNavigate, useParams } from 'react-router-dom';
 import messages from './messages';
 import { LoadingPage } from '../../generic';
 import { fetchLibraryDetail } from '../author-library/data';
@@ -49,15 +48,16 @@ const LibraryAccessPage = ({
         <small className="card-subtitle">{intl.formatMessage(messages['library.access.page.parent_heading'])}</small>
         <ActionRow>
           <div className="page-header-section">
-            <h1 className="page-header">{intl.formatMessage(messages['library.access.page.heading'])}</h1>
+            <h2 className="page-header">{intl.formatMessage(messages['library.access.page.heading'])}</h2>
           </div>
           <ActionRow.Spacer />
           {isAdmin && (
             <Button
               variant="primary"
               onClick={() => setShowAdd(true)}
+              iconBefore={Add}
+              size="sm"
             >
-              <FontAwesomeIcon icon={faPlus} className="pr-1 icon-inline" />
               {intl.formatMessage(messages['library.access.new.user'])}
             </Button>
           )}
@@ -102,8 +102,8 @@ const LibraryAccessPage = ({
         </Col>
         <Col xs={12} md={4} xl={3}>
           <aside className="content-supplementary">
-            <div className="bit">
-              <h3 className="title title-3">{intl.formatMessage(messages['library.access.aside.title'])}</h3>
+            <div className="bit small">
+              <h4 className="title title-3">{intl.formatMessage(messages['library.access.aside.title'])}</h4>
               <p>{intl.formatMessage(messages['library.access.aside.text.first'])}</p>
               <p>{intl.formatMessage(messages['library.access.aside.text.second'])}</p>
               <p>{intl.formatMessage(messages['library.access.aside.text.third'])}</p>
@@ -141,6 +141,8 @@ LibraryAccessPage.propTypes = {
 const LibraryAccessPageContainer = ({
   intl, users, errorMessage, ...props
 }) => {
+  const { libraryId } = useParams();
+  const navigate = useNavigate();
   const [showAdd, setShowAdd] = useState(false);
   const multipleAdmins = !!(users && users.filter((user) => user.access_level === 'admin').length >= 2);
   const { authenticatedUser } = useContext(AppContext);
@@ -154,7 +156,6 @@ const LibraryAccessPageContainer = ({
 
   // Explicit empty dependencies means on mount.
   useEffect(() => {
-    const { libraryId } = props.match.params;
     if (props.library === null) {
       props.fetchLibraryDetail({ libraryId });
     }
@@ -177,7 +178,7 @@ const LibraryAccessPageContainer = ({
     }
     const admin = users.filter((user) => user.username === authenticatedUser.username)[0];
     if ((admin === undefined) || admin.access_level === LIBRARY_ACCESS.READ) {
-      props.history.replace(ROUTES.List.HOME);
+      navigate(ROUTES.List.HOME, { replace: true });
     }
   });
 
@@ -227,14 +228,6 @@ LibraryAccessPageContainer.propTypes = {
   clearAccessErrors: PropTypes.func.isRequired,
   loadingStatus: PropTypes.oneOf(Object.values(LOADING_STATUS)).isRequired,
   users: PropTypes.arrayOf(libraryUserShape),
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      libraryId: PropTypes.string.isRequired,
-    }).isRequired,
-  }).isRequired,
-  history: PropTypes.shape({
-    replace: PropTypes.func.isRequired,
-  }).isRequired,
 };
 
 LibraryAccessPageContainer.defaultProps = { ...libraryAccessInitialState };
@@ -248,4 +241,4 @@ export default connect(
     fetchLibraryDetail,
     fetchUserList,
   },
-)(injectIntl(withRouter(LibraryAccessPageContainer)));
+)(injectIntl(LibraryAccessPageContainer));

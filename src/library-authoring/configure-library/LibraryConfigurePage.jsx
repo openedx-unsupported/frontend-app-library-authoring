@@ -11,9 +11,9 @@ import {
   StatefulButton,
 } from '@edx/paragon';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import { AppContext } from '@edx/frontend-platform/react';
+import { SpinnerSimple } from '@edx/paragon/icons';
 
 import { LoadingPage } from '../../generic';
 import {
@@ -34,6 +34,7 @@ import {
 } from './data';
 import messages from './messages';
 import { LicenseFieldContainer } from '../common/LicenseField';
+import { withNavigate, withParams } from '../utils/hoc';
 
 class LibraryConfigurePage extends React.Component {
   constructor(props) {
@@ -53,7 +54,7 @@ class LibraryConfigurePage extends React.Component {
 
   componentDidMount() {
     if (this.props.library === null) {
-      const { libraryId } = this.props.match.params;
+      const { libraryId } = this.props;
       this.props.fetchLibraryDetail({ libraryId });
     } else {
       this.syncLibraryData();
@@ -69,7 +70,7 @@ class LibraryConfigurePage extends React.Component {
       this.props.submissionStatus !== prevProps.submissionStatus
       && this.props.submissionStatus === SUBMISSION_STATUS.SUBMITTED
     ) {
-      this.props.history.push(this.props.library.url);
+      this.props.navigate(this.props.library.url);
     }
   }
 
@@ -157,7 +158,7 @@ class LibraryConfigurePage extends React.Component {
   };
 
   handleCancel = () => {
-    this.props.history.push(this.props.library.url);
+    this.props.navigate(this.props.library.url);
   };
 
   renderLoading() {
@@ -185,7 +186,7 @@ class LibraryConfigurePage extends React.Component {
           <header className="mast has-actions has-navigation has-subtitle">
             <div className="page-header">
               <small className="subtitle">{intl.formatMessage(messages['library.edit.page.heading'])}</small>
-              <h1 className="page-header-title">{library.title}</h1>
+              <h2 className="page-header-title">{library.title}</h2>
             </div>
           </header>
         </div>
@@ -213,7 +214,7 @@ class LibraryConfigurePage extends React.Component {
                             isInvalid={this.hasFieldError(name)}
                             className="mb-0 mr-2"
                           >
-                            <Form.Label className="h6 d-block" htmlFor={name}>
+                            <Form.Label className="large d-block" htmlFor={name}>
                               {intl.formatMessage(messages[`library.edit.${name}.label`])}
                             </Form.Label>
                             <Form.Control
@@ -298,6 +299,13 @@ class LibraryConfigurePage extends React.Component {
                     </fieldset>
                     <div className="actions form-group">
                       <Card.Section>
+                        <Button
+                          variant="tertiary"
+                          className="action ml-n1"
+                          onClick={this.handleCancel}
+                        >
+                          {intl.formatMessage(messages['library.edit.button.cancel'])}
+                        </Button>
                         <StatefulButton
                           variant="primary"
                           type="submit"
@@ -308,18 +316,11 @@ class LibraryConfigurePage extends React.Component {
                             pending: intl.formatMessage(messages['library.edit.button.submitting']),
                           }}
                           icons={{
-                            pending: <Icon className="fa fa-spinner fa-spin" />,
+                            pending: <Icon src={SpinnerSimple} className="fa fa-spinner fa-spin" />,
                           }}
                           disabledStates={['disabled', 'pending']}
                           className="action"
                         />
-                        <Button
-                          variant="light"
-                          className="action ml-2"
-                          onClick={this.handleCancel}
-                        >
-                          {intl.formatMessage(messages['library.edit.button.cancel'])}
-                        </Button>
                       </Card.Section>
                     </div>
                   </Form>
@@ -328,10 +329,10 @@ class LibraryConfigurePage extends React.Component {
             </Col>
             <Col xs={12} md={4} xl={3}>
               <aside className="content-supplementary">
-                <div className="bit">
-                  <h3 className="title title-3">{intl.formatMessage(messages['library.edit.aside.title'])}</h3>
+                <div className="bit small">
+                  <h4>{intl.formatMessage(messages['library.edit.aside.title'])}</h4>
                   <p>{intl.formatMessage(messages['library.edit.aside.text'])}</p>
-                  <ul className="list-actions">
+                  <ul className="list-actions list-unstyled">
                     <li className="action-item">
                       <a
                         href="http://edx.readthedocs.io/projects/open-edx-building-and-running-a-course/en/latest/course_components/libraries.html"
@@ -376,16 +377,10 @@ LibraryConfigurePage.propTypes = {
   errorFields: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   errorMessage: PropTypes.string,
   fetchLibraryDetail: PropTypes.func.isRequired,
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-  }).isRequired,
+  navigate: PropTypes.func.isRequired,
   intl: intlShape.isRequired,
   library: libraryShape,
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      libraryId: PropTypes.string.isRequired,
-    }).isRequired,
-  }).isRequired,
+  libraryId: PropTypes.string.isRequired,
   loadingStatus: PropTypes.oneOf(Object.values(LOADING_STATUS)).isRequired,
   submissionStatus: PropTypes.oneOf(Object.values(SUBMISSION_STATUS)).isRequired,
   updateLibrary: PropTypes.func.isRequired,
@@ -400,4 +395,4 @@ export default connect(
     fetchLibraryDetail,
     updateLibrary,
   },
-)(injectIntl(withRouter(LibraryConfigurePage)));
+)(injectIntl(withNavigate(withParams((LibraryConfigurePage)))));
