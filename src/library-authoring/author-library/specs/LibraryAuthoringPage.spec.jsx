@@ -237,24 +237,16 @@ testSuite('<LibraryAuthoringPageContainer />', () => {
   //   }));
   // });
 
-  // [VIDEO_TYPE, PROBLEM_TYPE, HTML_TYPE].forEach((blockDef) => {
-  [HTML_TYPE].forEach((blockDef) => {
-    fit(`Adds a ${blockDef.display_name} block to a library`, async () => {
+  [VIDEO_TYPE, PROBLEM_TYPE, HTML_TYPE].forEach((blockDef) => {
+    it.skip(`Adds a ${blockDef.display_name} block to a library`, async () => {
       const library = libraryFactory();
       await render(library, genState(library));
       const blockButton = screen.getByRole('button', {
         name: `${blockDef.block_type}-radio`,
       });
-      // const selectableBox = screen.getByLabelText('component-selection');
-      // const componentSelector = within(selectableBox).getByLabelText(`${blockDef.block_type}-radio`);
-      // waitFor(async() => fireEvent.change(blockButton.children[0], { target: { value: blockDef.block_type}}));
-      // const typeOption = await screen.findByText(blockDef.display_name, { ignore: 'option' });
       await act(async () => {
         fireEvent.click(blockButton);
-        // typeOption.click();
-        // fireEvent.click(blockButton);
       });
-      // console.log(typeOption);
       expect(createBlock.fn).toHaveBeenCalledWith({
         libraryId: library.id,
         data: {
