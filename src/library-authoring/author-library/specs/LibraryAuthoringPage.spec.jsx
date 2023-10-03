@@ -11,7 +11,7 @@ import {
   blockStateFactory,
   libraryFactory,
 } from '../../common/specs/factories';
-import LibraryAuthoringPageContainer from '../LibraryAuthoringPage';
+import AuthoringPageContainer from '../authoring-page';
 import { LIBRARY_TYPES, LOADING_STATUS, STORE_NAMES } from '../../common/data';
 import {
   clearLibrary,
@@ -80,16 +80,16 @@ const genState = (library, blocks = []) => (
 );
 
 const render = (library, ctxSettings) => ctxRender(
-  <LibraryAuthoringPageContainer
+  <AuthoringPageContainer
     libraryId={library.id}
   />,
   ctxSettings,
 );
 
-testSuite('<LibraryAuthoringPageContainer />', () => {
+testSuite('<AuthoringPageContainer />', () => {
   it('Fetches a library when missing', async () => {
     await ctxRender(
-      <LibraryAuthoringPageContainer
+      <AuthoringPageContainer
         libraryId="testtest"
       />,
     );
@@ -100,7 +100,7 @@ testSuite('<LibraryAuthoringPageContainer />', () => {
 
   it('Fetches a library when the current library does not match', async () => {
     await ctxRender(
-      <LibraryAuthoringPageContainer
+      <AuthoringPageContainer
         libraryId="testtest"
       />,
       genState(libraryFactory()),
