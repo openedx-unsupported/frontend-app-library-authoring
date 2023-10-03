@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { StudioHeader } from '@edx/frontend-component-header';
 import { connect } from 'react-redux';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
-import {  useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import selectLibraryDetail from '../common/data/selectors';
 import {
   fetchLibraryDetail,
@@ -41,19 +41,19 @@ const StudioHeaderWrapperBase = ({ intl, ...props }) => {
         },
       ],
     },
-  ]
+  ];
 
   return (
     <div className="site-header-desktop">
       <StudioHeader
-      {...{
-        org: library?.org,
-        title: library?.title,
-        isHiddenMainMenu,
-        mainMenuDropdowns,
-        outlineLink,
-      }}
-    />
+        {...{
+          org: library?.org,
+          title: library?.title,
+          isHiddenMainMenu,
+          mainMenuDropdowns,
+          outlineLink,
+        }}
+      />
     </div>
   );
 };

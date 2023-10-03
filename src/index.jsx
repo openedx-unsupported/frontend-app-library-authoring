@@ -56,7 +56,7 @@ subscribe(APP_READY, () => {
           <Route path="*" element={<NotFoundPage />} />
         </Route>
       </Routes>
-      <StudioFooter/>
+      <StudioFooter />
     </AppProvider>,
     document.getElementById('root'),
   );
