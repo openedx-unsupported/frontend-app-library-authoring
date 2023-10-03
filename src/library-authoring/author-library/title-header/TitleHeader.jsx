@@ -38,13 +38,13 @@ TitleHeader.propTypes = {
   intl: intlShape.isRequired,
   showPreviews: PropTypes.bool.isRequired,
   setShowPreviews: PropTypes.func.isRequired,
-  sending: PropTypes.func,
+  sending: PropTypes.bool,
   quickAddBehavior: PropTypes.func,
   library: libraryShape.isRequired,
 };
 
 TitleHeader.defaultProps = {
-  sending: null,
+  sending: false,
   quickAddBehavior: null,
 };
 

@@ -157,6 +157,7 @@ const AuthoringPageContainer = ({
   const lastPage = Math.ceil(blocks.value.count / pageSize) || 1;
 
   const addBlock = (blockType) => {
+    console.log('SENDING BLOCKTYPE!!!!', blockType);
     let nextPage = lastPage;
     if (blocks.value.count && blocks.value.count % pageSize === 0) {
       nextPage += 1;

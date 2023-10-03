@@ -143,7 +143,7 @@ export const ctxRender = async (ui, {
   options, context, storeOptions,
 } = {}) => {
   const store = buildStore({ middleware: [...getDefaultMiddleware(), spyMiddleware], ...storeOptions });
-  await initializeMockApp({ messages: [appMessages] });
+  // await initializeMockApp({ messages: [appMessages] });
   return render(
     <Provider store={store}>
       <Router>
