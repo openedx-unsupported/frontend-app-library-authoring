@@ -20,9 +20,9 @@ const StudioHeaderWrapperBase = ({ intl, ...props }) => {
   // determine if we want to render the ContentTitleBlock or not
   const { loadingStatus, library } = props;
   const { libraryId } = useParams();
-  const isHiddenMainMenu = !libraryId && loadingStatus === 'loaded';
-  const outlineLink = `/library/${libraryId}`;
-  const mainMenuDropdowns = [
+  const isHiddenMainMenu = !libraryId;
+  const outlineLink = loadingStatus === 'loaded' ? `/library/${libraryId}` : '#';
+  const mainMenuDropdowns = loadingStatus === 'loaded' ? [
     {
       id: `${intl.formatMessage(messages['library.header.settings.menu'])}-dropdown-menu`,
       buttonTitle: intl.formatMessage(messages['library.header.settings.menu']),
@@ -41,7 +41,7 @@ const StudioHeaderWrapperBase = ({ intl, ...props }) => {
         },
       ],
     },
-  ];
+  ] : [];
 
   return (
     <div className="site-header-desktop">
