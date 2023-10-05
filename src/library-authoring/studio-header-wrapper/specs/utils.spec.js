@@ -1,5 +1,5 @@
-import { LOADING_STATUS, ROUTES } from "../../common";
-import { getMainMenuDropdown, getOutlineLink } from "../utils";
+import { LOADING_STATUS } from '../../common';
+import { getMainMenuDropdown, getOutlineLink } from '../utils';
 
 describe('studio header wrapper utils', () => {
   describe('getOutlineLink', () => {
@@ -22,7 +22,7 @@ describe('studio header wrapper utils', () => {
     it('should return an array of length 1', () => {
       const libraryId = 'testId';
       const loadingStatus = LOADING_STATUS.LOADED;
-      const dropdownArray = getMainMenuDropdown(loadingStatus, libraryId,  { formatMessage: jest.fn() });
+      const dropdownArray = getMainMenuDropdown(loadingStatus, libraryId, { formatMessage: jest.fn() });
       expect(dropdownArray).toHaveLength(1);
     });
     it('should return an empty array', () => {

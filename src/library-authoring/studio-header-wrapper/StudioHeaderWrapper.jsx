@@ -9,10 +9,6 @@ import selectLibraryDetail from '../common/data/selectors';
 import {
   fetchLibraryDetail,
 } from '../author-library/data';
-import messages from './messages';
-import {
-  ROUTES,
-} from '../common';
 import { getMainMenuDropdown, getOutlineLink } from './utils';
 
 const StudioHeaderWrapperBase = ({ intl, ...props }) => {

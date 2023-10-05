@@ -32,4 +32,4 @@ export const getMainMenuDropdown = (loadingStatus, libraryId, intl) => {
     ]);
   }
   return [];
-}
+};
