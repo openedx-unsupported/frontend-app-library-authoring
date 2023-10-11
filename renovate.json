@@ -3,6 +3,7 @@
     "config:base",
     ":dependencyDashboard"
   ],
+  "timezone": "America/New_York",
   "patch": {
     "automerge": true
   },
@@ -18,7 +19,8 @@
       "matchUpdateTypes": ["minor", "patch"],
       "automerge": true,
       "schedule": [
-        "before 4am"
+        "after 1am",
+        "before 11pm"
       ]
     }
   ]
