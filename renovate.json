@@ -1,6 +1,7 @@
 {
   "extends": [
-    "config:base"
+    "config:base",
+    ":dependencyDashboard"
   ],
   "patch": {
     "automerge": true
@@ -11,6 +12,14 @@
       "matchPackagePatterns": ["@edx", "@openedx"],
       "matchUpdateTypes": ["minor", "patch"],
       "automerge": true
+    },
+    {
+      "matchPackagePatterns": ["@edx/frontend-lib-content-components"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "automerge": true,
+      "schedule": [
+        "before 4am"
+      ]
     }
   ]
 }
