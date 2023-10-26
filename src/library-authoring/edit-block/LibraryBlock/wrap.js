@@ -298,7 +298,7 @@ export default function wrapBlockHtmlForIFrame(html, resources, lmsBaseUrl) {
           window.edx.StringUtils = StringUtils;
       });
       </script>
-      <!-- 
+      <!--
           commons.js: this file produced by webpack contains many shared chunks of code.
           By including this, you have only to also import any of the smaller entrypoint
           files (defined in webpack.common.config.js) to get that entry point and all
@@ -317,9 +317,9 @@ export default function wrapBlockHtmlForIFrame(html, resources, lmsBaseUrl) {
       <!-- Built-in XBlocks (and some plugins) depends on LMS CSS -->
       <link rel="stylesheet" href="${lmsBaseUrl}/static/css/lms-course.css">
       <!-- Configure and load MathJax -->
-      <script type="text/x-mathjax-config">
-        MathJax.Hub.Config({
-          tex2jax: {
+      <script type="text/javascript">
+        window.MathJax = {
+          tex: {
             inlineMath: [
               ['\\\\(','\\\\)'],
               ['[mathjaxinline]','[/mathjaxinline]']
@@ -327,39 +327,32 @@ export default function wrapBlockHtmlForIFrame(html, resources, lmsBaseUrl) {
             displayMath: [
               ['\\\\[','\\\\]'],
               ['[mathjax]','[/mathjax]']
-            ]
+            ],
+            autoload: {
+              color: [],
+              colorv2: ['color']
+            },
+            packages: {'[+]': ['noerrors']}
+          },
+          options: {
+            ignoreHtmlClass: 'tex2jax_ignore',
+            processHtmlClass: 'tex2jax_process',
+            menuOptions: {
+              settings: {
+                collapsible: true,
+                explorer: true
+              },
+            },
+          },
+          loader: {
+            load: ['input/asciimath', '[tex]/noerrors']
           }
-        });
-      </script>
-      <script type="text/x-mathjax-config">
-        MathJax.Hub.signal.Interest(function(message) {
-          if(message[0] === "End Math") {
-              set_mathjax_display_div_settings();
-          }
-        });
-        function set_mathjax_display_div_settings() {
-          $('.MathJax_Display').each(function( index ) {
-            this.setAttribute('tabindex', '0');
-            this.setAttribute('aria-live', 'off');
-            this.removeAttribute('role');
-            this.removeAttribute('aria-readonly');
-          });
-        }
-      </script>
-      <script type="text/javascript">
-          // Activating Mathjax accessibility files
-          window.MathJax = {
-              menuSettings: {
-                  collapsible: true,
-                  autocollapse: false,
-                  explorer: true
-              }
-          };
+        };
       </script>
       <!-- This must appear after all mathjax-config blocks, so it is after the imports from the other templates.
            It can't be run through static.url because MathJax uses crazy url introspection to do lazy loading of
            MathJax extension libraries -->
-      <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/MathJax.js?config=TeX-MML-AM_SVG"></script>
+      <script type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.1/es5/tex-mml-svg.js"></script>
     `;
   }
 
