@@ -298,7 +298,7 @@ BlockPreviewContainerBase.propTypes = {
   showPreviews: PropTypes.bool.isRequired,
 };
 
-const ButtonTogglesBase = ({ setShowPreviews, showPreviews, intl, scrollTo}) => (
+const ButtonTogglesBase = ({ setShowPreviews, showPreviews, intl }) => (
   <>
     <Button
       variant="outline-primary"
@@ -321,7 +321,7 @@ const ButtonTogglesBase = ({ setShowPreviews, showPreviews, intl, scrollTo}) => 
       }}
       iconBefore={Add}
     >
-      {intl.formatMessage(messages[`library.detail.add.new.component.item`])}
+      {intl.formatMessage(messages['library.detail.add.new.component.item'])}
     </Button>
   </>
 );
