@@ -23,7 +23,6 @@ import {
   DeleteOutline,
   EditOutline,
   HelpOutline,
-  Sync,
   TextFields,
   VideoCamera,
 } from '@edx/paragon/icons';
@@ -301,20 +300,28 @@ BlockPreviewContainerBase.propTypes = {
 
 const ButtonTogglesBase = ({ setShowPreviews, showPreviews, intl }) => (
   <>
-    {/* todo: either reimplement the scroll to the add components button functionality,
-              figure out a better UX for the add component button at the top, or just
-              remove it entirely */}
-    {/* <Button variant="primary" className="mr-1" disabled={sending} onClick={quickAddBehavior} iconBefore={Add}>
-      {intl.formatMessage(messages[`library.detail.add_${library.type}`])}
-    </Button> */}
     <Button
-      variant="primary"
+      variant="outline-primary"
       className="ml-1"
       onClick={() => setShowPreviews(!showPreviews)}
-      iconBefore={Sync}
       size="sm"
     >
       { intl.formatMessage(showPreviews ? messages['library.detail.hide_previews'] : messages['library.detail.show_previews']) }
+    </Button>
+    {/* todo: either replace the scroll to the add components button functionality
+              with a better UX for the add component button at the top, or just
+              remove it entirely */}
+    <Button
+      variant="primary"
+      className="mr-1"
+      size="sm"
+      onClick={() => {
+        const addComponentSection = document.getElementById('add-component-section');
+        addComponentSection.scrollIntoView({ behavior: 'smooth' });
+      }}
+      iconBefore={Add}
+    >
+      {intl.formatMessage(messages['library.detail.add.new.component.item'])}
     </Button>
   </>
 );
@@ -458,186 +465,193 @@ export const LibraryAuthoringPageBase = ({
       <ErrorAlert errorMessage={errorMessage} onClose={props.clearLibraryError} />
       <SuccessAlert successMessage={successMessage} onClose={props.clearLibrarySuccess} />
       <Col xs={12} md={8} xl={9}>
-        <Card>
-          <Card.Body>
-            <ActionRow>
-              {(library.type === LIBRARY_TYPES.COMPLEX) && (
-              <>
-                <SearchField
-                  value={query}
-                  placeholder={intl.formatMessage(messages['library.detail.search'])}
-                  onSubmit={(value) => changeQuery(value)}
-                  onChange={(value) => changeQuery(value)}
-                />
-                <ActionRow.Spacer />
-                <Form.Control
-                  className="flex-grow-0 flex-shrink-0 w-25 m-0"
-                  as="select"
-                  data-testid="filter-dropdown"
-                  value={type}
-                  onChange={(event) => changeType(event.target.value)}
-                >
-                  {typeOptions.map(typeOption => (
-                    <option key={typeOption.value} value={typeOption.value}>{typeOption.label}</option>
-                  ))}
-                </Form.Control>
-              </>
-              )}
-            </ActionRow>
-            <ActionRow className="my-3">
-              <span className="text-primary-500 small">
-                {intl.formatMessage(
-                  messages['library.detail.component.showingCount'],
-                  {
-                    currentViewRange: getCurrentViewRange(paginationOptions.currentPage, blocks.value.count),
-                    total: blocks.value.count,
-                  },
-                )}
-              </span>
-              <ActionRow.Spacer />
-              {paginationOptions.pageCount > 1 ? (
-                <Pagination
-                  className="minimal-pagination"
-                  paginationLabel="pagination navigation"
-                  variant="minimal"
-                  currentPage={paginationOptions.currentPage}
-                  pageCount={paginationOptions.pageCount}
-                  buttonLabels={paginationOptions.buttonLabels}
-                  onPageSelect={(page) => changePage(page)}
-                />
-              ) : null}
-            </ActionRow>
-            {/* todo: figure out how we want to handle these at low screen widths.
-                      mobile is currently unsupported: so it doesn't make sense
-                      to have partially implemented responsive logic */}
-            {/* <Col xs={12} className="text-center d-md-none py-3">
-              <ButtonToggles
-                setShowPreviews={setShowPreviews}
-                showPreviews={showPreviews}
-                library={library}
-                sending={sending}
-                quickAddBehavior={quickAddBehavior}
-                className="d-md-none py-3"
-              />
-            </Col> */}
-            <LoadGuard
-              loadingMessage={intl.formatMessage(messages['library.detail.loading.message'])}
-              condition={blocks.status !== LOADING_STATUS.LOADING}
+        <ActionRow>
+          {(library.type === LIBRARY_TYPES.COMPLEX) && (
+          <>
+            <SearchField
+              value={query}
+              placeholder={intl.formatMessage(messages['library.detail.search'])}
+              onSubmit={(value) => changeQuery(value)}
+              onChange={(value) => changeQuery(value)}
+            />
+            <ActionRow.Spacer />
+            <Form.Control
+              className="flex-grow-0 flex-shrink-0 w-25 m-0"
+              as="select"
+              data-testid="filter-dropdown"
+              value={type}
+              onChange={(event) => changeType(event.target.value)}
             >
-              {() => blocks.value.data.map((block) => (
-                <BlockPreviewContainer
-                  key={block.id}
-                  block={block}
-                  blockView={blockView}
-                  showPreviews={showPreviews}
-                  library={library}
-                />
+              {typeOptions.map(typeOption => (
+                <option key={typeOption.value} value={typeOption.value}>{typeOption.label}</option>
               ))}
-            </LoadGuard>
-            {paginationOptions.pageCount > 1
-              ? (
-                <Col xs={12}>
-                  <Pagination
-                    className="library-blocks-pagination"
-                    paginationLabel="pagination navigation"
-                    currentPage={paginationOptions.currentPage}
-                    pageCount={paginationOptions.pageCount}
-                    buttonLabels={paginationOptions.buttonLabels}
-                    onPageSelect={(page) => changePage(page)}
-                  />
-                </Col>
-              )
-              : null}
-            <Col xs={12} className="text-center py-3 library-authoring-block-add-new">
-              {library.type !== LIBRARY_TYPES.COMPLEX && (
-              <Button
-                variant="primary"
-                disabled={sending}
-                onClick={() => addBlock(library.type)}
-                className="cta-button"
-                iconBefore={Add}
-              >
-                {intl.formatMessage(messages[`library.detail.add_${library.type}`])}
-              </Button>
-              )}
-              {library.type === LIBRARY_TYPES.COMPLEX && (
-                <Row>
-                  <Col xs={12}>
-                    <h3>{intl.formatMessage(messages['library.detail.add_component_heading'])}</h3>
-                  </Col>
-                  <Col xs={12} className="text-center">
-                    <SelectableBox.Set
-                      type="radio"
-                      value={null}
-                      onChange={(e) => addBlock(e.target.value)}
-                      columns={3}
-                      ariaLabel="component-selection"
-                      name="components"
-                      className="px-6"
+            </Form.Control>
+          </>
+          )}
+        </ActionRow>
+        <ActionRow className="my-3">
+          <span className="text-primary-500 small">
+            {intl.formatMessage(
+              messages['library.detail.component.showingCount'],
+              {
+                currentViewRange: getCurrentViewRange(paginationOptions.currentPage, blocks.value.count),
+                total: blocks.value.count,
+              },
+            )}
+          </span>
+          <ActionRow.Spacer />
+          {paginationOptions.pageCount > 1 ? (
+            <Pagination
+              className="minimal-pagination"
+              paginationLabel="pagination navigation"
+              variant="minimal"
+              currentPage={paginationOptions.currentPage}
+              pageCount={paginationOptions.pageCount}
+              buttonLabels={paginationOptions.buttonLabels}
+              onPageSelect={(page) => changePage(page)}
+            />
+          ) : null}
+        </ActionRow>
+        {/* todo: figure out how we want to handle these at low screen widths.
+                  mobile is currently unsupported: so it doesn't make sense
+                  to have partially implemented responsive logic */}
+        {/* <Col xs={12} className="text-center d-md-none py-3">
+          <ButtonToggles
+            setShowPreviews={setShowPreviews}
+            showPreviews={showPreviews}
+            library={library}
+            sending={sending}
+            quickAddBehavior={quickAddBehavior}
+            className="d-md-none py-3"
+          />
+        </Col> */}
+        <LoadGuard
+          loadingMessage={intl.formatMessage(messages['library.detail.loading.message'])}
+          condition={blocks.status !== LOADING_STATUS.LOADING}
+        >
+          {() => blocks.value.data.map((block) => (
+            <BlockPreviewContainer
+              key={block.id}
+              block={block}
+              blockView={blockView}
+              showPreviews={showPreviews}
+              library={library}
+            />
+          ))}
+        </LoadGuard>
+        <Col xs={12} className="text-center py-3 library-authoring-block-add-new">
+          {library.type !== LIBRARY_TYPES.COMPLEX && (
+          <Button
+            variant="primary"
+            disabled={sending}
+            onClick={() => addBlock(library.type)}
+            className="cta-button"
+            iconBefore={Add}
+          >
+            {intl.formatMessage(messages[`library.detail.add_${library.type}`])}
+          </Button>
+          )}
+          {library.type === LIBRARY_TYPES.COMPLEX && (
+            <Row id="add-component-section" className="bg-light-200 pt-4 pb-4.5 rounded">
+              <Col xs={12} className="mb-2">
+                <h3>{intl.formatMessage(messages['library.detail.add_component_heading'])}</h3>
+              </Col>
+              <Col xs={12} className="text-center">
+                <SelectableBox.Set
+                  type="radio"
+                  value={null}
+                  onChange={(e) => addBlock(e.target.value)}
+                  columns={3}
+                  ariaLabel="component-selection"
+                  name="components"
+                  className="px-6 mx-6 text-primary-500"
+                  style={{ 'font-weight': 500 }}
+                >
+                  {/* Update to use a SelectableBox that triggers a modal for options
+                  <div className="d-inline-block">
+                  <Dropdown>
+                    <Dropdown.Toggle
+                      variant="success"
+                      disabled={sending}
+                      className="cta-button mr-2"
+                      id="library-detail-add-component-dropdown"
                     >
-                      {/* Update to use a SelectableBox that triggers a modal for options
-                      <div className="d-inline-block">
-                      <Dropdown>
-                        <Dropdown.Toggle
-                          variant="success"
-                          disabled={sending}
-                          className="cta-button mr-2"
-                          id="library-detail-add-component-dropdown"
+                      Advanced
+                    </Dropdown.Toggle>
+                    <Dropdown.Menu>
+                      {otherTypes.map((blockSpec) => (
+                        <Dropdown.Item
+                          onClick={() => addBlock(blockSpec.block_type)}
+                          key={blockSpec.block_type}
                         >
-                          Advanced
-                        </Dropdown.Toggle>
-                        <Dropdown.Menu>
-                          {otherTypes.map((blockSpec) => (
-                            <Dropdown.Item
-                              onClick={() => addBlock(blockSpec.block_type)}
-                              key={blockSpec.block_type}
-                            >
-                              {blockSpec.display_name}
-                            </Dropdown.Item>
-                          ))}
-                        </Dropdown.Menu>
-                      </Dropdown>
-                    </div> */}
-                      <SelectableBox
-                        disabled={sending}
-                        value="html"
-                        aria-label="html-radio"
-                        className="text-center"
-                      >
-                        <div className="row m-0 mb-1 justify-content-center">
-                          <Icon src={TextFields} />
-                        </div>
-                        <p>{intl.formatMessage(messages['library.detail.add.new.component.html'])}</p>
-                      </SelectableBox>
-                      <SelectableBox
-                        disabled={sending}
-                        value="problem"
-                        aria-label="problem-radio"
-                        className="text-center"
-                      >
-                        <div className="row m-0 mb-1 justify-content-center">
-                          <Icon src={HelpOutline} />
-                        </div>
-                        <p>{intl.formatMessage(messages['library.detail.add.new.component.problem'])}</p>
-                      </SelectableBox>
-                      <SelectableBox
-                        disabled={sending}
-                        value="video"
-                        aria-label="video-radio"
-                        className="text-center"
-                      >
-                        <div className="row m-0  mb-1 justify-content-center">
-                          <Icon src={VideoCamera} />
-                        </div>
-                        <p>{intl.formatMessage(messages['library.detail.add.new.component.video'])}</p>
-                      </SelectableBox>
-                    </SelectableBox.Set>
-                  </Col>
-                </Row>
-              )}
+                          {blockSpec.display_name}
+                        </Dropdown.Item>
+                      ))}
+                    </Dropdown.Menu>
+                  </Dropdown>
+                </div> */}
+                  <SelectableBox
+                    disabled={sending}
+                    value="html"
+                    aria-label="html-radio"
+                  >
+                    <Row className="m-0 justify-content-center align-items-center">
+                      <Icon
+                        src={TextFields}
+                        alt={intl.formatMessage(messages['library.detail.add.new.component.html'])}
+                        className="mr-2"
+                      />
+                      <span>{intl.formatMessage(messages['library.detail.add.new.component.html'])}</span>
+                    </Row>
+                  </SelectableBox>
+                  <SelectableBox
+                    disabled={sending}
+                    value="problem"
+                    aria-label="problem-radio"
+                  >
+                    <Row className="m-0 justify-content-center align-items-center">
+                      <Icon
+                        src={HelpOutline}
+                        alt={intl.formatMessage(messages['library.detail.add.new.component.problem'])}
+                        className="mr-2"
+                      />
+                      <span>{intl.formatMessage(messages['library.detail.add.new.component.problem'])}</span>
+                    </Row>
+                  </SelectableBox>
+                  <SelectableBox
+                    disabled={sending}
+                    value="video"
+                    aria-label="video-radio"
+                    className="text-center"
+                  >
+                    <Row className="m-0 justify-content-center align-items-center">
+                      <Icon
+                        src={VideoCamera}
+                        alt={intl.formatMessage(messages['library.detail.add.new.component.video'])}
+                        className="mr-2 text-primary-500"
+                      />
+                      <span>{intl.formatMessage(messages['library.detail.add.new.component.video'])}</span>
+                    </Row>
+                  </SelectableBox>
+                </SelectableBox.Set>
+              </Col>
+            </Row>
+          )}
+        </Col>
+        {paginationOptions.pageCount > 1
+          ? (
+            <Col xs={12}>
+              <Pagination
+                className="library-blocks-pagination"
+                paginationLabel="pagination navigation"
+                currentPage={paginationOptions.currentPage}
+                pageCount={paginationOptions.pageCount}
+                buttonLabels={paginationOptions.buttonLabels}
+                onPageSelect={(page) => changePage(page)}
+              />
             </Col>
-          </Card.Body>
-        </Card>
+          )
+          : null}
       </Col>
       <Col className="library-authoring-sidebar" xs={12} md={4} xl={3}>
         <aside>
