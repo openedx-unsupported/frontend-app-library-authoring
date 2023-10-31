@@ -23,7 +23,6 @@ import {
   DeleteOutline,
   EditOutline,
   HelpOutline,
-  Sync,
   TextFields,
   VideoCamera,
 } from '@edx/paragon/icons';
@@ -301,20 +300,28 @@ BlockPreviewContainerBase.propTypes = {
 
 const ButtonTogglesBase = ({ setShowPreviews, showPreviews, intl }) => (
   <>
-    {/* todo: either reimplement the scroll to the add components button functionality,
-              figure out a better UX for the add component button at the top, or just
-              remove it entirely */}
-    {/* <Button variant="primary" className="mr-1" disabled={sending} onClick={quickAddBehavior} iconBefore={Add}>
-      {intl.formatMessage(messages[`library.detail.add_${library.type}`])}
-    </Button> */}
     <Button
-      variant="primary"
+      variant="outline-primary"
       className="ml-1"
       onClick={() => setShowPreviews(!showPreviews)}
-      iconBefore={Sync}
       size="sm"
     >
       { intl.formatMessage(showPreviews ? messages['library.detail.hide_previews'] : messages['library.detail.show_previews']) }
+    </Button>
+    {/* todo: either replace the scroll to the add components button functionality
+              with a better UX for the add component button at the top, or just
+              remove it entirely */}
+    <Button
+      variant="primary"
+      className="mr-1"
+      size="sm"
+      onClick={() => {
+        const addComponentSection = document.getElementById('add-component-section');
+        addComponentSection.scrollIntoView({ behavior: 'smooth' });
+      }}
+      iconBefore={Add}
+    >
+      {intl.formatMessage(messages['library.detail.add.new.component.item'])}
     </Button>
   </>
 );
@@ -524,7 +531,7 @@ export const LibraryAuthoringPageBase = ({
           </Button>
           )}
           {library.type === LIBRARY_TYPES.COMPLEX && (
-            <Row className="bg-light-200 pt-4 pb-4.5 rounded">
+            <Row id="add-component-section" className="bg-light-200 pt-4 pb-4.5 rounded">
               <Col xs={12} className="mb-2">
                 <h3>{intl.formatMessage(messages['library.detail.add_component_heading'])}</h3>
               </Col>
