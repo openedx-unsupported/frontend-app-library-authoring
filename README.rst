@@ -119,7 +119,7 @@ Follow these steps to provision, run, and enable an instance of the Library Auth
 
    .. code-block::
 
-      make studio-shell
+      make dev.shell.cms
       vim /edx/etc/studio.yml
       ---
       FEATURES:
@@ -129,7 +129,7 @@ Follow these steps to provision, run, and enable an instance of the Library Auth
 
    .. code-block::
 
-      make studio-restart
+      make dev.restart-container.cms
 
 #. On a browser, go to http://localhost:18010/admin/waffle/flag/, log in as an admin (such as the sample user ``edx``)
    and create a ``studio.library_authoring_mfe`` waffle flag, and enabling it for everyone.
