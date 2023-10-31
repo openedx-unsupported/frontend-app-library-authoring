@@ -490,8 +490,8 @@ export const LibraryAuthoringPageBase = ({
                   messages['library.detail.component.showingCount'],
                   {
                     currentViewRange: getCurrentViewRange(paginationOptions.currentPage, blocks.value.count),
-                    total: blocks.value.count
-                  }
+                    total: blocks.value.count,
+                  },
                 )}
               </span>
               <ActionRow.Spacer />
@@ -812,8 +812,8 @@ export const LibraryAuthoringPageContainerBase = ({
     if (endRange > totalBlockCount) {
       endRange = totalBlockCount;
     }
-    return  `${startRange} - ${endRange}`;
-  }
+    return `${startRange} - ${endRange}`;
+  };
 
   // If we end up needing this across components, or we end up needing more settings like this, we'll have to create
   // another redux slice for 'common' settings which hydrates from localStorage.
