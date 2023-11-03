@@ -227,16 +227,9 @@ export class LibraryCreatePage extends React.Component {
           errors[fieldName] = '';
         }
         break;
-      case 'title':
-        if (!value) {
-          errors[fieldName] = intl.formatMessage(messages['library.form.field.error.empty.title']);
-        } else {
-          errors[fieldName] = '';
-        }
-        break;
       default:
         if (!value) {
-          errors[fieldName] = intl.formatMessage(messages['library.form.field.error.empty']);
+          errors[fieldName] = intl.formatMessage(messages['library.form.field.error.empty.title']);
         } else {
           errors[fieldName] = '';
         }
