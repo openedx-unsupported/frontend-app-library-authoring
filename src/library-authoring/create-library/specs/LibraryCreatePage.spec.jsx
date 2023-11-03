@@ -76,28 +76,33 @@ describe('create-library/LibraryCreatePage.jsx', () => {
         </BrowserRouter>,
         { config },
       );
-    })
+    });
+
     it('shows empty title error', () => {
       container.find('input').at(0).simulate('change');
       expect(container.find('.pgn__form-text-invalid').at(0).text()).toEqual(messages['library.form.field.error.empty.title'].defaultMessage);
     });
+
     it('shows empty org error', () => {
       container.find('input').at(1).simulate('change');
       container.find('input').at(1).simulate('blur');
       expect(container.find('.pgn__form-text-invalid').at(0).text()).toEqual(messages['library.form.field.error.empty.org'].defaultMessage);
     });
+
     it('shows empty slug error', () => {
       container.find('input').at(2).simulate('change');
       expect(container.find('.pgn__form-text-invalid').at(0).text()).toEqual(messages['library.form.field.error.empty.slug'].defaultMessage);
     });
+
     it('shows mismatch org error', () => {
       container.find('input').at(1).simulate('change', { target: { value: 'org2', name: 'org' } });
       container.find('input').at(1).simulate('blur');
       expect(container.find('.pgn__form-text-invalid').at(0).text()).toEqual(messages['library.form.field.error.mismatch.org'].defaultMessage);
     });
+
     it('shows invlaid slug error', () => {
       container.find('input').at(2).simulate('change', { target: { value: '###', name: 'slug' } });
-      expect(container.find('.pgn__form-text-invalid').at(0).text()).toEqual(messages['library.form.field.error.invalid.slug'].defaultMessage);  
+      expect(container.find('.pgn__form-text-invalid').at(0).text()).toEqual(messages['library.form.field.error.invalid.slug'].defaultMessage);
     });
   });
 
