@@ -1,5 +1,6 @@
 import React from 'react';
 import update from 'immutability-helper';
+import { fireEvent, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import { injectIntl } from '@edx/frontend-platform/i18n';
 import { LibraryListPage } from '../LibraryListPage';
@@ -43,33 +44,34 @@ describe('list-libraries/LibraryListPage.jsx', () => {
       status: { $set: LOADING_STATUS.LOADING },
     });
 
-    const container = ctxMount(
+    const { container } = ctxMount(
       <BrowserRouter>
         <InjectedLibraryListPage {...newProps} />
       </BrowserRouter>,
       { config },
     );
 
-    const loading = container.find('.spinner-border');
-    expect(loading.exists()).toBeTruthy();
+    expect(container.querySelector('.spinner-border')).toBeInTheDocument();
   });
 
   it('renders library list page with error', () => {
-    const errorMessage = 'mock error message';
+    const errorText = 'mock error message';
 
     const newProps = update(props, {
       status: { $set: LOADING_STATUS.FAILED },
       errorMessage: { $set: 'mock error message' },
     });
 
-    const container = ctxMount(
+    ctxMount(
       <BrowserRouter>
         <InjectedLibraryListPage {...newProps} />
       </BrowserRouter>,
       { config },
     );
 
-    expect(container.childAt(0).text()).toEqual(`Error: ${errorMessage}`);
+    const errorMessage = screen.getByTestId('error-message');
+    expect(errorMessage).toBeInTheDocument();
+    expect(errorMessage.textContent).toEqual(`Error: ${errorText}`);
   });
 
   it('fetches library list on mount', () => {
@@ -92,14 +94,14 @@ describe('list-libraries/LibraryListPage.jsx', () => {
   });
 
   it('shows no pagination for empty library list', () => {
-    const container = ctxMount(
+    const { container } = ctxMount(
       <BrowserRouter>
         <InjectedLibraryListPage {...props} />
       </BrowserRouter>,
       { config },
     );
 
-    expect(container.find('.library-list-pagination').length).toBe(0);
+    expect(container.querySelector('.library-list-pagination')).toBeNull();
   });
 
   it('Paginates on big library list', () => {
@@ -107,26 +109,26 @@ describe('list-libraries/LibraryListPage.jsx', () => {
       libraries: { count: { $set: 150 } },
     });
 
-    const container = ctxMount(
+    const { container } = ctxMount(
       <BrowserRouter>
         <InjectedLibraryListPage {...newProps} />
       </BrowserRouter>,
       { config },
     );
 
-    const paginationContainer = container.find('.library-list-pagination').at(1);
-    expect(paginationContainer).toBeTruthy();
+    const paginationContainer = container.querySelector('.library-list-pagination');
+    expect(paginationContainer).toBeInTheDocument();
 
-    const previousButton = paginationContainer.find('.previous.page-link').at(1);
-    expect(previousButton).toBeTruthy();
+    const previousButton = paginationContainer.querySelector('.previous.page-link');
+    expect(previousButton).toBeInTheDocument();
 
-    const nextButton = paginationContainer.find('.next.page-link').at(1);
-    expect(nextButton).toBeTruthy();
+    const nextButton = paginationContainer.querySelector('.next.page-link');
+    expect(nextButton).toBeInTheDocument();
 
-    nextButton.simulate('click');
-    nextButton.simulate('click');
-    previousButton.simulate('click');
-    previousButton.simulate('click');
+    fireEvent.click(nextButton);
+    fireEvent.click(nextButton);
+    fireEvent.click(previousButton);
+    fireEvent.click(previousButton);
     const commonParams = {
       org: '', page_size: +process.env.LIBRARY_LISTING_PAGINATION_PAGE_SIZE, text_search: '', type: 'complex',
     };
@@ -142,32 +144,32 @@ describe('list-libraries/LibraryListPage.jsx', () => {
       libraries: { count: { $set: 0 } },
     });
 
-    const container = ctxMount(
+    const { container } = ctxMount(
       <BrowserRouter>
         <InjectedLibraryListPage {...newProps} />
       </BrowserRouter>,
       { config },
     );
 
-    expect(container.find('.library-list .library-item').length).toBe(0);
+    expect(container.querySelector('.library-list .library-item')).toBeNull();
 
-    const emptyHeadingText = container.find('h2').text();
+    const emptyHeadingText = container.querySelector('h2').textContent;
     expect(emptyHeadingText).toEqual('Add your first library to get started');
   });
 
   it('shows the create form when clicking the new library button on a empty page', () => {
-    const container = ctxMount(
+    const { container } = ctxMount(
       <BrowserRouter>
         <InjectedLibraryListPage {...props} />
       </BrowserRouter>,
       { config },
     );
 
-    const emptyPage = container.find('.pgn__card.horizontal');
-    expect(emptyPage).toBeTruthy();
+    const emptyPage = container.querySelector('.pgn__card.horizontal');
+    expect(emptyPage).toBeInTheDocument();
 
-    const newLibraryButton = emptyPage.find('button.btn-outline-primary');
-    newLibraryButton.simulate('click');
+    const newLibraryButton = emptyPage.querySelector('button.btn-outline-primary');
+    fireEvent.click(newLibraryButton);
 
     expect(mockNavigate).toHaveBeenCalledWith(ROUTES.List.CREATE);
   });
@@ -181,15 +183,15 @@ describe('list-libraries/LibraryListPage.jsx', () => {
       },
     });
 
-    const container = ctxMount(
+    const { container } = ctxMount(
       <BrowserRouter>
         <InjectedLibraryListPage {...newProps} />
       </BrowserRouter>,
       { config },
     );
 
-    const libraryItem = container.find('.library-item').at(0);
-    libraryItem.simulate('click');
+    const libraryItem = container.querySelector('.library-item');
+    fireEvent.click(libraryItem);
 
     expect(mockNavigate).toHaveBeenCalled();
   });
@@ -203,15 +205,15 @@ describe('list-libraries/LibraryListPage.jsx', () => {
       },
     });
 
-    const container = ctxMount(
+    const { container } = ctxMount(
       <BrowserRouter>
         <InjectedLibraryListPage {...newProps} />
       </BrowserRouter>,
       { config },
     );
 
-    const newLibraryBtn = container.find('button.btn-primary').at(0);
-    newLibraryBtn.simulate('click');
+    const newLibraryBtn = container.querySelector('.btn-primary');
+    fireEvent.click(newLibraryBtn);
 
     expect(mockNavigate).toHaveBeenCalledWith(ROUTES.List.CREATE);
   });

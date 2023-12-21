@@ -1,4 +1,5 @@
 import React from 'react';
+import { fireEvent, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import { injectIntl } from '@edx/frontend-platform/i18n';
 import { LibraryCreatePage } from '../LibraryCreatePage';
@@ -49,19 +50,20 @@ describe('create-library/LibraryCreatePage.jsx', () => {
 
   it('submits form without error', () => {
     const newProps = { ...props, orgs: ['org1', 'org2'] };
-    const container = ctxMount(
+
+    ctxMount(
       <BrowserRouter>
         <InjectedLibraryCreatePage {...newProps} />
       </BrowserRouter>,
       { config },
     );
 
-    container.find('input').at(0).simulate('change', { target: { value: 'title test', name: 'title' } });
-    container.find('input').at(1).simulate('change', { target: { value: 'org1', name: 'org' } });
-    container.find('input').at(2).simulate('change', { target: { value: 'slug test', name: 'slug' } });
+    fireEvent.change(screen.getByLabelText('Library name'), { target: { value: 'title test', name: 'title' } });
+    fireEvent.change(screen.getByLabelText('Organization'), { target: { value: 'org1', name: 'org' } });
+    fireEvent.change(screen.getByLabelText('Library ID'), { target: { value: 'slug test', name: 'slug' } });
 
-    const form = container.find('form').at(0);
-    form.simulate('submit');
+    const submitButton = screen.getByRole('button', { name: 'Create' });
+    fireEvent.click(submitButton);
 
     expect(mockCreateLibrary).toHaveBeenCalled();
   });
@@ -108,27 +110,28 @@ describe('create-library/LibraryCreatePage.jsx', () => {
 
   it('shows processing text on button', () => {
     const newProps = { ...props, status: SUBMISSION_STATUS.SUBMITTING };
-    const container = ctxMount(
+    ctxMount(
       <BrowserRouter>
         <InjectedLibraryCreatePage {...newProps} />
       </BrowserRouter>,
       { config },
     );
 
-    const submitButton = container.find('[type="submit"]').at(0);
-    expect(submitButton.text()).toEqual('Creating...');
+    const submitButton = screen.getByRole('button', { name: 'Creating...' });
+    expect(submitButton.textContent).toEqual('Creating...');
   });
 
   it('cancels form', () => {
-    const container = ctxMount(
+    ctxMount(
       <BrowserRouter>
         <InjectedLibraryCreatePage {...props} />
       </BrowserRouter>,
       { config },
     );
 
-    const cancelPageButton = container.find('button.btn-light').at(0);
-    cancelPageButton.simulate('click');
+    const cancelPageButton = screen.getByRole('button', { name: 'Cancel' });
+    fireEvent.click(cancelPageButton);
+
     expect(mockNavigate).toHaveBeenCalledWith(ROUTES.List.HOME);
   });
 

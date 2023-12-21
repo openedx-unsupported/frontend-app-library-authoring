@@ -1,11 +1,8 @@
 const { createConfig } = require('@edx/frontend-build');
 
 module.exports = createConfig('jest', {
-  setupFiles: [
-    '<rootDir>/src/setupTest.js',
-  ],
   setupFilesAfterEnv: [
-    '<rootDir>/src/setupTestEnv.js',
+    '<rootDir>/src/setupTest.js',
   ],
   collectCoverageFrom: [
     "**/*.{js,jsx}",
