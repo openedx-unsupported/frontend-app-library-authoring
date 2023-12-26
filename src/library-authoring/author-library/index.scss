@@ -34,3 +34,32 @@
         font-size: 120%;
     }
 }
+
+// TODO: We might need to move these styles to another file
+.drawer-cover {
+  z-index: 1000;
+
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+}
+
+.drawer {
+  z-index: 10000;
+
+  display: none;
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 33.33vw;
+  height: 100vh;
+  background-color: $light-200;
+}
+
+body.drawer-open {
+  overflow: hidden;
+}
