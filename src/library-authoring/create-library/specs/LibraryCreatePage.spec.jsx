@@ -69,10 +69,10 @@ describe('create-library/LibraryCreatePage.jsx', () => {
   });
 
   describe('form errors', () => {
-    let container;
+    let wrapper;
     beforeEach(() => {
       const newProps = { ...props, errorFields: { slug: 'Error message' } };
-      container = ctxMount(
+      wrapper = ctxMount(
         <BrowserRouter>
           <InjectedLibraryCreatePage {...newProps} />
         </BrowserRouter>,
@@ -81,30 +81,36 @@ describe('create-library/LibraryCreatePage.jsx', () => {
     });
 
     it('shows empty title error', () => {
-      container.find('input').at(0).simulate('change');
-      expect(container.find('.pgn__form-text-invalid').at(0).text()).toEqual(messages['library.form.field.error.empty.title'].defaultMessage);
+      fireEvent.change(screen.getByLabelText('Library name'), { target: { value: 'Title', name: 'title' } });
+      fireEvent.change(screen.getByLabelText('Library name'), { target: { value: '', name: 'title' } });
+
+      expect(wrapper.container.querySelector('.pgn__form-text-invalid').textContent).toEqual(messages['library.form.field.error.empty.title'].defaultMessage);
     });
 
     it('shows empty org error', () => {
-      container.find('input').at(1).simulate('change');
-      container.find('input').at(1).simulate('blur');
-      expect(container.find('.pgn__form-text-invalid').at(0).text()).toEqual(messages['library.form.field.error.empty.org'].defaultMessage);
+      fireEvent.change(screen.getByLabelText('Organization'), { target: { value: 'Org', name: 'org' } });
+      fireEvent.change(screen.getByLabelText('Organization'), { target: { value: '', name: 'org' } });
+      fireEvent.blur(screen.getByLabelText('Organization'));
+
+      expect(wrapper.container.querySelector('.pgn__form-text-invalid').textContent).toEqual(messages['library.form.field.error.empty.org'].defaultMessage);
     });
 
     it('shows empty slug error', () => {
-      container.find('input').at(2).simulate('change');
-      expect(container.find('.pgn__form-text-invalid').at(0).text()).toEqual(messages['library.form.field.error.empty.slug'].defaultMessage);
+      fireEvent.change(screen.getByLabelText('Library ID'), { target: { value: 'Slug', name: 'slug' } });
+      fireEvent.change(screen.getByLabelText('Library ID'), { target: { value: '', name: 'slug' } });
+
+      expect(wrapper.container.querySelector('.pgn__form-text-invalid').textContent).toEqual(messages['library.form.field.error.empty.slug'].defaultMessage);
     });
 
     it('shows mismatch org error', () => {
-      container.find('input').at(1).simulate('change', { target: { value: 'org2', name: 'org' } });
-      container.find('input').at(1).simulate('blur');
-      expect(container.find('.pgn__form-text-invalid').at(0).text()).toEqual(messages['library.form.field.error.mismatch.org'].defaultMessage);
+      fireEvent.change(screen.getByLabelText('Organization'), { target: { value: 'org2', name: 'org' } });
+      fireEvent.blur(screen.getByLabelText('Organization'));
+      expect(wrapper.container.querySelector('.pgn__form-text-invalid').textContent).toEqual(messages['library.form.field.error.mismatch.org'].defaultMessage);
     });
 
     it('shows invlaid slug error', () => {
-      container.find('input').at(2).simulate('change', { target: { value: '###', name: 'slug' } });
-      expect(container.find('.pgn__form-text-invalid').at(0).text()).toEqual(messages['library.form.field.error.invalid.slug'].defaultMessage);
+      fireEvent.change(screen.getByLabelText('Library ID'), { target: { value: '###', name: 'slug' } });
+      expect(wrapper.container.querySelector('.pgn__form-text-invalid').textContent).toEqual(messages['library.form.field.error.invalid.slug'].defaultMessage);
     });
   });
 
@@ -136,31 +142,31 @@ describe('create-library/LibraryCreatePage.jsx', () => {
   });
 
   it('shows leave modal and prevents leaving', () => {
-    const container = ctxMount(
+    const { container } = ctxMount(
       <BrowserRouter>
         <InjectedLibraryCreatePage {...props} />
       </BrowserRouter>,
       { config },
     );
 
-    const cancelPageButton = container.find('button.btn-light').at(0);
-    container.find('input').at(0).simulate('change', { target: { value: 'title test', name: 'title' } });
-    cancelPageButton.simulate('click');
+    const cancelPageButton = container.querySelector('button.btn-light');
+    fireEvent.change(screen.getByLabelText('Library name'), { target: { value: 'title test', name: 'title' } });
+    fireEvent.click(cancelPageButton);
 
     // The leave page modal was shown and history was updated but blocked
     expect(mockNavigate).toHaveBeenCalledWith(ROUTES.List.HOME);
-    expect(container.find('.pgn__modal-title').text()).toEqual('Unsaved changes');
+    expect(screen.getByText('Unsaved changes')).toBeInTheDocument();
 
     // Reject the leave page modal
-    const cancelModalButton = container.find('.pgn__modal .btn-tertiary');
-    cancelModalButton.simulate('click');
-    expect(container.find('.pgn__modal-title').exists()).toEqual(false);
+    const cancelModalButton = screen.getAllByText('Cancel');
+    fireEvent.click(cancelModalButton[1]);
+    expect(screen.queryByText('Unsaved changes')).not.toBeInTheDocument();
 
     // Confirm the leave page modal and wasn't blocked
-    cancelPageButton.simulate('click');
-    const SubmitModalButton = container.find('.pgn__modal .btn-primary');
-    SubmitModalButton.simulate('click');
-    expect(container.find('.pgn__modal-title').exists()).toEqual(false);
+    fireEvent.click(cancelPageButton);
+    const SubmitModalButton = screen.getByText('Ok');
+    fireEvent.click(SubmitModalButton);
+    expect(screen.queryByText('Unsaved changes')).not.toBeInTheDocument();
     expect(mockNavigate).toHaveBeenCalledWith(ROUTES.List.HOME);
   });
 });
