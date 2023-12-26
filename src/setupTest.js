@@ -54,7 +54,6 @@ Object.defineProperty(window, 'localStorage', { value: mockStorage });
 // Mock the plugins repo so jest will stop complaining about ES6 syntax
 jest.mock('frontend-components-tinymce-advanced-plugins', () => {});
 
-
 // setupTest.js runs before Jest injects its environment. This file runs afterward.
 
 const trueType = (variable) => {
