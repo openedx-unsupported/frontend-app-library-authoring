@@ -130,7 +130,7 @@ export const BlockPreviewBase = ({
                 </Dropdown.Item>
                 <Dropdown.Item
                   aria-label={intl.formatMessage(messages['library.detail.block.manage_tags'])}
-                  onClick={() => setOpenContentTagsDrawer(true)}
+                  onClick={() => setOpenContentTagsDrawer(block.id)}
                 >
                   {intl.formatMessage(messages['library.detail.block.manage_tags'])}
                 </Dropdown.Item>
@@ -208,7 +208,7 @@ BlockPreviewBase.propTypes = {
   showDeleteModal: PropTypes.bool.isRequired,
   showEditorModal: PropTypes.bool.isRequired,
   showPreviews: PropTypes.bool.isRequired,
-  setOpenContentTagsDrawer: PropTypes.bool.isRequired,
+  setOpenContentTagsDrawer: PropTypes.func.isRequired,
   updateLibraryBlockView: PropTypes.bool.isRequired,
   view: fetchable(blockViewShape).isRequired,
 };
@@ -470,29 +470,38 @@ const ContentTagsDrawer = ({ openContentTagsDrawer, setOpenContentTagsDrawer }) 
   }
 
   useEffect(() => {
-    const handleEsc = (event) => {
-      /* Close drawer when ESC-key is pressed and selectable dropdown box not open */
-      const selectableBoxOpen = document.querySelector('[data-selectable-box="taxonomy-tags"]');
-      if (event.key === 'Escape' && !selectableBoxOpen) {
-        setOpenContentTagsDrawer(false);
+    const handleClose = (event) => {
+      if (event.data === 'closeManageTagsDrawer') {
+        setOpenContentTagsDrawer('');
       }
     };
-    document.addEventListener('keydown', handleEsc);
+
+    // Add event listen to close drawer when close button is clicked from within the Iframe
+    window.addEventListener('message', handleClose);
 
     return () => {
-      document.removeEventListener('keydown', handleEsc);
+      window.removeEventListener('message', handleClose);
     };
   }, []);
+
+  // TODO: The use of an iframe in the implementation will likely change
+  const renderIFrame = () => (
+    openContentTagsDrawer
+      ? (
+        <iframe
+          title="manage-tags-drawer"
+          src={`${getConfig().COURSE_AUTHORING_MFE_BASE_URL}/tagging/components/widget/${openContentTagsDrawer}`}
+          frameBorder="0"
+          style={{ width: '100%', height: '100%' }}
+        />
+      )
+      : null
+  );
 
   return (
     <>
       <div id="manage-tags-drawer" className={`drawer ${openContentTagsDrawer ? 'd-block' : ''}`}>
-        <iframe
-          title="manage-tags-drawer"
-          src="http://localhost:2001"
-          frameBorder="0"
-          style={{ width: '100%', height: '100%' }}
-        />
+        { renderIFrame() }
       </div>
       <div className={`drawer-cover ${openContentTagsDrawer ? 'd-block' : ''}`} />
     </>
@@ -500,7 +509,7 @@ const ContentTagsDrawer = ({ openContentTagsDrawer, setOpenContentTagsDrawer }) 
 };
 
 ContentTagsDrawer.propTypes = {
-  openContentTagsDrawer: PropTypes.bool.isRequired,
+  openContentTagsDrawer: PropTypes.string.isRequired,
   setOpenContentTagsDrawer: PropTypes.func.isRequired,
 };
 
@@ -514,7 +523,7 @@ export const LibraryAuthoringPageBase = ({
   quickAddBehavior, otherTypes, blocks, changeQuery, changeType, changePage,
   paginationOptions, typeOptions, query, type, getCurrentViewRange, ...props
 }) => {
-  const [openContentTagsDrawer, setOpenContentTagsDrawer] = useState(false);
+  const [openContentTagsDrawer, setOpenContentTagsDrawer] = useState('');
 
   return (
     <Container fluid>
