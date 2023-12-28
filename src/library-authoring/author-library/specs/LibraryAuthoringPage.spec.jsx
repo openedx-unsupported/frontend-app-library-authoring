@@ -360,11 +360,16 @@ testSuite('<LibraryAuthoringPageContainer />', () => {
     const library = libraryFactory();
     const block = blockFactory(undefined, { library });
     await render(library, genState(library, [block]));
-    const del = screen.getByLabelText('Delete');
+    const moreActionsButton = screen.getByLabelText('More actions');
     act(() => {
-      del.click();
+      moreActionsButton.click();
     });
-    const yes = await screen.findByText('Delete');
+    const deleteAction = await screen.getByLabelText('Delete');
+    act(() => {
+      deleteAction.click();
+    });
+    const deleteElems = await screen.findAllByText('Delete');
+    const yes = deleteElems[0];
     act(() => {
       yes.click();
     });

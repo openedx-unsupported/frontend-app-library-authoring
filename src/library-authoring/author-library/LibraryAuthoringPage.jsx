@@ -130,12 +130,15 @@ export const BlockPreviewBase = ({
           />
           <OverlayTrigger
             placement="top"
-            overlay={
-              <Tooltip id="more-actions-tooltip">More Actions</Tooltip>
-            }
+            overlay={(
+              <Tooltip id="more-actions-tooltip">
+                {intl.formatMessage(messages['library.detail.block.more_actions'])}
+              </Tooltip>
+            )}
           >
             <Dropdown>
               <Dropdown.Toggle
+                aria-label={intl.formatMessage(messages['library.detail.block.more_actions'])}
                 as={IconButton}
                 src={MoreVert}
                 iconAs={Icon}
