@@ -115,6 +115,7 @@ export const BlockPreviewBase = ({
                   iconBefore={Tag}
                   className="tags-count-manage-button"
                   onClick={() => setOpenContentTagsDrawer(block.id)}
+                  data-testid="tags-count-manage-tags-button"
                 >
                   { block.tags_count }
                 </Button>
@@ -492,17 +493,29 @@ const ContentTagsDrawer = ({ openContentTagsDrawer, setOpenContentTagsDrawer }) 
   }
 
   useEffect(() => {
-    const handleClose = (event) => {
+    const handleCloseMessage = (event) => {
       if (event.data === 'closeManageTagsDrawer') {
         setOpenContentTagsDrawer('');
       }
     };
 
-    // Add event listen to close drawer when close button is clicked from within the Iframe
-    window.addEventListener('message', handleClose);
+    const handleCloseEsc = (event) => {
+      if (event.key === 'Escape' || event.keyCode === 27) {
+        setOpenContentTagsDrawer('');
+      }
+    };
+
+    // Add event listener to close drawer when close button is clicked or ESC pressed
+    // from within the Iframe
+    window.addEventListener('message', handleCloseMessage);
+    // Add event listern to close the drawer when ESC pressed and focus outside iframe
+    // If ESC is pressed while the Iframe is in focus, it will send the close message
+    // to the parent window and it will be handled with the above event listener
+    window.addEventListener('keyup', handleCloseEsc);
 
     return () => {
-      window.removeEventListener('message', handleClose);
+      window.removeEventListener('message', handleCloseMessage);
+      window.removeEventListener('keyup', handleCloseEsc);
     };
   }, []);
 
