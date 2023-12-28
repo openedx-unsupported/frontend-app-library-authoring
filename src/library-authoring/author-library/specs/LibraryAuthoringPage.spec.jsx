@@ -392,4 +392,49 @@ testSuite('<LibraryAuthoringPageContainer />', () => {
       () => expect(updateLibrary.fn).toHaveBeenCalledWith({ data: { title: 'New title', libraryId: library.id } }),
     );
   });
+
+  it('Opens (and closes) block tags drawer', async () => {
+    const library = libraryFactory();
+    const block = blockFactory(undefined, { library });
+    await render(library, genState(library, [block]));
+    const moreActionsButton = screen.getByLabelText('More actions');
+    act(() => {
+      moreActionsButton.click();
+    });
+    const manageTagsAction = await screen.getByLabelText('Manage tags');
+    // Open the tags drawer
+    act(() => {
+      manageTagsAction.click();
+    });
+
+    const testExistingManageTagsIFrame = await screen.getByTitle('manage-tags-drawer');
+    expect(testExistingManageTagsIFrame).not.toBeNull();
+
+    // Close the tags drawer
+    fireEvent.keyUp(testExistingManageTagsIFrame, {
+      key: 'Escape',
+      code: 'Escape',
+      keyCode: 27,
+      charCode: 27,
+    });
+
+    const testMissingManageTagsIFrame = await screen.queryByTitle('manage-tags-drawer');
+    expect(testMissingManageTagsIFrame).toBeNull();
+  });
+
+  it('Shows tags count button in block that opens tags drawer', async () => {
+    const library = libraryFactory();
+    const block = blockFactory({ tags_count: 2 }, { library });
+    await render(library, genState(library, [block]));
+
+    const manageTagsCountButton = screen.getByTestId('tags-count-manage-tags-button');
+    expect(manageTagsCountButton).not.toBeNull();
+    expect(manageTagsCountButton.textContent).toContain('2');
+    act(() => {
+      manageTagsCountButton.click();
+    });
+
+    const testExistingManageTagsIFrame = await screen.getByTitle('manage-tags-drawer');
+    expect(testExistingManageTagsIFrame).not.toBeNull();
+  });
 });
