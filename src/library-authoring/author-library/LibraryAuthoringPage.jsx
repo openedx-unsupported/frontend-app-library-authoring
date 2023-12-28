@@ -27,6 +27,7 @@ import {
   TextFields,
   VideoCamera,
   MoreVert,
+  Tag,
 } from '@edx/paragon/icons';
 import { EditorPage } from '@edx/frontend-lib-content-components';
 import { v4 as uuid4 } from 'uuid';
@@ -101,6 +102,25 @@ export const BlockPreviewBase = ({
       title={block.display_name}
       actions={(
         <ActionRow>
+          {
+            !!block.tags_count && (
+              <OverlayTrigger
+                placement="top"
+                overlay={
+                  <Tooltip id="manage-tags-tooltip">{intl.formatMessage(messages['library.detail.block.manage_tags'])}</Tooltip>
+                }
+              >
+                <Button
+                  variant="outline-primary"
+                  iconBefore={Tag}
+                  className="tags-count-manage-button"
+                  onClick={() => setOpenContentTagsDrawer(block.id)}
+                >
+                  { block.tags_count }
+                </Button>
+              </OverlayTrigger>
+            )
+          }
           <IconButtonWithTooltip
             aria-label={intl.formatMessage(messages['library.detail.block.edit'])}
             onClick={() => setShowEditorModal(true)}
@@ -109,7 +129,6 @@ export const BlockPreviewBase = ({
             tooltipContent={intl.formatMessage(messages['library.detail.block.edit'])}
           />
           <OverlayTrigger
-            key="top"
             placement="top"
             overlay={
               <Tooltip id="more-actions-tooltip">More Actions</Tooltip>
