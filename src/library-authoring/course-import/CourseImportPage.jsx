@@ -12,9 +12,9 @@ import {
   IconButton,
   Pagination,
   Row,
-} from '@edx/paragon';
+} from '@openedx/paragon';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
-import { Search, Sync } from '@edx/paragon/icons';
+import { Search, Sync } from '@openedx/paragon/icons';
 import { useParams } from 'react-router-dom';
 
 import { LoadingPage } from '../../generic';

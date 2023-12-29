@@ -3,7 +3,7 @@ Form for adding a new Library user.
  */
 import {
   Button, Card, Icon, Row, StatefulButton, Form,
-} from '@edx/paragon';
+} from '@openedx/paragon';
 import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
