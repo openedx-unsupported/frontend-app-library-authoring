@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import {
   ActionRow,
@@ -486,6 +486,8 @@ const LibraryAuthoringPageHeader = connect(
 )(injectIntl(LibraryAuthoringPageHeaderBase));
 
 const ContentTagsDrawer = ({ openContentTagsDrawer, setOpenContentTagsDrawer }) => {
+  const iFrameRef = useRef();
+
   if (openContentTagsDrawer) {
     document.body.classList.add('drawer-open');
   } else {
@@ -519,26 +521,28 @@ const ContentTagsDrawer = ({ openContentTagsDrawer, setOpenContentTagsDrawer }) 
     };
   }, []);
 
+  useEffect(() => {
+    if (openContentTagsDrawer && iFrameRef.current) {
+      iFrameRef.current.focus();
+    }
+  }, [openContentTagsDrawer]);
+
   // TODO: The use of an iframe in the implementation will likely change
   const renderIFrame = () => (
-    openContentTagsDrawer
-      ? (
-        <iframe
-          title="manage-tags-drawer"
-          src={`${getConfig().COURSE_AUTHORING_MFE_BASE_URL}/tagging/components/widget/${openContentTagsDrawer}`}
-          frameBorder="0"
-          style={{ width: '100%', height: '100%' }}
-        />
-      )
-      : null
+    <iframe
+      ref={iFrameRef}
+      title="manage-tags-drawer"
+      className="w-100 h-100 border-0"
+      src={`${getConfig().COURSE_AUTHORING_MFE_BASE_URL}/tagging/components/widget/${openContentTagsDrawer}`}
+    />
   );
 
-  return (
+  return openContentTagsDrawer && (
     <>
-      <div id="manage-tags-drawer" className={`drawer ${openContentTagsDrawer ? 'd-block' : ''}`}>
+      <div id="manage-tags-drawer" className="drawer">
         { renderIFrame() }
       </div>
-      <div className={`drawer-cover ${openContentTagsDrawer ? 'd-block' : ''}`} />
+      <div className="drawer-cover" />
     </>
   );
 };

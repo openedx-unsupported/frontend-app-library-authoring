@@ -39,7 +39,6 @@
 .drawer-cover {
   z-index: 1000;
 
-  display: none;
   position: fixed;
   top: 0;
   left: 0;
@@ -51,7 +50,6 @@
 .drawer {
   z-index: 10000;
 
-  display: none;
   position: fixed;
   top: 0;
   right: 0;
@@ -60,6 +58,7 @@
   background-color: $light-200;
 }
 
+// This is to prevent the darkened part of the page from being scrollable
 body.drawer-open {
   overflow: hidden;
 }
