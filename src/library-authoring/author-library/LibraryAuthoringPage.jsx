@@ -533,7 +533,7 @@ const ContentTagsDrawer = ({ openContentTagsDrawer, setOpenContentTagsDrawer }) 
       ref={iFrameRef}
       title="manage-tags-drawer"
       className="w-100 h-100 border-0"
-      src={`${getConfig().COURSE_AUTHORING_MFE_BASE_URL}/tagging/components/widget/${openContentTagsDrawer}`}
+      src={`${getConfig().COURSE_AUTHORING_MICROFRONTEND_URL}/tagging/components/widget/${openContentTagsDrawer}`}
     />
   );
 
