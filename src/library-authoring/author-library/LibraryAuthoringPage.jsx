@@ -146,16 +146,16 @@ export const BlockPreviewBase = ({
               />
               <Dropdown.Menu align="right">
                 <Dropdown.Item
-                  aria-label={intl.formatMessage(messages['library.detail.block.delete'])}
-                  onClick={() => setShowDeleteModal(true)}
-                >
-                  {intl.formatMessage(messages['library.detail.block.delete'])}
-                </Dropdown.Item>
-                <Dropdown.Item
                   aria-label={intl.formatMessage(messages['library.detail.block.manage_tags'])}
                   onClick={() => setOpenContentTagsDrawer(block.id)}
                 >
                   {intl.formatMessage(messages['library.detail.block.manage_tags'])}
+                </Dropdown.Item>
+                <Dropdown.Item
+                  aria-label={intl.formatMessage(messages['library.detail.block.delete'])}
+                  onClick={() => setShowDeleteModal(true)}
+                >
+                  {intl.formatMessage(messages['library.detail.block.delete'])}
                 </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
@@ -510,7 +510,7 @@ const ContentTagsDrawer = ({ openContentTagsDrawer, setOpenContentTagsDrawer }) 
     // Add event listener to close drawer when close button is clicked or ESC pressed
     // from within the Iframe
     window.addEventListener('message', handleCloseMessage);
-    // Add event listern to close the drawer when ESC pressed and focus outside iframe
+    // Add event listener to close the drawer when ESC pressed and focus outside iframe
     // If ESC is pressed while the Iframe is in focus, it will send the close message
     // to the parent window and it will be handled with the above event listener
     window.addEventListener('keyup', handleCloseEsc);
