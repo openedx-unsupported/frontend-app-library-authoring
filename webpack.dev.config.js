@@ -2,7 +2,14 @@ const path = require('path');
 const { createConfig } = require('@edx/frontend-build');
 const CopyPlugin = require('copy-webpack-plugin');
 
-const config = createConfig('webpack-dev');
+const config = createConfig('webpack-dev', {
+  resolve: {
+    fallback: {
+      fs: false,
+      constants: false,
+    },
+  },
+});
 
 /**
  * Allow serving xblock-bootstrap.html from the MFE itself.
