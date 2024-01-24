@@ -78,7 +78,7 @@ export class LibraryListPage extends React.Component {
     const { intl, errorMessage } = this.props;
 
     return (
-      <div>
+      <div data-testid="error-message">
         {intl.formatMessage(messages['library.list.loading.error'], { errorMessage })}
       </div>
     );

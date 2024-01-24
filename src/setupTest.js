@@ -1,12 +1,9 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
-import Enzyme from 'enzyme';
-import Adapter from '@wojtekmaj/enzyme-adapter-react-17';
+import '@testing-library/jest-dom';
 import MutationObserver from '@sheerun/mutationobserver-shim';
 import { mergeConfig } from '@edx/frontend-platform';
-
-Enzyme.configure({ adapter: new Adapter() });
 
 /* need to mock window for tinymce on import, as it is JSDOM incompatible */
 

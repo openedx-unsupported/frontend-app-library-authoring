@@ -1,5 +1,5 @@
 import React from 'react';
-import { mount } from 'enzyme';
+import { render, screen, fireEvent } from '@testing-library/react';
 import FormGroup from '../FormGroup';
 
 describe('common/FormGroup.jsx', () => {
@@ -37,32 +37,41 @@ describe('common/FormGroup.jsx', () => {
   });
 
   it('renders component without error', () => {
-    const container = mount(<FormGroup {...props} />);
-    const labelText = container.find('label').at(0).text();
-    const helpText = container.find('.pgn__form-text').at(0).text();
+    render(<FormGroup {...props} />);
+    const labelTextElement = screen.getByText(props.floatingLabel);
+    const helpTextElement = screen.getByText(props.helpText);
 
-    expect(labelText).toEqual(props.floatingLabel);
-    expect(helpText).toEqual(props.helpText);
+    expect(labelTextElement).toBeInTheDocument();
+    expect(labelTextElement.textContent).toEqual(props.floatingLabel);
+
+    expect(helpTextElement).toBeInTheDocument();
+    expect(helpTextElement.textContent).toEqual(props.helpText);
   });
 
   it('handles element focus', () => {
-    const container = mount(<FormGroup {...props} />);
-    container.find('input').at(0).simulate('focus');
+    render(<FormGroup {...props} />);
+
+    const inputElement = screen.getByLabelText(props.floatingLabel);
+    fireEvent.focus(inputElement);
 
     expect(mockHandleFocus).toHaveBeenCalled();
   });
 
   it('handles element blur', () => {
-    const container = mount(<FormGroup {...props} />);
-    container.find('input').at(0).simulate('focus');
-    container.find('input').at(0).simulate('blur');
+    render(<FormGroup {...props} />);
+
+    const inputElement = screen.getByLabelText(props.floatingLabel);
+    fireEvent.focus(inputElement);
+    fireEvent.blur(inputElement);
 
     expect(mockHandleBlur).toHaveBeenCalled();
   });
 
   it('handles element click', () => {
-    const container = mount(<FormGroup {...props} />);
-    container.find('input').at(0).simulate('click');
+    render(<FormGroup {...props} />);
+
+    const inputElement = screen.getByLabelText(props.floatingLabel);
+    fireEvent.click(inputElement);
 
     expect(mockHandleClick).toHaveBeenCalled();
   });
