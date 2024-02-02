@@ -36,7 +36,7 @@ subscribe(APP_READY, () => {
   ReactDOM.render(
     <AppProvider store={store}>
       <Routes>
-        <Route path={`${ROUTES.Detail.HOME}`} element={<StudioHeaderWrapper />} />
+        <Route path={ROUTES.Detail.HOME} element={<StudioHeaderWrapper />} />
         <Route path="*" element={<StudioHeaderWrapper />} />
       </Routes>
       <Routes>
