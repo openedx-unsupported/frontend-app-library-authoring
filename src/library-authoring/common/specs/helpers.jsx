@@ -1,5 +1,4 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { mount } from 'enzyme';
 import { render } from '@testing-library/react';
 import { IntlProvider } from '@edx/frontend-platform/i18n';
 import * as React from 'react';
@@ -158,7 +157,7 @@ export const ctxRender = async (ui, {
   );
 };
 
-export const ctxMount = (ui, context) => mount(
+export const ctxMount = (ui, context) => render(
   <AppContext.Provider value={context}>
     <IntlProvider locale="en">
       {ui}
