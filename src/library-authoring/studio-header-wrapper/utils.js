@@ -1,3 +1,4 @@
+import { getConfig } from '@edx/frontend-platform';
 import { LOADING_STATUS, ROUTES } from '../common';
 import messages from './messages';
 
@@ -23,6 +24,12 @@ export const getMainMenuDropdown = (loadingStatus, libraryId, intl) => {
             href: ROUTES.Detail.ACCESS_SLUG(libraryId),
             title: intl.formatMessage(messages['library.header.settings.access']),
           },
+          ...(getConfig().ENABLE_TAGGING_TAXONOMY_PAGES === 'true' ? [
+            {
+              href: `${getConfig().STUDIO_BASE_URL}/api/content_tagging/v1/object_tags/${libraryId}/export/`,
+              title: intl.formatMessage(messages['library.header.settings.exportTags']),
+            },
+          ] : []),
           {
             href: ROUTES.Detail.IMPORT_SLUG(libraryId),
             title: intl.formatMessage(messages['library.header.settings.import']),

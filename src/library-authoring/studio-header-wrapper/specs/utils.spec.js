@@ -1,3 +1,4 @@
+import { getConfig, setConfig } from '@edx/frontend-platform';
 import { LOADING_STATUS } from '../../common';
 import { getMainMenuDropdown, getOutlineLink } from '../utils';
 
@@ -31,5 +32,27 @@ describe('studio header wrapper utils', () => {
       const dropdownArray = getMainMenuDropdown(loadingStatus, libraryId, { formatMessage: jest.fn() });
       expect(dropdownArray).toHaveLength(0);
     });
+  });
+  it('should show the export tags sub item when the flag is true', () => {
+    const libraryId = 'testId';
+    const loadingStatus = LOADING_STATUS.LOADED;
+    setConfig({
+      ...getConfig(),
+      ENABLE_TAGGING_TAXONOMY_PAGES: 'true',
+    });
+    const dropdownArray = getMainMenuDropdown(loadingStatus, libraryId, { formatMessage: jest.fn() });
+    expect(dropdownArray).toHaveLength(1);
+    expect(dropdownArray[0].items.some(item => item.title === 'Export Tags'));
+  });
+  it('should not show the export tags sub item when the flag is false', () => {
+    const libraryId = 'testId';
+    const loadingStatus = LOADING_STATUS.LOADED;
+    setConfig({
+      ...getConfig(),
+      ENABLE_TAGGING_TAXONOMY_PAGES: 'false',
+    });
+    const dropdownArray = getMainMenuDropdown(loadingStatus, libraryId, { formatMessage: jest.fn() });
+    expect(dropdownArray).toHaveLength(1);
+    expect(dropdownArray[0].items.every(item => item.title !== 'Export Tags'));
   });
 });
