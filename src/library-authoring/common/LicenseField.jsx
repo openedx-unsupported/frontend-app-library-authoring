@@ -6,7 +6,7 @@ import {
   Col,
   Form,
   Row,
-} from '@edx/paragon';
+} from '@openedx/paragon';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import { LicenseContainer } from './License';
 import {

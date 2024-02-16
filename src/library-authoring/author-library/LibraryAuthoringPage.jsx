@@ -17,7 +17,7 @@ import {
   SelectableBox,
   Icon,
   IconButtonWithTooltip,
-} from '@edx/paragon';
+} from '@openedx/paragon';
 import {
   Add,
   DeleteOutline,
@@ -25,7 +25,7 @@ import {
   HelpOutline,
   TextFields,
   VideoCamera,
-} from '@edx/paragon/icons';
+} from '@openedx/paragon/icons';
 import { EditorPage } from '@edx/frontend-lib-content-components';
 import { v4 as uuid4 } from 'uuid';
 import { connect } from 'react-redux';

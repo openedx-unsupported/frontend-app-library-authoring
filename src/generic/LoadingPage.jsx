@@ -1,5 +1,5 @@
 import React from 'react';
-import { Col } from '@edx/paragon';
+import { Col } from '@openedx/paragon';
 import PropTypes from 'prop-types';
 
 const LoadingPage = ({ loadingMessage }) => (

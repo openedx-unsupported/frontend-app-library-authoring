@@ -1,4 +1,4 @@
-import { Alert, Col } from '@edx/paragon';
+import { Alert, Col } from '@openedx/paragon';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { injectIntl } from '@edx/frontend-platform/i18n';

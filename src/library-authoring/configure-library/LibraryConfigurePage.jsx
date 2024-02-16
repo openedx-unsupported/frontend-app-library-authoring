@@ -9,11 +9,11 @@ import {
   Icon,
   Row,
   StatefulButton,
-} from '@edx/paragon';
+} from '@openedx/paragon';
 import { connect } from 'react-redux';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import { AppContext } from '@edx/frontend-platform/react';
-import { SpinnerSimple } from '@edx/paragon/icons';
+import { SpinnerSimple } from '@openedx/paragon/icons';
 
 import { LoadingPage } from '../../generic';
 import {

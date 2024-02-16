@@ -47,7 +47,7 @@
     "@fortawesome/free-regular-svg-icons": "6.5.1",
     "@fortawesome/free-solid-svg-icons": "6.5.1",
     "@fortawesome/react-fontawesome": "0.2.0",
-    "@openedx/paragon": "^21.6.0",
+    "@openedx/paragon": "21.11.3",
     "@popperjs/core": "2.11.8",
     "@reduxjs/toolkit": "1.9.7",
     "core-js": "3.31.1",
@@ -71,7 +71,7 @@
   },
   "devDependencies": {
     "@edx/browserslist-config": "^1.2.0",
-    "@edx/frontend-build": "13.0.14",
+    "@openedx/frontend-build": "13.0.28",
     "@edx/reactifex": "^2.1.1",
     "@sheerun/mutationobserver-shim": "0.3.3",
     "@testing-library/dom": "9.3.4",

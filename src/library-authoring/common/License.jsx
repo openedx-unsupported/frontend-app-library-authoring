@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
-import { Icon, Row } from '@edx/paragon';
+import { Icon, Row } from '@openedx/paragon';
 import {
   Attribution,
   Cc,
@@ -9,7 +9,7 @@ import {
   Nc,
   Nd,
   Sa,
-} from '@edx/paragon/icons';
+} from '@openedx/paragon/icons';
 import { commonsOptionsFromSpec, commonsOptionsShape, linkFromSpec } from './data';
 import messages from './messages';
 
