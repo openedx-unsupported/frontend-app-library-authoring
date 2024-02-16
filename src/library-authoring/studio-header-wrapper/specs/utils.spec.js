@@ -2,6 +2,10 @@ import { getConfig, setConfig } from '@edx/frontend-platform';
 import { LOADING_STATUS } from '../../common';
 import { getMainMenuDropdown, getOutlineLink } from '../utils';
 
+const intl = {
+  formatMessage: jest.fn(message => message.defaultMessage),
+};
+
 describe('studio header wrapper utils', () => {
   describe('getOutlineLink', () => {
     it('should return /library/:libraryId', () => {
@@ -33,6 +37,7 @@ describe('studio header wrapper utils', () => {
       expect(dropdownArray).toHaveLength(0);
     });
   });
+
   it('should show the export tags sub item when the flag is true', () => {
     const libraryId = 'testId';
     const loadingStatus = LOADING_STATUS.LOADED;
@@ -40,9 +45,15 @@ describe('studio header wrapper utils', () => {
       ...getConfig(),
       ENABLE_TAGGING_TAXONOMY_PAGES: 'true',
     });
-    const dropdownArray = getMainMenuDropdown(loadingStatus, libraryId, { formatMessage: jest.fn() });
+    const dropdownArray = getMainMenuDropdown(loadingStatus, libraryId, intl);
     expect(dropdownArray).toHaveLength(1);
-    expect(dropdownArray[0].items.some(item => item.title === 'Export Tags'));
+    const subItemTitles = dropdownArray[0].items.map(item => item.title);
+    expect(subItemTitles).toEqual([
+      'Details',
+      'User access',
+      'Export Tags',
+      'Import',
+    ]);
   });
   it('should not show the export tags sub item when the flag is false', () => {
     const libraryId = 'testId';
@@ -51,8 +62,13 @@ describe('studio header wrapper utils', () => {
       ...getConfig(),
       ENABLE_TAGGING_TAXONOMY_PAGES: 'false',
     });
-    const dropdownArray = getMainMenuDropdown(loadingStatus, libraryId, { formatMessage: jest.fn() });
+    const dropdownArray = getMainMenuDropdown(loadingStatus, libraryId, intl);
     expect(dropdownArray).toHaveLength(1);
-    expect(dropdownArray[0].items.every(item => item.title !== 'Export Tags'));
+    const subItemTitles = dropdownArray[0].items.map(item => item.title);
+    expect(subItemTitles).toEqual([
+      'Details',
+      'User access',
+      'Import',
+    ]);
   });
 });
