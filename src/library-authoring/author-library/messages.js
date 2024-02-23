@@ -160,6 +160,16 @@ const messages = defineMessages({
     defaultMessage: 'Delete',
     description: 'Message for delete confirmation button',
   },
+  'library.detail.block.manage_tags': {
+    id: 'library.detail.block.manage_tags',
+    defaultMessage: 'Manage tags',
+    description: 'Aria label for manage tags button',
+  },
+  'library.detail.block.more_actions': {
+    id: 'library.detail.block.more_actions',
+    defaultMessage: 'More actions',
+    description: 'Aria label for more actions button',
+  },
   'library.detail.block.copy': {
     id: 'library.detail.block.copy',
     defaultMessage: 'Copy',

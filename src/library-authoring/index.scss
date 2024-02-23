@@ -41,3 +41,12 @@ body {
     flex: 1 0 auto;
     display: block;
 }
+
+.tags-count-manage-button {
+    border: 0;
+
+    &:hover {
+        color: white;
+        background-color: $primary;
+    }
+}
