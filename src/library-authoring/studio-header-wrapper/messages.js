@@ -27,6 +27,11 @@ const messages = defineMessages({
     defaultMessage: 'Import',
     description: 'Text for the import course in the settings menu.',
   },
+  'library.header.settings.exportTags': {
+    id: 'library.header.settings.exportTags',
+    defaultMessage: 'Export Tags',
+    description: 'Download library content tags as CSV',
+  },
   'library.header.nav.help.title': {
     id: 'library.header.nav.help.title',
     defaultMessage: 'Online help',
