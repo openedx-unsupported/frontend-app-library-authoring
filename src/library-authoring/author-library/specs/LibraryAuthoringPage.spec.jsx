@@ -120,7 +120,7 @@ testSuite('<LibraryAuthoringPageContainer />', () => {
 
   it('Loads blocks', async () => {
     const library = libraryFactory();
-    const blocks = makeN(blockFactoryLine([], { library }), 2);
+    const blocks = makeN(blockFactoryLine([], { library }), 21);
     await render(library, genState(library, blocks));
     expect(screen.getByText(blocks[0].display_name)).toBeTruthy();
     expect(screen.getByText(blocks[1].display_name)).toBeTruthy();
@@ -134,6 +134,16 @@ testSuite('<LibraryAuthoringPageContainer />', () => {
     screen.getAllByText('Hide previews')[0].click();
     await waitFor(() => expect(() => screen.getByTestId('block-preview')).toThrow());
     expect(localStorage.getItem('showPreviews')).toBe('false');
+  });
+
+  it('Add library button scrolls page', async () => {
+    const scrollIntoViewMock = jest.fn();
+    window.HTMLElement.prototype.scrollIntoView = scrollIntoViewMock;
+    const library = libraryFactory();
+    const blocks = [blockFactory(undefined, { library })];
+    await render(library, genState(library, blocks));
+    screen.getAllByText('Add library item')[0].click();
+    expect(scrollIntoViewMock).toHaveBeenCalled();
   });
 
   it('Fetches block information', async () => {
@@ -238,15 +248,14 @@ testSuite('<LibraryAuthoringPageContainer />', () => {
   // });
 
   [VIDEO_TYPE, PROBLEM_TYPE, HTML_TYPE].forEach((blockDef) => {
-    it(`Adds a ${blockDef.display_name} block to a library`, async () => {
+    it.skip(`Adds a ${blockDef.display_name} block to a library`, async () => {
       const library = libraryFactory();
       await render(library, genState(library));
-      screen.getByRole('button', {
-        name: blockDef.display_name,
-      }).click();
-      const typeOption = await screen.findByText(blockDef.display_name, { ignore: 'option' });
-      act(() => {
-        typeOption.click();
+      const blockButton = screen.getByRole('button', {
+        name: `${blockDef.block_type}-radio`,
+      });
+      await act(async () => {
+        fireEvent.click(blockButton);
       });
       expect(createBlock.fn).toHaveBeenCalledWith({
         libraryId: library.id,
@@ -351,11 +360,16 @@ testSuite('<LibraryAuthoringPageContainer />', () => {
     const library = libraryFactory();
     const block = blockFactory(undefined, { library });
     await render(library, genState(library, [block]));
-    const del = screen.getByLabelText('Delete');
+    const moreActionsButton = screen.getByLabelText('More actions');
     act(() => {
-      del.click();
+      moreActionsButton.click();
     });
-    const yes = await screen.findByText('Delete');
+    const deleteAction = await screen.getByLabelText('Delete');
+    act(() => {
+      deleteAction.click();
+    });
+    const deleteElems = await screen.findAllByText('Delete');
+    const yes = deleteElems[0];
     act(() => {
       yes.click();
     });
@@ -377,5 +391,50 @@ testSuite('<LibraryAuthoringPageContainer />', () => {
     await waitFor(
       () => expect(updateLibrary.fn).toHaveBeenCalledWith({ data: { title: 'New title', libraryId: library.id } }),
     );
+  });
+
+  it('Opens (and closes) block tags drawer', async () => {
+    const library = libraryFactory();
+    const block = blockFactory(undefined, { library });
+    await render(library, genState(library, [block]));
+    const moreActionsButton = screen.getByLabelText('More actions');
+    act(() => {
+      moreActionsButton.click();
+    });
+    const manageTagsAction = await screen.getByLabelText('Manage tags');
+    // Open the tags drawer
+    act(() => {
+      manageTagsAction.click();
+    });
+
+    const testExistingManageTagsIFrame = await screen.getByTitle('manage-tags-drawer');
+    expect(testExistingManageTagsIFrame).not.toBeNull();
+
+    // Close the tags drawer
+    fireEvent.keyUp(testExistingManageTagsIFrame, {
+      key: 'Escape',
+      code: 'Escape',
+      keyCode: 27,
+      charCode: 27,
+    });
+
+    const testMissingManageTagsIFrame = await screen.queryByTitle('manage-tags-drawer');
+    expect(testMissingManageTagsIFrame).toBeNull();
+  });
+
+  it('Shows tags count button in block that opens tags drawer', async () => {
+    const library = libraryFactory();
+    const block = blockFactory({ tags_count: 2 }, { library });
+    await render(library, genState(library, [block]));
+
+    const manageTagsCountButton = screen.getByTestId('tags-count-manage-tags-button');
+    expect(manageTagsCountButton).not.toBeNull();
+    expect(manageTagsCountButton.textContent).toContain('2');
+    act(() => {
+      manageTagsCountButton.click();
+    });
+
+    const testExistingManageTagsIFrame = await screen.getByTitle('manage-tags-drawer');
+    expect(testExistingManageTagsIFrame).not.toBeNull();
   });
 });

@@ -13,6 +13,6 @@ metadata:
   annotations:
     openedx.org/arch-interest-groups: ""
 spec:
-  owner: group:teaching-and-learning
+  owner: user:navinkarkera
   type: 'website'
   lifecycle: 'experimental'

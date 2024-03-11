@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { fireEvent } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import { injectIntl } from '@edx/frontend-platform/i18n';
 import { CourseImportPage } from '../CourseImportPage';
@@ -65,20 +66,18 @@ describe('course-import/CourseImportPage/CourseImportPage.jsx', () => {
     ];
     props.courseCount = props.courses.length;
 
-    const container = ctxMount(
+    const { container } = ctxMount(
       <BrowserRouter>
         <InjectedCourseImportPage {...props} />
       </BrowserRouter>,
       { context: { authenticatedUser: currentUser } },
     );
 
-    const showCoursesButton = container.find('.toggle-importable-courses').at(1);
-    showCoursesButton.simulate('click');
-
-    expect(container.find('.library-list').length).toBe(1);
-    expect(container.find('.library-list .library-item').length).toBe(2);
-
-    expect(container.find('.importable-course-list-container').length).toBe(1);
+    const showCoursesButton = container.querySelector('.toggle-importable-courses');
+    fireEvent.click(showCoursesButton);
+    expect(container.querySelector('.library-list')).toBeInTheDocument();
+    expect(container.querySelectorAll('.library-item').length).toBe(2);
+    expect(container.querySelector('.importable-course-list-container')).toBeInTheDocument();
   });
 
   it('renders course import tasks', () => {
@@ -97,14 +96,14 @@ describe('course-import/CourseImportPage/CourseImportPage.jsx', () => {
 
     props.importTaskCount = props.importTasks.length;
 
-    const container = ctxMount(
+    const { container } = ctxMount(
       <BrowserRouter>
         <InjectedCourseImportPage {...props} />
       </BrowserRouter>,
       { context: { authenticatedUser: currentUser } },
     );
 
-    expect(container.find('.import-task-list-container').length).toBe(1);
-    expect(container.find('.import-task-list-container .library-list').length).toBe(1);
+    expect(container.querySelector('.import-task-list-container')).toBeInTheDocument();
+    expect(container.querySelector('.library-list')).toBeInTheDocument();
   });
 });

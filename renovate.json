@@ -1,16 +1,27 @@
 {
   "extends": [
-    "config:base"
+    "config:base",
+    ":dependencyDashboard"
   ],
+  "timezone": "America/New_York",
   "patch": {
     "automerge": true
   },
   "rebaseStalePrs": true,
   "packageRules": [
     {
-      "matchPackagePatterns": ["@edx"],
+      "matchPackagePatterns": ["@edx", "@openedx"],
       "matchUpdateTypes": ["minor", "patch"],
-      "automerge": true
+      "automerge": false
+    },
+    {
+      "matchPackagePatterns": ["@edx/frontend-lib-content-components"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "automerge": false,
+      "schedule": [
+        "after 9am",
+        "before 5pm"
+      ]
     }
   ]
 }
