@@ -5,5 +5,5 @@ nick: lath
 oeps: {}
 owner:
   type: team
-  owner: 
+  owner: ~
 # This repo is not yet ready to be part of Open edX releases.
