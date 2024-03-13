@@ -75,7 +75,7 @@ Follow these steps to provision, run, and enable an instance of the Library Auth
       git clone https://github.com/openedx/devstack.git
 
 #. Configure default services and setup devstack
-   
+
    **Note: If you are planning on running** ``frontend-app-library-authoring`` **locally outside of docker, skip this step to avoid address conflicts.**
 
    Create a ``devstack/options.local.mk`` file with the following contents:
@@ -88,7 +88,7 @@ Follow these steps to provision, run, and enable an instance of the Library Auth
    This adds ``frontend-app-library-authoring`` to the list of services the devstack will provision and enable automatically.
 
    During the devstack setup process, running ``make dev.clone`` will automatically clone `this repository <https://github.com/openedx/frontend-app-library-authoring.git>`_ as a the sibling to the ``~/workspace/devstack/`` directory.
-   
+
    Once devstack provisioning is complete, check that this MFE's container is running by executing the following from
    inside ``~/workspace/devstack``:
 
@@ -100,7 +100,7 @@ Follow these steps to provision, run, and enable an instance of the Library Auth
 
    .. code-block::
 
-      edx.devstack.frontend-app-library-authoring   docker-entrypoint.sh bash  ...   Up       0.0.0.0:3001->3001/tcp   
+      edx.devstack.frontend-app-library-authoring   docker-entrypoint.sh bash  ...   Up       0.0.0.0:3001->3001/tcp
 
 #. Proceed with the setup of the devstack as described in the README's `Getting Started section
    <https://github.com/openedx/devstack#getting-started>`_.
@@ -200,8 +200,6 @@ Known Issues
 
 * The library isn't always updated between when it is changed in the edit view/create view and when you return to the
   authoring view. So sometimes you may need to refresh after changing a library to get the right authoring view.
-
-* The in-library search box loses focus after each letter is typed.
 
 * Styling needs love: to speed up development, we we originally relied on the old edX theme as provided by Paragon to
   match Studio's look. That was removed on Paragon@13.0.0, so many components are now visually broken.  We need to go
