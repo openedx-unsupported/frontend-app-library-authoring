@@ -12,8 +12,8 @@ import {
   Button,
   Col,
   Row,
-} from '@edx/paragon';
-import { Add } from '@edx/paragon/icons';
+} from '@openedx/paragon';
+import { Add } from '@openedx/paragon/icons';
 import { AppContext } from '@edx/frontend-platform/react';
 import { useNavigate, useParams } from 'react-router-dom';
 import messages from './messages';

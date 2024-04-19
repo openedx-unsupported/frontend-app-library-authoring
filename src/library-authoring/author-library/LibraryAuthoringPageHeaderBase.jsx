@@ -4,8 +4,8 @@ import {
   ActionRow,
   IconButton,
   Form,
-} from '@edx/paragon';
-import { EditOutline } from '@edx/paragon/icons';
+} from '@openedx/paragon';
+import { EditOutline } from '@openedx/paragon/icons';
 import { intlShape } from '@edx/frontend-platform/i18n';
 import { libraryShape } from '../common';
 

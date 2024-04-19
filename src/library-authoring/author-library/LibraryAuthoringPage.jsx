@@ -13,13 +13,13 @@ import {
   Pagination,
   SelectableBox,
   Icon,
-} from '@edx/paragon';
+} from '@openedx/paragon';
 import {
   Add,
   HelpOutline,
   TextFields,
   VideoCamera,
-} from '@edx/paragon/icons';
+} from '@openedx/paragon/icons';
 import { v4 as uuid4 } from 'uuid';
 import { connect } from 'react-redux';
 import { ensureConfig } from '@edx/frontend-platform';

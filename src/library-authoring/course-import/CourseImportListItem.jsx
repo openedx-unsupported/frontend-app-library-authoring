@@ -6,13 +6,13 @@ import {
   ActionRow,
   StatefulButton,
   Icon,
-} from '@edx/paragon';
+} from '@openedx/paragon';
 import {
   Add,
   Check,
   SpinnerSimple,
   Sync,
-} from '@edx/paragon/icons';
+} from '@openedx/paragon/icons';
 
 import { paginationParamsShape } from '../common';
 import { courseShape } from './data';

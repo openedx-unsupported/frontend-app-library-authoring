@@ -1,6 +1,6 @@
 import React from 'react';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
-import { Card, Badge } from '@edx/paragon';
+import { Card, Badge } from '@openedx/paragon';
 
 import { importTaskShape } from './data';
 import messages from './messages';

@@ -11,12 +11,12 @@ import {
   IconButtonWithTooltip,
   OverlayTrigger,
   Tooltip,
-} from '@edx/paragon';
+} from '@openedx/paragon';
 import {
   EditOutline,
   MoreVert,
   Tag,
-} from '@edx/paragon/icons';
+} from '@openedx/paragon/icons';
 import { EditorPage } from '@edx/frontend-lib-content-components';
 import { ensureConfig, getConfig } from '@edx/frontend-platform';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';

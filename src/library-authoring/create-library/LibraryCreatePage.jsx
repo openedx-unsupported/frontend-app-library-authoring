@@ -10,8 +10,8 @@ import {
   AlertModal,
   ActionRow,
   Card,
-} from '@edx/paragon';
-import { Info } from '@edx/paragon/icons';
+} from '@openedx/paragon';
+import { Info } from '@openedx/paragon/icons';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import { AppContext } from '@edx/frontend-platform/react';
 import { TypeaheadDropdown } from '@edx/frontend-lib-content-components';

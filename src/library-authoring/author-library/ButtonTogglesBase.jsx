@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button } from '@edx/paragon';
-import { Add } from '@edx/paragon/icons';
+import { Button } from '@openedx/paragon';
+import { Add } from '@openedx/paragon/icons';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 
 import messages from './messages';
