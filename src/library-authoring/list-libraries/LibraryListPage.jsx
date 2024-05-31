@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
@@ -70,10 +71,6 @@ export class LibraryListPage extends React.Component {
     });
   };
 
-  goToLibraryItem = (library) => {
-    this.props.navigate(library.url);
-  };
-
   renderError() {
     const { intl, errorMessage } = this.props;
 
@@ -141,10 +138,11 @@ export class LibraryListPage extends React.Component {
                   <ul className="list-unstyled">
                     {libraries.data.map(library => (
                       <Card
+                        as={Link}
                         isClickable
                         key={library.id}
                         className="library-item mt-2 p-1"
-                        onClick={() => this.goToLibraryItem(library)}
+                        to={library.url}
                       >
                         <Card.Section title={<h4 className="text-primary-500">{library.title}</h4>}>
                           <span className="small text-gray-500">
