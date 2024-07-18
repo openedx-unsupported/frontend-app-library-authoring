@@ -42,7 +42,7 @@
     "@edx/frontend-lib-content-components": "^2.0.0",
     "@edx/frontend-platform": "7.1.4",
     "@edx/openedx-atlas": "^0.6.0",
-    "@openedx/paragon": "21.11.3",
+    "@openedx/paragon": "22.7.0",
     "@fortawesome/fontawesome-svg-core": "6.5.2",
     "@fortawesome/free-brands-svg-icons": "6.5.2",
     "@fortawesome/free-regular-svg-icons": "6.5.2",
